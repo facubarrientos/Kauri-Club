@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Jugadores | KAURI CLUB</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+     <header>
+
+        <div class="logo-titulo">
+
+            <img 
+                src="./img/kauri_logo.png" 
+                width="120"
+            >
+
+            <h1>ADMIN JUGADORES</h1>
+
+        </div>
+
+    </header>
+
+    <main class="admin-jugadores">
+
+        <div class="admin-top">
+
+            <a href="admin.html" class="btn-volver">
+                ← Volver
+            </a>
+
+            <button id="btn-agregar-jugador">
+                + Agregar jugador
+            </button>
+
+        </div>
+
+        <div class="tabla-admin-container">
+
+            <table class="tabla-admin">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Foto</th>
+
+                        <th>Nombre</th>
+
+                        <th>Puntos</th>
+
+                        <th>Victorias</th>
+
+                        <th>Acciones</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tabla-admin-jugadores">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- MODAL -->
+
+        <div id="modal-jugador" class="modal-jugador">
+
+            <form
+                id="form-jugador"
+                class="form-jugador"
+            >
+
+                <h3>Agregar jugador</h3>
+
+                <input
+                    type="text"
+                    id="nombre-jugador"
+                    placeholder="Nombre del jugador"
+                >
+
+                <input
+                    type="number"
+                    id="puntos-jugador"
+                    placeholder="Puntos"
+                >
+
+                <input
+                    type="number"
+                    id="partidos-jugador"
+                    placeholder="Partidos jugados"
+                >
+
+                <input
+                    type="number"
+                    id="victorias-jugador"
+                    placeholder="Victorias"
+                >
+
+                <input
+                    type="text"
+                    id="foto-jugador"
+                    placeholder="Ruta de la foto"
+                >
+
+                <div class="form-botones">
+
+                    <button type="submit">
+                        Guardar
+                    </button>
+
+                    <button
+                        type="button"
+                        id="cerrar-modal"
+                    >
+                        Cancelar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+    <script src="datos.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin | KAURI CLUB</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+     <header>
+
+        <div class="logo-titulo">
+
+            <img 
+                src="./img/kauri_logo.png" 
+                width="120"
+            >
+
+            <h1>PANEL DE ADMINISTRADOR</h1>
+
+        </div>
+
+    </header>
+
+    <main class="admin-panel">
+
+        <p class="admin-subtitulo">Gestioná torneos, partidos y jugadores</p>
+
+        <div class="admin-cards">
+
+            <a href="admin-torneos.html" class="admin-card">
+                <h3>Torneos</h3>
+                <p>Crear, editar y eliminar torneos.</p>
+            </a>
+
+            <a href="admin-partidos.html" class="admin-card">
+                <h3>Partidos</h3>
+                <p>Cargar partidos, horarios y resultados.</p>
+            </a>
+
+            <a href="admin-jugadores.html" class="admin-card">
+                <h3>Jugadores</h3>
+                <p>Agregar jugadores, fotos y estadísticas.</p>
+            </a>
+
+        </div>
+
+
+
+        <div>
+            <h2></h2>
+        </div>
+
+         <button 
+            class="btn-cerrar"
+            onclick="cerrarSesion()"
+        >
+            Cerrar sesión
+        </button>
+
+    </main>
+
+    <script src="datos.js"></script>
+    <script src="script.js"></script>   
+
+</body>
+
+</html>
