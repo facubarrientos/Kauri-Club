@@ -9,8 +9,8 @@ h2{
 }
 
 .menu-kauri{
-    height: 110 px;
-    background: #111;
+    height: 110px;
+    background: #111;   
     display: grid;
     grid-template-columns: 520px 1fr 280px;
     align-items: center;
@@ -131,46 +131,7 @@ h2{
     text-align: center;
 }
 
-.slider{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    gap: 20px;
-
-    margin-top: 20px;
-}
-
-.slider img{
-    width: 500px;
-    height: 600px;
-
-    object-fit: cover;
-
-    border-radius: 20px;
-
-    opacity: 0.7;
-
-    transition: 0.3s;
-}
-
-
                                 /* imagen del medio */
-
-
-#imagen-slider{
-    width: 500px;
-    height: 600px;
-
-    opacity: 1;
-
-    transform: scale(1.05);
-}
-
-.slider img:hover{
-    opacity: 1;
-    transform: scale(1.03);
-}
 
 
 
@@ -191,58 +152,25 @@ h2{
 
     background-attachment: fixed;
 }
+.partidos-inicio{
 
-.partidos{
-    width: 90%;
-    margin: 80px auto;
+    width: 92%;
+    margin: 60px auto;
+    font-family: "Bebas Neue", sans-serif;
+}
+
+.partidos-inicio h2{
+
     text-align: center;
-}
 
-.partidos h2{
-    font-size: 40px;
+    font-size: 50px;
+
     margin-bottom: 30px;
-    color: rgb(0, 0, 0);
-}
 
-.partidos table{
-    width: 100%;
-    border-collapse: collapse;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 8px 25px rgba(255, 0, 0, 0.25);
-}
+    color: #8b0000;
 
-.partidos th{
-    background-color: rgb(131, 6, 6);
     font-family: "Bebas Neue", sans-serif;
-    color: white;
-    padding: 18px;
-    font-size: 18px;
-}
 
-.partidos td{
-    background-color: #f2f2f2;
-    padding: 16px;
-    border-bottom: 1px solid #ddd;
-    font-family: "Bebas Neue", sans-serif;
-    font-size: 16px;
-}
-
-.partidos tr:hover td{
-    background-color: #e0e0e0;
-    transition: 0.3s;
-}
-
-.pendiente{
-    color: orange;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.finalizado{
-    color: green;
-    font-weight: bold;
-    text-transform: uppercase;
 }
 
 .ranking{
@@ -288,6 +216,265 @@ h2{
     width: 90%;
     margin: 80px auto;
     text-align: center;
+}
+
+/* =========================
+        PARTIDOS
+========================= */
+
+.partidos-page {
+    width: 92%;
+    max-width: 1350px;
+    margin: 35px auto 60px;
+    font-family: "Bebas Neue", sans-serif;
+}
+
+.partidos-page h2 {
+    text-align: center;
+    font-size: 56px;
+    color: #7b0000;
+    margin-bottom: 45px;
+    font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 2px;
+}
+
+.bloque-torneo{
+
+    background: linear-gradient(135deg, #930000, #000000);
+
+    border-radius: 12px;
+
+    padding: 14px;
+
+    margin-bottom: 35px;
+
+    box-shadow: 0 8px 22px rgba(0,0,0,0.25);
+
+}
+
+.bloque-torneo h3{
+
+    color: white;
+
+    font-size: 40px;
+
+    margin-bottom: 8px;
+
+    font-family: "Bebas Neue", sans-serif;
+
+    letter-spacing: 1px;
+
+}
+
+.estado-torneo {
+    display: inline-block;
+    background-color: rgba(255,255,255,0.18);
+    color: #b7ffbd;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 13px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+}
+.card-partido{
+
+    background: #fff7f4;
+    border-radius: 12px;
+
+    padding: 18px 28px;
+    margin-bottom: 14px;
+    min-height: 78px;
+    display: grid;
+
+    grid-template-columns:
+        180px
+        1.5fr
+        90px
+        1.5fr
+        180px
+        90px;
+
+    align-items: center;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+
+}
+
+/* FECHA */
+
+.info-fecha{
+
+    padding-right: 25px;
+    border-right: 1px solid #e2d7d7;
+
+}
+
+.info-fecha p{
+
+    margin: 10px 0;
+    font-size: 20px;
+    color: #222;
+
+}
+
+#form-torneo input[type="date"]::-webkit-calendar-picker-indicator{
+
+    filter: invert(1);
+
+    cursor: pointer;
+
+}
+
+/* JUGADORES */
+
+.jugador{
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+}
+
+.jugador-1{
+
+    padding-left: 25px;
+
+}
+
+.jugador-2{
+
+    padding-left: 25px;
+    border-left: 1px solid #e2d7d7;
+
+}
+
+.foto-jugador{
+
+    width: 79px;
+    height: 79px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 3px solid #000000;
+
+}
+
+.jugador h4{
+
+    margin: 0;
+    font-size: 19px;
+    color: #111;
+    font-family: Arial, sans-serif;
+
+}
+
+.jugador span{
+
+    color: #555;
+    font-size: 15px;
+
+}
+
+/* VS */
+
+.versus{
+
+    text-align: center;
+
+    color: #980000;
+
+    font-size: 30px;
+
+    font-family: "Bebas Neue", sans-serif;
+
+}
+
+/* CANCHA */
+
+.info-cancha{
+
+    padding-left: 25px;
+    border-left: 1px solid #e2d7d7;
+
+}
+
+.info-cancha p{
+
+    margin: 0 0 14px;
+    font-size: 16px;
+
+}
+
+/* BADGE */
+
+.badge-partido{
+
+    display: inline-block;
+
+    background: #ffd88d;
+    color: #9b5a00;
+
+    padding: 8px 16px;
+
+    border-radius: 20px;
+
+    font-weight: bold;
+
+    text-transform: uppercase;
+
+    font-size: 13px;
+
+}
+
+/* RESULTADO */
+
+.resultado-partido {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    color: #980000;
+
+    font-size: 22px;
+
+    font-family: "Bebas Neue", sans-serif;
+
+    font-weight: bold;
+
+    min-width: 90px;
+    
+    line-height: 1.3;
+
+}
+
+.sin-partidos {
+    background: #fff7f4;
+    padding: 20px;
+    border-radius: 10px;
+    color: #777;
+    font-style: italic;
+}
+
+.resultado-partido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #980000;
+    font-size: 22px;
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: bold;
+    min-width: 90px;
+}
+
+.resultado-set {
+    color: #980000;
+    line-height: 1;
 }
 
 
@@ -979,23 +1166,55 @@ body.admin-body{
 
 #form-partido select,
 #form-partido input{
+
     background: #090909;
+
     color: white;
 
     border: 1px solid rgba(255,255,255,0.15);
+
     border-radius: 10px;
 
     padding: 14px;
 
     font-family: inherit;
+
+    color-scheme: dark;
+
 }
 
-#form-partido select:focus,
-#form-partido input:focus{
-    outline: none;
-    border-color: rgba(255,0,0,0.65);
-    box-shadow: 0 0 12px rgba(255,0,0,0.25);
+#form-partido input::placeholder{
+
+    color: #9c9c9c;
+
 }
+
+#form-partido input[type="date"]::-webkit-calendar-picker-indicator,
+#form-partido input[type="time"]::-webkit-calendar-picker-indicator{
+
+    cursor: pointer;
+
+}
+
+#form-partido select option{
+
+    background: #111;
+
+    color: white;
+
+}
+
+#form-partido select,
+#form-partido input{
+    background: #090909;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 14px;
+    font-family: inherit;
+    color-scheme: dark;
+}
+
 
 #form-partido button{
     background:
@@ -1018,6 +1237,7 @@ body.admin-body{
 
     transition: 0.3s;
 }
+
 
 #form-partido button:hover{
     transform: translateY(-2px);

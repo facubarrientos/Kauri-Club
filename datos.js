@@ -106,27 +106,109 @@ var jugadores = [
         partidosJugados: 6,
         partidosGanados: 4,
         foto: "./img/putitos.JPG"
+    },
+    {
+        id: 12,
+        nombre: "Leo Fernandez",
+        puntos: 115,
+        partidosJugados: 6,
+        partidosGanados: 4,
+        foto: "./img/putitos.JPG"
+    },
+    {
+        id: 12,
+        nombre: "Leo Fernandez",
+        puntos: 115,
+        partidosJugados: 6,
+        partidosGanados: 4,
+        foto: "./img/putitos.JPG"
+    },
+    {
+        id: 12,
+        nombre: "Leo Fernandez",
+        puntos: 115,
+        partidosJugados: 6,
+        partidosGanados: 4,
+        foto: "./img/putitos.JPG"
+    },
+    {
+        id: 12,
+        nombre: "Leo Fernandez",
+        puntos: 115,
+        partidosJugados: 6,
+        partidosGanados: 4,
+        foto: "./img/putitos.JPG"
+    },
+    {
+        id: 12,
+        nombre: "Leo Fernandez",
+        puntos: 115,
+        partidosJugados: 6,
+        partidosGanados: 4,
+        foto: "./img/putitos.JPG"
+    },
+    {
+        id: 12,
+        nombre: "Leo Fernandez",
+        puntos: 115,
+        partidosJugados: 6,
+        partidosGanados: 4,
+        foto: "./img/putitos.JPG"
+    },
+    {
+        id: 12,
+        nombre: "Leo Fernandez",
+        puntos: 115,
+        partidosJugados: 6,
+        partidosGanados: 4,
+        foto: "./img/putitos.JPG"
+    },
+    {
+        id: 12,
+        nombre: "Leo Fernandez",
+        puntos: 115,
+        partidosJugados: 6,
+            sGanados: 4,
+        foto: "./img/putitos.JPG"
+    },
+    {
+        id: 12,
+        nombre: "Leo Fernandez",
+        puntos: 115,
+        partidosJugados: 6,
+        partidosGanados: 4,
+        foto: "./img/putitos.JPG"
     }
-
 ];
 
-const partidos = [
-   {
-    id: 1,
-    idTorneo: 1,
+let partidos = [
+    {
+        id: 1,
+        idTorneo: 1,
+        jugador1: 1,
+        jugador2: 2,
+        fecha: "2026-05-25",
+        hora: "18:00",
+        cancha: "Cancha 1",
+        estado: "pendiente",
 
-    fecha: "2026-05-25",
-    hora: "18:00",
-    cancha: "Cancha 1",
+        setsJugador1: [],
+        setsJugador2: [],
+        ganador: null
+    },
+    {
+        id: 1,
+        idTorneo: 1,
+        jugador1: 3,
+        jugador2: 4,
+        fecha: "2026-05-25",
+        hora: "18:00",
+        cancha: "Cancha 1",
+        estado: "finalizado",
 
-    jugador1: 1,
-    jugador2: 3,
-
-    scoreJugador1: 0,
-    scoreJugador2: 0,
-
-    ganador: null,
-    estado: "pendiente"
+        setsJugador1: [6, 6],
+        setsJugador2: [5, 5],
+        ganador: null
     }
 ];
 
@@ -141,7 +223,7 @@ var torneos = [
   },
   {
     id: 2,
-    nombre: "Torneo Apertura",
+    nombre: "Torneo Clausura",
     deporte: "Tenis",
     fechaInicio: "2026-05-22",
     estado: "activo"

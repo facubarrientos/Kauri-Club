@@ -15,67 +15,256 @@ if(botonMenu){
 }
 
 
-const centro = document.getElementById("imagen-slider");
-const izquierda = document.querySelector(".izquierda");
-const derecha = document.querySelector(".derecha");
+const contenedorPartidos =
+document.getElementById("contenedor-partidos");
 
-if(centro && izquierda && derecha){
+function renderPartidosPublicos(){
 
-    const imagenes = [
-        "./img/1.avif",
-        "./img/2.webp",
-        "./img/3.jpg",
-        "./img/4.jpg",
-        "./img/5.webp"
-    ];
+    if(!contenedorPartidos) return;
 
-    let indice = 1;
+    contenedorPartidos.innerHTML = "";
 
-    function actualizarSlider(){
+    torneos.forEach(torneo => {
 
-        centro.src = imagenes[indice];
+        const partidosDelTorneo = partidos.filter(
+            partido => Number(partido.idTorneo) === Number(torneo.id)
+        );
 
-        izquierda.src =
-            imagenes[(indice - 1 + imagenes.length) % imagenes.length];
+        const bloque = document.createElement("div");
 
-        derecha.src =
-            imagenes[(indice + 1) % imagenes.length];
-    }
+        bloque.classList.add("bloque-torneo");
 
-    setInterval(() => {
+        bloque.innerHTML = `
+            <h3>${torneo.nombre}</h3>
 
-        indice = (indice + 1) % imagenes.length;
+            <p class="estado-torneo">
+                ${torneo.estado}
+            </p>
+        `;
 
-        actualizarSlider();
+        if(partidosDelTorneo.length === 0){
 
-    }, 3000);
+            bloque.innerHTML += `
+                <p class="sin-partidos">
+                    No hay partidos cargados.
+                </p>
+            `;
 
-    actualizarSlider();
+        }else{
+
+            partidosDelTorneo.forEach(partido => {
+
+                const j1 = jugadores.find(
+                    j => Number(j.id) === Number(partido.jugador1)
+                );
+
+                const j2 = jugadores.find(
+                    j => Number(j.id) === Number(partido.jugador2)
+                );
+
+                bloque.innerHTML += `
+                    <div class="card-partido">
+
+                        <div class="info-fecha">
+
+                            <p>📅 ${partido.fecha}</p>
+
+                            <p>🕒 ${partido.hora}</p>
+
+                        </div>
+
+                        <div class="jugador jugador-1">
+
+                            <img 
+                                src="${j1 ? j1.foto : 'img/default.png'}"
+                                class="foto-jugador"
+                            >
+
+                            <div>
+
+                                <h4>
+                                    ${j1 ? j1.nombre : "Jugador eliminado"}
+                                </h4>
+
+                                <span>
+                                    Ranking: ${j1 ? j1.puntos : "-"}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="versus">
+                            VS
+                        </div>
+
+                        <div class="jugador jugador-2">
+
+                            <img 
+                                src="${j2 ? j2.foto : 'img/default.png'}"
+                                class="foto-jugador"
+                            >
+
+                            <div>
+
+                                <h4>
+                                    ${j2 ? j2.nombre : "Jugador eliminado"}
+                                </h4>
+
+                                <span>
+                                    Ranking: ${j2 ? j2.puntos : "-"}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="info-cancha">
+
+                            <p>🎾 ${partido.cancha}</p>
+
+                            <span class="badge-partido">
+                                ${partido.estado}
+                            </span>
+
+                        </div>
+
+                        <div class="resultado-partido">
+                            ${formatearResultado(partido)}
+                        </div>
+
+                    </div>
+                `;
+
+            });
+
+        }
+
+        contenedorPartidos.appendChild(bloque);
+
+    });
+
 }
 
+function formatearResultado(partido){
+
+    if(!partido.setsJugador1 || partido.setsJugador1.length === 0){
+        return "-";
+    }
+
+    return partido.setsJugador1
+        .map((setJ1, index) => {
+            return `<span class="resultado-set">
+                ${setJ1}-${partido.setsJugador2[index]}
+            </span>`;
+        })
+        .join("");
+}
 
 const tablaPartidos = document.getElementById("tabla-partidos");
 
 if(tablaPartidos){
 
-    partidos.forEach(partido => {
+    tablaPartidos.innerHTML = "";
 
-        const fila = document.createElement("tr");
+    const partidosNoFinalizados = partidos.filter(
+        partido => partido.estado !== "finalizado"
+    );
 
-        fila.innerHTML = `
-            <td>${partido.jugadores}</td>
-            <td>${partido.fecha}</td>
-            <td>${partido.horario}</td>
-            <td>${partido.resultado || "Sin resultado"}</td>
-            <td class="${partido.estado}">
-                ${partido.estado}
-            </td>
+    partidosNoFinalizados.forEach(partido => {
+
+        const j1 = jugadores.find(
+            j => Number(j.id) === Number(partido.jugador1)
+        );
+
+        const j2 = jugadores.find(
+            j => Number(j.id) === Number(partido.jugador2)
+        );
+
+        const card = document.createElement("div");
+
+        card.classList.add("card-partido");
+
+        card.innerHTML = `
+
+            <div class="info-fecha">
+
+                <p>📅 ${partido.fecha}</p>
+
+                <p>🕒 ${partido.hora}</p>
+
+            </div>
+
+            <div class="jugador jugador-1">
+
+                <img 
+                    src="${j1 ? j1.foto : 'img/default.png'}"
+                    class="foto-jugador"
+                >
+
+                <div>
+
+                    <h4>
+                        ${j1 ? j1.nombre : "Jugador eliminado"}
+                    </h4>
+
+                    <span>
+                        Ranking: ${j1 ? j1.puntos : "-"}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="versus">
+                VS
+            </div>
+
+            <div class="jugador jugador-2">
+
+                <img 
+                    src="${j2 ? j2.foto : 'img/default.png'}"
+                    class="foto-jugador"
+                >
+
+                <div>
+
+                    <h4>
+                        ${j2 ? j2.nombre : "Jugador eliminado"}
+                    </h4>
+
+                    <span>
+                        Ranking: ${j2 ? j2.puntos : "-"}
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="info-cancha">
+
+                <p>🎾 ${partido.cancha}</p>
+
+                <span class="badge-partido">
+                    ${partido.estado}
+                </span>
+
+            </div>
+
+            <div class="resultado-partido">
+
+                ${formatearResultado(partido)}
+
+            </div>
         `;
 
-        tablaPartidos.appendChild(fila);
+        tablaPartidos.appendChild(card);
+
     });
+
 }
 
+renderPartidosPublicos();
 const tablaRanking = document.getElementById("tabla-ranking");
 
 if(tablaRanking){
@@ -440,6 +629,53 @@ const selectTorneo = document.getElementById("torneo-partido");
 const selectJugador1 = document.getElementById("jugador1-partido");
 const selectJugador2 = document.getElementById("jugador2-partido");
 
+function obtenerSets(){
+
+    const setsJugador1 = [];
+    const setsJugador2 = [];
+
+    for(let i = 1; i <= 3; i++){
+
+        const setJ1 = document.getElementById(`set${i}-jugador1`).value;
+        const setJ2 = document.getElementById(`set${i}-jugador2`).value;
+
+        if(setJ1 !== "" && setJ2 !== ""){
+            setsJugador1.push(Number(setJ1));
+            setsJugador2.push(Number(setJ2));
+        }
+    }
+
+    return { setsJugador1, setsJugador2 };
+}
+
+function calcularGanador(partido){
+
+    let setsGanadosJ1 = 0;
+    let setsGanadosJ2 = 0;
+
+    partido.setsJugador1.forEach((setJ1, index) => {
+
+        const setJ2 = partido.setsJugador2[index];
+
+        if(setJ1 > setJ2){
+            setsGanadosJ1++;
+        }else if(setJ2 > setJ1){
+            setsGanadosJ2++;
+        }
+
+    });
+
+    if(setsGanadosJ1 > setsGanadosJ2){
+        return partido.jugador1;
+    }
+
+    if(setsGanadosJ2 > setsGanadosJ1){
+        return partido.jugador2;
+    }
+
+    return null;
+}
+
 function cargarSelectPartidos(){
 
     if(!selectJugador1 || !selectJugador2 || !selectTorneo) return;
@@ -486,8 +722,7 @@ if(formPartido){
         }
 
         const estado = document.getElementById("estado-partido").value;
-
-        const resultado = document.getElementById("resultado-partido").value;
+        const sets = obtenerSets();
 
         if(partidoEditando !== null){
 
@@ -504,7 +739,9 @@ if(formPartido){
             partido.hora = document.getElementById("hora-partido").value;
             partido.cancha = document.getElementById("cancha-partido").value;
             partido.estado = estado;
-            partido.resultado = resultado;
+            partido.setsJugador1 = sets.setsJugador1;
+            partido.setsJugador2 = sets.setsJugador2;
+            partido.ganador = calcularGanador(partido);
 
             partidoEditando = null;
 
@@ -519,8 +756,12 @@ if(formPartido){
                 hora: document.getElementById("hora-partido").value,
                 cancha: document.getElementById("cancha-partido").value,
                 estado: estado,
-                resultado: resultado
+                setsJugador1: sets.setsJugador1,
+                setsJugador2: sets.setsJugador2,
+                ganador: null
             };
+
+            nuevoPartido.ganador = calcularGanador(nuevoPartido);
 
             partidos.push(nuevoPartido);
         }
@@ -538,9 +779,9 @@ function renderAdminPartidos(){
 
     partidos.forEach(partido => {
 
-        const torneo = torneos.find(t => t.id === partido.idTorneo);
-        const j1 = jugadores.find(j => j.id === partido.jugador1);
-        const j2 = jugadores.find(j => j.id === partido.jugador2);
+        const torneo = torneos.find(t => Number(t.id) === Number(partido.idTorneo));
+        const j1 = jugadores.find(j => Number(j.id) === Number(partido.jugador1));
+        const j2 = jugadores.find(j => Number(j.id) === Number(partido.jugador2));
 
         const fila = document.createElement("tr");
 
@@ -558,7 +799,7 @@ function renderAdminPartidos(){
                 </span>
             </td>
 
-            <td>${partido.resultado || "Sin resultado"}</td>
+            <td>${formatearResultado(partido)}</td>
 
             <td class="acciones-admin">
                 <button class="btn-editar" type="button" onclick="editarPartido(${partido.id})">
@@ -594,7 +835,18 @@ function editarPartido(id){
     document.getElementById("hora-partido").value = partido.hora;
     document.getElementById("cancha-partido").value = partido.cancha;
     document.getElementById("estado-partido").value = partido.estado || "pendiente";
-    document.getElementById("resultado-partido").value = partido.resultado || "";
+
+    for(let i = 1; i <= 3; i++){
+        document.getElementById(`set${i}-jugador1`).value =
+            partido.setsJugador1 && partido.setsJugador1[i - 1] !== undefined
+            ? partido.setsJugador1[i - 1]
+            : "";
+
+        document.getElementById(`set${i}-jugador2`).value =
+            partido.setsJugador2 && partido.setsJugador2[i - 1] !== undefined
+            ? partido.setsJugador2[i - 1]
+            : "";
+    }
 }
 
 function eliminarPartido(id){
