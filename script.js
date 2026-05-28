@@ -431,7 +431,6 @@ function eliminarJugador(id){
 renderAdminJugadores();
 
                                             /* admin partidos */
-
 let partidoEditando = null;
 
 const formPartido = document.getElementById("form-partido");
@@ -486,9 +485,16 @@ if(formPartido){
             return;
         }
 
+        const estado = document.getElementById("estado-partido").value;
+
+        const resultado = document.getElementById("resultado-partido").value;
+
         if(partidoEditando !== null){
 
-            const partido = partidos.find(p => Number(p.id) === Number(partidoEditando));
+            const partido = partidos.find(
+                p => Number(p.id) === Number(partidoEditando)
+            );
+
             if(!partido) return;
 
             partido.idTorneo = Number(selectTorneo.value);
@@ -497,23 +503,23 @@ if(formPartido){
             partido.fecha = document.getElementById("fecha-partido").value;
             partido.hora = document.getElementById("hora-partido").value;
             partido.cancha = document.getElementById("cancha-partido").value;
+            partido.estado = estado;
+            partido.resultado = resultado;
 
             partidoEditando = null;
 
         }else{
 
             const nuevoPartido = {
-                id: partidos.length + 1,
+                id: Date.now(),
                 idTorneo: Number(selectTorneo.value),
                 jugador1: jugador1,
                 jugador2: jugador2,
                 fecha: document.getElementById("fecha-partido").value,
                 hora: document.getElementById("hora-partido").value,
                 cancha: document.getElementById("cancha-partido").value,
-                scoreJugador1: 0,
-                scoreJugador2: 0,
-                ganador: null,
-                estado: "pendiente"
+                estado: estado,
+                resultado: resultado
             };
 
             partidos.push(nuevoPartido);
@@ -545,13 +551,21 @@ function renderAdminPartidos(){
             <td>${partido.fecha}</td>
             <td>${partido.hora}</td>
             <td>${partido.cancha}</td>
-            <td>${partido.estado}</td>
+
             <td>
-                <button type="button" onclick="editarPartido(${partido.id})">
+                <span class="estado-partido ${partido.estado}">
+                    ${partido.estado}
+                </span>
+            </td>
+
+            <td>${partido.resultado || "Sin resultado"}</td>
+
+            <td class="acciones-admin">
+                <button class="btn-editar" type="button" onclick="editarPartido(${partido.id})">
                     Editar
                 </button>
 
-                <button type="button" onclick="eliminarPartido(${partido.id})">
+                <button class="btn-eliminar" type="button" onclick="eliminarPartido(${partido.id})">
                     Eliminar
                 </button>
             </td>
@@ -560,6 +574,7 @@ function renderAdminPartidos(){
         tablaAdminPartidos.appendChild(fila);
     });
 }
+
 function editarPartido(id){
 
     const partido = partidos.find(p => Number(p.id) === Number(id));
@@ -578,6 +593,8 @@ function editarPartido(id){
     document.getElementById("fecha-partido").value = partido.fecha;
     document.getElementById("hora-partido").value = partido.hora;
     document.getElementById("cancha-partido").value = partido.cancha;
+    document.getElementById("estado-partido").value = partido.estado || "pendiente";
+    document.getElementById("resultado-partido").value = partido.resultado || "";
 }
 
 function eliminarPartido(id){
@@ -586,7 +603,7 @@ function eliminarPartido(id){
 
     if(!confirmar) return;
 
-    const index = partidos.findIndex(p => p.id === id);
+    const index = partidos.findIndex(p => Number(p.id) === Number(id));
 
     if(index !== -1){
         partidos.splice(index, 1);
@@ -597,8 +614,6 @@ function eliminarPartido(id){
 
 cargarSelectPartidos();
 renderAdminPartidos();
-
-
                                     /* admin torneos */
 
 let torneoEditando = null;

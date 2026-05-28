@@ -1,68 +1,122 @@
-h1{
-    color: rgb(255, 255, 255);
-    font-family: "Bebas Neue", sans-serif;
-    font-size: 70px;
-}
 
 h2{
-    color: black;
     font-family: "Bebas Neue", sans-serif;
 }
 
-header{
-    background-color: rgb(174, 8, 8);
-    font-size: 30px;
-    justify-content: center;
-    text-align: center;
+/*MENU*/
+.header-kauri{
+    width: 100%;
 }
 
-img {
-    width: 150px;
-    background: transparent;
-}
-
-
-.logo-titulo{
-    display: flex;
+.menu-kauri{
+    height: 110 px;
+    background: #111;
+    display: grid;
+    grid-template-columns: 520px 1fr 280px;
     align-items: center;
-    justify-content: center;
-
+    overflow: hidden;
     position: relative;
-    height: 120px;
-}
-
-.logo-titulo img{
-    position: absolute;
-    left: 20px;
-    width: 135px;
-
-}
-
-.logo-titulo h1{
-    text-align: center;
-    line-height: 150px;
-}
-
-.menu{
-    display: flex;
-    justify-content: center;
-    gap:250px;
-    background-color: rgb(131, 6, 6);
-    padding: 15px;
-    align-items: center;
-    color: black;
     font-family: "Bebas Neue", sans-serif;
 }
 
-.menu a{
+.marca-menu{
+    height: 110px;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding-left: 55px;
+    position: relative;
+}
+
+.logo-menu{
+    width: 95px;
+    height: 195px;
+    object-fit: contain;
+}
+
+.marca-menu h2{
+    color: white;
+    font-size: 38px;
+    line-height: 45px;
+    letter-spacing: 2px;
+    margin: 0;
+    font-family: "Bebas Neue", sans-serif;
+}
+
+.marca-menu::after{
+    content: "";
+    position: absolute;
+
+    right: -95px;
+    top: 0;
+
+    width: 160px;
+    height: 110px;
+
+    background: #c00000;
+
+    clip-path: polygon(
+        80% 0,
+        85% 0,
+        35% 100%,
+        30% 100%
+    );
+}
+
+.marca-menu{
+    overflow: visible;
+}
+
+.menu-kauri ul{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 70px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-kauri ul li a{
     color: white;
     text-decoration: none;
-    font-size: 35px;
+    font-size: 19px;
+    gap: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: relative;
+    font-family: "Bebas Neue", sans-serif;
 }
 
-.menu a:hover{
-    color: rgb(179, 179, 179);
+.menu-kauri ul li a.activo::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -13px;
+    width: 100%;
+    height: 4px;
+    background: #e00000;
 }
+
+.btn-reservar{
+    height: 110px;
+    width: 300px;
+    background: #c00000;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    gap: 12px;
+    text-transform: uppercase;
+    clip-path: polygon(28% 0, 100% 0, 100% 100%, 0 100%);
+    font-family: "Bebas Neue", sans-serif;
+}
+
+/**/
+
 
 .inicio{
     display: flex;
@@ -122,14 +176,14 @@ img {
 
 .hero1{
     width: 100%;
-    height: 765px;
+    height: 900px;
 
     background-image:
     linear-gradient(
         rgba(0,0,0,0.3),
         rgba(0,0,0,0.3)
     ),
-    url("../img/6.jpg");
+    url("../img/gg.jpg");
 
     background-size: cover;
     background-position: center;
@@ -433,230 +487,338 @@ img {
 
                                 /* admin html*/
 
+.admin-body{
+    min-height: 100vh;
+
+    background:
+    radial-gradient(circle at top left,
+    rgba(190,0,0,0.18),
+    transparent 30%),
+
+    linear-gradient(135deg,#050505,#151515);
+
+    color: white;
+
+    font-family: "Bebas Neue", sans-serif;
+}
+
+.admin-header{
+    height: 110px;
+
+    background: #0d0d0d;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 70px;
+}
+
+.admin-logo-box{
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.admin-logo{
+    width: 90px;
+    height: 90px;
+
+    object-fit: contain;
+}
+
+.admin-logo-box h1{
+    color: white;
+
+    font-size: 42px;
+
+    letter-spacing: 2px;
+
+    margin: 0;
+}
+
+.admin-logo-box p{
+    color: #d10000;
+
+    font-size: 15px;
+
+    letter-spacing: 3px;
+
+    margin: 0;
+}
+
+.btn-cerrar-admin{
+    background: transparent;
+
+    color: white;
+
+    border: 1px solid #d10000;
+
+    padding: 14px 24px;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.btn-cerrar-admin:hover{
+    background: #c00000;
+}
 
 .admin-panel{
     width: 90%;
-    max-width: 1100px;
+    max-width: 1300px;
+
     margin: 70px auto;
-    text-align: center;
+
     font-family: "Bebas Neue", sans-serif;
 }
 
 .admin-panel h2{
-    font-size: 38px;
-    margin-bottom: 8px;
+    font-size: 48px;
+
+    color: white;
+
+    margin-bottom: 12px;
 }
 
 .admin-subtitulo{
-    color: #555;
-    margin-bottom: 25px;
+    color: #cfcfcf;
+
+    font-size: 18px;
+
+    margin-bottom: 45px;
 }
 
 .admin-cards{
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-    margin-top: 40px;
+
+    grid-template-columns: repeat(3,1fr);
+
+    gap: 35px;
 }
 
 .admin-card{
-    background: white;
-    color: #222;
-    text-decoration: none;
+    min-height: 330px;
 
-    min-height: 230px;
-    padding: 35px 25px;
+    background:
+    linear-gradient(145deg,#111,#1c1c1c);
+
+    color: white;
+
+    text-decoration: none;
 
     border-radius: 22px;
 
-    box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-top: 5px solid #c00000;
+
+    padding: 45px 30px;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
+    gap: 20px;
+
+    text-align: center;
+
     transition: 0.3s;
-    border-top: 8px solid rgb(131, 6, 6);
+
+    box-shadow:
+    0 18px 35px rgba(0,0,0,0.35);
 }
 
 .admin-card:hover{
     transform: translateY(-8px);
-    box-shadow: 0 16px 35px rgba(0,0,0,0.25);
+
+    border-color: #d10000;
+
+    box-shadow:
+    0 18px 45px rgba(190,0,0,0.25);
+}
+
+.admin-card i{
+    font-size: 60px;
+
+    color: #d10000;
 }
 
 .admin-card h3{
-    color: rgb(131, 6, 6);
-    font-size: 28px;
-    margin-bottom: 12px;
+    color: white;
+
+    font-size: 36px;
+
+    margin: 0;
 }
 
 .admin-card p{
-    color: #555;
-    font-size: 15px;
-}
+    color: #cfcfcf;
 
-.btn-cerrar{
-    background-color: #222;
-    color: white;
+    font-size: 16px;
 
-    padding: 12px 22px;
+    line-height: 1.5;
 
-    border: none;
-    border-radius: 10px;
-
-    cursor: pointer;
+    max-width: 260px;
 }
 
 
                                 /* admin-jugadores */
-.modal-jugador{
-    display: none;
-}
-
-.modal-jugador.activo{
-    display: flex;
-}
-
-.btn-volver{
-    background-color: #222;
-
-    color: white;
-
-    padding: 12px 18px;
-
-    border-radius: 10px;
-
-    text-decoration: none;
-
-    font-size: 14px;
-}
-
 .admin-jugadores{
     width: 90%;
-    max-width: 1200px;
+    max-width: 1250px;
+    margin: 60px auto;
     font-family: "Bebas Neue", sans-serif;
-    margin: 70px auto;
+    color: white;
 }
 
 .admin-top{
     display: flex;
-
     justify-content: space-between;
     align-items: center;
-
     margin-bottom: 35px;
 }
 
 .admin-top h2{
-    font-size: 36px;
+    font-size: 46px;
+    margin: 0;
+    color: white;
 }
 
+.btn-volver,
 #btn-agregar-jugador{
-    background-color: rgb(131, 6, 6);
-
+    background: transparent;
     color: white;
-
-    border: none;
-
-    padding: 14px 22px;
-
+    border: 1px solid #d10000;
+    padding: 13px 22px;
     border-radius: 10px;
-
+    text-decoration: none;
     cursor: pointer;
+    transition: 0.3s;
+}
 
-    font-size: 15px;
+.btn-volver:hover,
+#btn-agregar-jugador:hover{
+    background: #c00000;
 }
 
 .tabla-admin-container{
-    background-color: white;
+    background:
+    linear-gradient(145deg,
+    rgba(15,15,15,0.96),
+    rgba(22,22,22,0.96));
 
     border-radius: 22px;
 
     overflow: hidden;
 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    border: 1px solid rgba(255,0,0,0.35);
+
+    box-shadow:
+    0 0 25px rgba(255,0,0,0.18),
+    0 18px 40px rgba(0,0,0,0.45);
 }
 
 .tabla-admin{
     width: 100%;
-
     border-collapse: collapse;
 }
 
 .tabla-admin thead{
-    background-color: rgb(131, 6, 6);
+    background:
+    linear-gradient(90deg,#b00000,#e00000);
 
-    color: white;
+    box-shadow:
+    0 0 18px rgba(255,0,0,0.35);
 }
+
 
 .tabla-admin th,
 .tabla-admin td{
-    padding: 18px;
-
+    padding: 22px 18px;
     text-align: center;
+    color: white;
 }
 
 .tabla-admin tbody tr{
-    border-bottom: 1px solid #eee;
+    background: rgba(10,10,10,0.92);
+
+    border-bottom:
+    1px solid rgba(255,255,255,0.06);
+
+    transition: 0.25s;
+}
+
+
+.tabla-admin tbody tr:hover{
+    background:
+    rgba(120,0,0,0.28);
+
+    box-shadow:
+    inset 0 0 25px rgba(255,0,0,0.12);
+}
+
+.tabla-admin tbody tr:nth-child(even){
+    background: rgba(20,20,20,0.96);
 }
 
 .admin-foto{
-    width: 70px;
-    height: 70px;
-
+    width: 75px;
+    height: 75px;
     object-fit: cover;
-
-    border-radius: 12px;
+    border-radius: 14px;
+    border: 2px solid rgba(255,255,255,0.18);
 }
 
 .acciones-admin{
     display: flex;
-
     justify-content: center;
-
     gap: 12px;
 }
 
-.btn-editar{
-    background-color: #222;
-
+.btn-editar,
+.btn-eliminar{
     color: white;
-
     border: none;
-
     padding: 10px 16px;
-
-    border-radius: 8px;
-
+    border-radius: 9px;
     cursor: pointer;
 }
 
+.btn-editar{
+    background: #222;
+    border: 1px solid rgba(255,255,255,0.12);
+}
+
+.btn-editar:hover{
+    background: #333;
+}
+
 .btn-eliminar{
-    background-color: rgb(190, 20, 20);
+    background: #c00000;
+}
 
-    color: white;
-
-    border: none;
-
-    padding: 10px 16px;
-
-    border-radius: 8px;
-
-    cursor: pointer;
+.btn-eliminar:hover{
+    background: #e00000;
 }
 
 .modal-jugador{
     display: none;
-
     position: fixed;
     inset: 0;
-
-    background-color: rgba(0,0,0,0.6);
-
+    background: rgba(0,0,0,0.75);
     justify-content: center;
     align-items: center;
-
     z-index: 3000;
 }
 
@@ -665,31 +827,29 @@ img {
 }
 
 .form-jugador{
-    background-color: white;
-
-    width: 380px;
-
+    background: linear-gradient(145deg,#111,#1c1c1c);
+    width: 400px;
     padding: 35px;
-
-    border-radius: 20px;
-
+    border-radius: 22px;
+    border-top: 5px solid #c00000;
     display: flex;
     flex-direction: column;
-
     gap: 15px;
+    box-shadow: 0 18px 45px rgba(0,0,0,0.45);
 }
 
 .form-jugador h3{
     text-align: center;
-    color: rgb(131, 6, 6);
+    color: white;
+    font-size: 30px;
 }
 
 .form-jugador input{
     padding: 13px;
-
     border-radius: 10px;
-
-    border: 1px solid #ccc;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: #090909;
+    color: white;
 }
 
 .form-botones{
@@ -699,48 +859,74 @@ img {
 
 .form-botones button{
     flex: 1;
-
     padding: 12px;
-
     border: none;
-
     border-radius: 10px;
-
     cursor: pointer;
 }
 
 .form-botones button:first-child{
-    background-color: rgb(131, 6, 6);
+    background: #c00000;
     color: white;
 }
 
 .form-botones button:last-child{
-    background-color: #222;
+    background: #222;
     color: white;
 }
 
-                                            /* admin-partidos */
+body.admin-body{
+    min-height: 100vh;
 
-.admin-partidos{
-    width: 90%;
-    max-width: 1200px;
-    margin: 50px auto;
-    font-family: "Bebas Neue", sans-serif;
+    background:
+    radial-gradient(circle at top left,
+    rgba(255,0,0,0.35),
+    transparent 28%),
+
+    radial-gradient(circle at bottom right,
+    rgba(255,0,0,0.22),
+    transparent 25%),
+
+    linear-gradient(135deg,#050505,#111);
+
+    background-attachment: fixed;
 }
 
-.form-partido-box{
-    background-color: white;
-    padding: 28px;
+
+                                            /* admin-partidos */
+.admin-partidos{
+    width: 90%;
+    max-width: 1250px;
+    margin: 60px auto;
+    font-family: "Bebas Neue", sans-serif;
+    color: white;
+    position: relative;
+    z-index: 2;
+}
+
+.form-partido-box,
+.lista-partidos-box{
+    background:
+    linear-gradient(145deg,
+    rgba(15,15,15,0.96),
+    rgba(22,22,22,0.96));
+
     border-radius: 22px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    border: 1px solid rgba(255,0,0,0.35);
+
+    padding: 30px;
     margin-bottom: 35px;
+
+    box-shadow:
+    0 0 25px rgba(255,0,0,0.18),
+    0 18px 40px rgba(0,0,0,0.45);
 }
 
 .form-partido-box h2,
 .lista-partidos-box h2{
-    color: rgb(131, 6, 6);
-    font-size: 32px;
-    margin-bottom: 20px;
+    color: white;
+    font-size: 34px;
+    margin-bottom: 22px;
 }
 
 #form-partido{
@@ -751,33 +937,102 @@ img {
 
 #form-partido select,
 #form-partido input{
-    padding: 13px;
+    background: #090909;
+    color: white;
+
+    border: 1px solid rgba(255,255,255,0.15);
     border-radius: 10px;
-    border: 1px solid #ccc;
+
+    padding: 14px;
+
+    font-family: inherit;
+}
+
+#form-partido select:focus,
+#form-partido input:focus{
+    outline: none;
+    border-color: rgba(255,0,0,0.65);
+    box-shadow: 0 0 12px rgba(255,0,0,0.25);
 }
 
 #form-partido button{
-    background-color: rgb(131, 6, 6);
+    background:
+    linear-gradient(145deg,#c00000,#ff0000);
+
     color: white;
+
     border: none;
     border-radius: 10px;
+
     cursor: pointer;
-    padding: 13px;
+
+    padding: 14px;
+
+    font-family: inherit;
+    font-size: 16px;
+
+    box-shadow:
+    0 0 14px rgba(255,0,0,0.25);
+
+    transition: 0.3s;
+}
+
+#form-partido button:hover{
+    transform: translateY(-2px);
+    box-shadow:
+    0 0 22px rgba(255,0,0,0.45);
 }
 
 .lista-partidos-box{
-    background-color: white;
-    padding: 25px;
-    border-radius: 22px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    overflow-x: auto;
 }
 
-.btn-editar,
-.btn-eliminar{
-    margin: 4px;
+.estado-partido{
+    padding: 7px 13px;
+    border-radius: 20px;
+    font-size: 13px;
+    text-transform: uppercase;
+    display: inline-block;
 }
 
+.estado-partido.pendiente{
+    background: rgba(255,0,0,0.16);
+    color: #ff4d4d;
 
+    border:
+    1px solid rgba(255,0,0,0.25);
+}
+
+.estado-partido.finalizado{
+    background: rgba(0,180,80,0.18);
+    color: #00d46a;
+}
+
+.admin-partidos{
+    width: 90%;
+    max-width: 1250px;
+
+    margin: 40px auto 70px;
+}
+
+body.admin-body{
+    background:
+    radial-gradient(circle at top left,
+    rgba(255,0,0,0.28),
+    transparent 28%),
+
+    radial-gradient(circle at bottom right,
+    rgba(255,0,0,0.18),
+    transparent 24%),
+
+    linear-gradient(135deg,#050505,#101010);
+
+    background-attachment: fixed;
+}
+
+.lista-partidos-box{
+    margin-top: 45px;
+}
 
                                         /* login html */
 
@@ -875,70 +1130,11 @@ html, body{
 @media (max-width: 768px){
 
     /* MENU */
-    .menu-toggle{
-        display: block;
-
-        font-size: 35px;
-        color: white;
-        cursor: pointer;
-
-        position: fixed;
-        left: 20px;
-        top: 25px;
-
-        z-index: 2000;
-    }
-
-    .menu{
-        position: fixed;
-        top: 0;
-        left: 0;
-
-        width: 250px;
-        height: 100vh;
-
-        background-color: rgb(131, 6, 6);
-
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
-
-        padding-top: 100px;
-
-        transform: translateX(-100%);
-        transition: transform 0.3s;
-
-        z-index: 1000;
-    }
-
-    .menu.activo{
-        transform: translateX(0);
-    }
 
 
-    .menu a{
-        color: white;
-        text-decoration: none;
-        font-size: 22px;
-    }
-
-    .menu.activo{
-        left: 0;
-    }
 
     body{
         overflow-x: hidden;
-    }
-
-    .logo-titulo{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        gap: 15px;
-        width: 100%;
-
-        margin-left: 80px !important;
     }
 
     .logo-titulo img{
@@ -990,23 +1186,6 @@ html, body{
     }
 
 
-
-    /* SLIDER */
-
-    .slider{
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .lateral{
-        width: 90%;
-        height: 220px;
-    }
-
-    #imagen-slider{
-        width: 95%;
-        height: 350px;
-    }
 
     /* HERO */
 

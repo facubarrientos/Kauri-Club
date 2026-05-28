@@ -11,34 +11,51 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 
 <body>
+    
 
-    <header>
+    
 
-        <div class="logo-titulo">
+    <header class="header-kauri">
+        <nav class="menu-kauri">
+            <div class="marca-menu">
+                <img src="img/kauri_logo.png" class="logo-menu">
+                <h2>KAURI CLUB</h2>
+            </div>
+            <ul>
+                <li>
+                    <a class="activo" href="index.html">
+                        <i class="fa-solid fa-house"></i>
+                        Inicio
+                    </a>
+                </li>
 
-            <img src="img/kauri_logo.png" width="150">
+                <li>
+                    <a href="partidos.html">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        Partidos
+                    </a>
+                </li>
 
-            <h1>KAURI CLUB</h1>
+                <li>
+                    <a href="ranking.html">
+                        <i class="fa-solid fa-trophy"></i>
+                        Ranking
+                    </a>
+                </li>
 
-        </div>
-
-        <div class="menu-toggle" id="menu-toggle">☰</div>
-        <nav class="menu">
-            <a href="index.html">Inicio</a>
-            <a href="partidos.html">Partidos</a>
-            <a href="ranking.html">Ranking</a>
-            <a href="jugadores.html">Jugadores</a>
-            <a 
-                href="https://wa.me/5491135071122" 
-                target="_blank"
-                class="reserva">
-                Reservar
-            </a>
+                <li>
+                    <a href="jugadores.html">
+                        <i class="fa-solid fa-users"></i>
+                        Jugadores
+                    </a>
+                </li>
+            </ul>
+            <a class="btn-reservar" href="reservar.html">Reservar</a>
         </nav>
-
     </header>
 
     <main class="inicio">

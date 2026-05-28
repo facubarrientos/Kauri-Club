@@ -19,18 +19,20 @@
 
 </head>
 
-<body>
+<body class="admin-body">
+    <header class="admin-header">
 
-    <header>
-
-        <div class="logo-titulo">
+        <div class="admin-logo-box">
 
             <img 
                 src="./img/kauri_logo.png" 
-                width="120"
+                class="admin-logo"
             >
 
-            <h1>ADMIN PARTIDOS</h1>
+            <div>
+                <h1>ADMIN PARTIDOS</h1>
+                <p>KAURI CLUB</p>
+            </div>
 
         </div>
 
@@ -43,8 +45,6 @@
             <a href="admin.html" class="btn-volver">
                 ← Volver
             </a>
-
-            <h2>Gestión de Partidos</h2>
 
         </div>
 
@@ -91,6 +91,13 @@
                     required
                 >
 
+                <select id="estado-partido">
+                    <option value="pendiente">Pendiente</option>
+                    <option value="finalizado">Finalizado</option>
+                </select>
+
+                <input type="text" id="resultado-partido" placeholder="Resultado ej 6-6/5-6">
+
                 <button type="submit">
                     Guardar Partido
                 </button>
@@ -110,7 +117,6 @@
                     <thead>
 
                         <tr>
-
                             <th>Torneo</th>
                             <th>Jugador 1</th>
                             <th>Jugador 2</th>
@@ -118,8 +124,8 @@
                             <th>Hora</th>
                             <th>Cancha</th>
                             <th>Estado</th>
+                            <th>Resultado</th>
                             <th>Acciones</th>
-
                         </tr>
 
                     </thead>
