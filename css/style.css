@@ -672,6 +672,48 @@ h2{
     max-width: 260px;
 }
 
+/*                                  admin torneos*/
+#form-torneo{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+#form-torneo input,
+#form-torneo select{
+    background: #090909;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 14px;
+    font-family: inherit;
+}
+
+#form-torneo input:focus,
+#form-torneo select:focus{
+    outline: none;
+    border-color: rgba(255,0,0,0.65);
+    box-shadow: 0 0 12px rgba(255,0,0,0.25);
+}
+
+#form-torneo button{
+    background: linear-gradient(145deg,#c00000,#ff0000);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 14px;
+    font-family: inherit;
+    font-size: 16px;
+    box-shadow: 0 0 14px rgba(255,0,0,0.25);
+    transition: 0.3s;
+}
+
+#form-torneo button:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 0 22px rgba(255,0,0,0.45);
+}
+
 
                                 /* admin-jugadores */
 .admin-jugadores{

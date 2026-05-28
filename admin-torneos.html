@@ -19,18 +19,21 @@
 
 </head>
 
-<body>
+<body class="admin-body">
 
-    <header>
+    <header class="admin-header">
 
-        <div class="logo-titulo">
+        <div class="admin-logo-box">
 
             <img 
                 src="./img/kauri_logo.png" 
-                width="120"
+                class="admin-logo"
             >
 
-            <h1>ADMIN TORNEOS</h1>
+            <div>
+                <h1>ADMIN TORNEOS</h1>
+                <p>KAURI CLUB</p>
+            </div>
 
         </div>
 
@@ -43,8 +46,6 @@
             <a href="admin.html" class="btn-volver">
                 ← Volver
             </a>
-
-            <h2>Gestión de Torneos</h2>
 
         </div>
 
@@ -98,19 +99,15 @@
                     <thead>
 
                         <tr>
-
                             <th>Nombre</th>
                             <th>Fecha Inicio</th>
                             <th>Estado</th>
                             <th>Acciones</th>
-
                         </tr>
 
                     </thead>
 
-                    <tbody id="tabla-admin-torneos">
-
-                    </tbody>
+                    <tbody id="tabla-admin-torneos"></tbody>
 
                 </table>
 
@@ -124,5 +121,4 @@
     <script src="script.js"></script>
 
 </body>
-
 </html>
