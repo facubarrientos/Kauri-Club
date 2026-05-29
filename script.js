@@ -95,7 +95,11 @@ function renderPartidosPublicos(){
                         </div>
 
                         <div class="versus">
-                            VS
+                            <span>VS</span>
+
+                            <span class="badge-partido">
+                                ${partido.estado}
+                            </span>
                         </div>
 
                         <div class="jugador jugador-2">
@@ -120,13 +124,7 @@ function renderPartidosPublicos(){
                         </div>
 
                         <div class="info-cancha">
-
-                            <p>🎾 ${partido.cancha}</p>
-
-                            <span class="badge-partido">
-                                ${partido.estado}
-                            </span>
-
+                            <p> ${partido.cancha}</p>
                         </div>
 
                         <div class="resultado-partido">
@@ -153,12 +151,8 @@ function formatearResultado(partido){
     }
 
     return partido.setsJugador1
-        .map((setJ1, index) => {
-            return `<span class="resultado-set">
-                ${setJ1}-${partido.setsJugador2[index]}
-            </span>`;
-        })
-        .join("");
+        .map((setJ1, index) => `${setJ1}-${partido.setsJugador2[index]}`)
+        .join(" / ");
 }
 
 const tablaPartidos = document.getElementById("tabla-partidos");
@@ -217,7 +211,12 @@ if(tablaPartidos){
             </div>
 
             <div class="versus">
-                VS
+                <span>VS</span>
+
+                <span class="badge-partido">
+                    ${partido.estado}
+                </span>
+
             </div>
 
             <div class="jugador jugador-2">
@@ -243,11 +242,7 @@ if(tablaPartidos){
 
             <div class="info-cancha">
 
-                <p>🎾 ${partido.cancha}</p>
-
-                <span class="badge-partido">
-                    ${partido.estado}
-                </span>
+                <p> ${partido.cancha}</p>
 
             </div>
 

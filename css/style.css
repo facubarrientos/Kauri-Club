@@ -3,6 +3,12 @@ h2{
     font-family: "Bebas Neue", sans-serif;
 }
 
+body{
+    background-color: #181a1b;
+    color: #f1f1f1;
+    font-family: Arial, sans-serif;
+}
+
 /*MENU*/
 .header-kauri{
     width: 100%;
@@ -126,11 +132,6 @@ h2{
     gap: 30px;
 }
 
-
-.bienvenida{
-    text-align: center;
-}
-
                                 /* imagen del medio */
 
 
@@ -167,7 +168,7 @@ h2{
 
     margin-bottom: 30px;
 
-    color: #8b0000;
+    color: #ffffff;
 
     font-family: "Bebas Neue", sans-serif;
 
@@ -177,11 +178,13 @@ h2{
     width: 90%;
     margin: 80px auto;
     text-align: center;
+    
 }
 
 .ranking h2{
     font-size: 40px;
     margin-bottom: 30px;
+    
 }
 
 .ranking table{
@@ -203,6 +206,7 @@ h2{
     background-color: #f2f2f2;
     padding: 16px;
     font-family: "Bebas Neue", sans-serif;
+    color: #1a0000;
     border-bottom: 1px solid #ddd;
 }
 
@@ -278,29 +282,25 @@ h2{
     text-transform: uppercase;
 }
 .card-partido{
-
     background: #fff7f4;
     border-radius: 12px;
-
-    padding: 18px 28px;
+    padding: 18px 30px;
     margin-bottom: 14px;
-    min-height: 78px;
+    min-height: 110px;
+
     display: grid;
 
     grid-template-columns:
-        180px
-        1.5fr
-        90px
-        1.5fr
-        180px
-        90px;
+        170px
+        minmax(220px, 1.5fr)
+        140px
+        minmax(220px, 1.5fr)
+        130px
+        170px;
 
     align-items: center;
-
-    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
-
+    column-gap: 18px;
 }
-
 /* FECHA */
 
 .info-fecha{
@@ -336,6 +336,14 @@ h2{
 
 }
 
+.jugador{
+    min-width: 0;
+}
+
+.jugador div{
+    min-width: 0;
+}
+
 .jugador-1{
 
     padding-left: 25px;
@@ -345,7 +353,6 @@ h2{
 .jugador-2{
 
     padding-left: 25px;
-    border-left: 1px solid #e2d7d7;
 
 }
 
@@ -363,12 +370,10 @@ h2{
 }
 
 .jugador h4{
-
     margin: 0;
     font-size: 19px;
     color: #111;
     font-family: Arial, sans-serif;
-
 }
 
 .jugador span{
@@ -381,24 +386,24 @@ h2{
 /* VS */
 
 .versus{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
 
     text-align: center;
-
     color: #980000;
-
-    font-size: 30px;
-
+    font-size: 34px;
     font-family: "Bebas Neue", sans-serif;
-
 }
 
 /* CANCHA */
 
 .info-cancha{
-
-    padding-left: 25px;
-    border-left: 1px solid #e2d7d7;
-
+    padding-left: 0;
+    border-left: none;
+    text-align: center;
 }
 
 .info-cancha p{
@@ -431,25 +436,25 @@ h2{
 
 /* RESULTADO */
 
-.resultado-partido {
-
+.resultado-partido{
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 10px;
 
     color: #980000;
-
     font-size: 22px;
-
     font-family: "Bebas Neue", sans-serif;
-
     font-weight: bold;
 
-    min-width: 90px;
-    
-    line-height: 1.3;
+    min-width: 220px;
+    white-space: nowrap;
+    text-align: center;
+}
 
+.resultado-set{
+    display: inline;
+    color: #980000;
 }
 
 .sin-partidos {
@@ -460,17 +465,7 @@ h2{
     font-style: italic;
 }
 
-.resultado-partido {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    color: #980000;
-    font-size: 22px;
-    font-family: "Bebas Neue", sans-serif;
-    font-weight: bold;
-    min-width: 90px;
-}
+
 
 .resultado-set {
     color: #980000;
@@ -1260,7 +1255,6 @@ body.admin-body{
 .estado-partido.pendiente{
     background: rgba(255,0,0,0.16);
     color: #ff4d4d;
-
     border:
     1px solid rgba(255,0,0,0.25);
 }
@@ -1389,109 +1383,129 @@ html, body{
     width: 100%;
 }
 
-@media (max-width: 768px){
+/* ================= RESPONSIVE GENERAL ================= */
 
-    /* MENU */
+*{
+    box-sizing: border-box;
+}
 
+body{
+    margin: 0;
+    overflow-x: hidden;
+}
 
+img{
+    max-width: 100%;
+    height: auto;
+}
 
-    body{
-        overflow-x: hidden;
+/* ================= TABLET / CELULAR ================= */
+
+@media(max-width: 768px){
+
+    header{
+        width: 100%;
+    }
+
+    .logo-titulo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        text-align: center;
+        flex-wrap: nowrap;
     }
 
     .logo-titulo img{
         width: 75px;
     }
 
-
     .logo-titulo h1{
         font-size: 34px;
-        margin: 0;
-
-        color: white;
         white-space: nowrap;
+        margin: 0;
     }
 
-    h1{
-        font-size: 32px;
-    }
-
-    .perfil-card{
-        grid-template-columns: 1fr;
-        text-align: center;
-        padding: 25px;
-    }
-
-    .perfil-foto img{
-        width: 100%;
-        height: 280px;
-    }
-
-    .perfil-stats{
-        grid-template-columns: 1fr;
-    }
-
-    .perfil-info h2{
-        font-size: 32px;
-    }   
-
-
-
-
-
-    .admin-cards{
-        grid-template-columns: 1fr;
-    }
-
-    .admin-panel h2{
-        font-size: 30px;
-    }
-
-
-
-    /* HERO */
-
-    .hero1{
-        height: 300px;
-        background-attachment: scroll;
-    }
-
-    .partidos{
-        width: 92%;
-        margin: 10px auto;
-    }
-
-    .ranking{
-        width: 98%;
-        margin: 80px auto;
-    }
-
-    .partidos th,
-    .partidos td{
-        padding: 8px;
-        font-size: 11px;
-    }
-
-    .ranking{
-        max-width: 900px;
-        width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-
-        text-align: center;
-    }
-    .ranking th,
-    .ranking td{
+    .menu{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
         padding: 12px;
-        font-size: 14px;
     }
 
-    
-    /* TITULOS */
+    .menu a{
+        text-decoration: none;
+        font-size: 22px;
+    }
 
-    .partidos h2,
-    .ranking h2,
-    .Bienvenida h2{
-        font-size: 30px;
+     .hero{
+        height: 320px;
+        background-image: linear-gradient(
+            rgba(0,0,0,0.35),
+            rgba(0,0,0,0.65)
+        ), url("img aux/roland-garros-tournament-profile.jpg");
+
+        background-size: cover;
+        background-position: center;
+        border-radius: 0;
+    }
+
+    .hero img,
+    #imagen-slider{
+        display: none;
+    }
+
+    section,
+    .Bienvenida,
+    .ranking{
+        width: 95%;
+        margin: 20px auto;
+    }
+}
+
+/* ================= CELULAR CHICO ================= */
+
+@media(max-width: 480px){
+
+      .logo-titulo{
+        justify-content: center;
+        gap: 12px;
+        padding: 15px 10px;
+    }
+
+    .logo-titulo img{
+        width: 60px;
+    }
+
+    .logo-titulo h1{
+        font-size: 26px;
+        letter-spacing: 2px;
+    }
+
+    .menu{
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .menu a{
+        font-size: 20px;
+    }
+
+   hero img,
+    #imagen-slider{
+        height: 260px;
+        object-position: center 45%;
+    }
+
+    h2{
+        font-size: 28px;
+        text-align: center;
+    }
+
+    p{
+        font-size: 16px;
+        line-height: 1.5;
     }
 }

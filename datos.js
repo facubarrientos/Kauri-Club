@@ -204,10 +204,10 @@ let partidos = [
         fecha: "2026-05-25",
         hora: "18:00",
         cancha: "Cancha 1",
-        estado: "finalizado",
+        estado: "pendiente",
 
-        setsJugador1: [6, 6],
-        setsJugador2: [5, 5],
+        setsJugador1: [6, 6, 6],
+        setsJugador2: [5, 5, 5],
         ganador: null
     }
 ];
