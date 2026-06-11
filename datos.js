@@ -6,6 +6,7 @@ var jugadores = [
         puntos: 120,
         partidosJugados: 5,
         partidosGanados: 4,
+        categoria: "A",
         foto: "./img/gavi.JPG"
     },
 
@@ -15,6 +16,7 @@ var jugadores = [
         puntos: 90,
         partidosJugados: 4,
         partidosGanados: 3,
+        categoria: "A",
         foto: "./img/putitos.JPG"
     },
 
@@ -24,6 +26,7 @@ var jugadores = [
         puntos: 150,
         partidosJugados: 7,
         partidosGanados: 6,
+        categoria: "A",
         foto: "./img/gavi.JPG"
     },
 
@@ -33,6 +36,7 @@ var jugadores = [
         puntos: 110,
         partidosJugados: 6,
         partidosGanados: 4,
+        categoria: "A",
         foto: "./img/putitos.JPG"
     },
 
@@ -42,6 +46,7 @@ var jugadores = [
         puntos: 95,
         partidosJugados: 5,
         partidosGanados: 3,
+        categoria: "A",
         foto: "./img/gavi.JPG"
     },
 
@@ -51,6 +56,7 @@ var jugadores = [
         puntos: 180,
         partidosJugados: 9,
         partidosGanados: 8,
+        categoria: "A",
         foto: "./img/putitos.JPG"
     },
 
@@ -60,6 +66,7 @@ var jugadores = [
         puntos: 130,
         partidosJugados: 6,
         partidosGanados: 5,
+        categoria: "A",
         foto: "./img/gavi.JPG"
     },
 
@@ -69,6 +76,7 @@ var jugadores = [
         puntos: 85,
         partidosJugados: 4,
         partidosGanados: 2,
+        categoria: "A",
         foto: "./img/putitos.JPG"
     },
 
@@ -78,6 +86,7 @@ var jugadores = [
         puntos: 170,
         partidosJugados: 8,
         partidosGanados: 7,
+        categoria: "A",
         foto: "./img/gavi.JPG"
     },
 
@@ -87,6 +96,7 @@ var jugadores = [
         puntos: 100,
         partidosJugados: 5,
         partidosGanados: 4,
+        categoria: "B",
         foto: "./img/putitos.JPG"
     },
 
@@ -96,94 +106,25 @@ var jugadores = [
         puntos: 140,
         partidosJugados: 7,
         partidosGanados: 5,
+        categoria: "B",
         foto: "./img/gavi.JPG"
     },
-
     {
         id: 12,
         nombre: "Leo Fernandez",
         puntos: 115,
         partidosJugados: 6,
         partidosGanados: 4,
+        categoria: "C",     
         foto: "./img/putitos.JPG"
     },
-    {
-        id: 12,
-        nombre: "Leo Fernandez",
-        puntos: 115,
-        partidosJugados: 6,
-        partidosGanados: 4,
-        foto: "./img/putitos.JPG"
-    },
-    {
-        id: 12,
-        nombre: "Leo Fernandez",
-        puntos: 115,
-        partidosJugados: 6,
-        partidosGanados: 4,
-        foto: "./img/putitos.JPG"
-    },
-    {
-        id: 12,
-        nombre: "Leo Fernandez",
-        puntos: 115,
-        partidosJugados: 6,
-        partidosGanados: 4,
-        foto: "./img/putitos.JPG"
-    },
-    {
-        id: 12,
-        nombre: "Leo Fernandez",
-        puntos: 115,
-        partidosJugados: 6,
-        partidosGanados: 4,
-        foto: "./img/putitos.JPG"
-    },
-    {
-        id: 12,
-        nombre: "Leo Fernandez",
-        puntos: 115,
-        partidosJugados: 6,
-        partidosGanados: 4,
-        foto: "./img/putitos.JPG"
-    },
-    {
-        id: 12,
-        nombre: "Leo Fernandez",
-        puntos: 115,
-        partidosJugados: 6,
-        partidosGanados: 4,
-        foto: "./img/putitos.JPG"
-    },
-    {
-        id: 12,
-        nombre: "Leo Fernandez",
-        puntos: 115,
-        partidosJugados: 6,
-        partidosGanados: 4,
-        foto: "./img/putitos.JPG"
-    },
-    {
-        id: 12,
-        nombre: "Leo Fernandez",
-        puntos: 115,
-        partidosJugados: 6,
-            sGanados: 4,
-        foto: "./img/putitos.JPG"
-    },
-    {
-        id: 12,
-        nombre: "Leo Fernandez",
-        puntos: 115,
-        partidosJugados: 6,
-        partidosGanados: 4,
-        foto: "./img/putitos.JPG"
-    }
 ];
 
 let partidos = [
     {
         id: 1,
+        tipo: "torneo",
+        instancia: "fase de grupos",
         idTorneo: 1,
         jugador1: 1,
         jugador2: 2,
@@ -197,11 +138,61 @@ let partidos = [
         ganador: null
     },
     {
-        id: 1,
+        id: 2,
+        tipo: "torneo",
+        instancia: "final",
         idTorneo: 1,
-        jugador1: 3,
-        jugador2: 4,
+        jugador1: 1,
+        jugador2: 2,
         fecha: "2026-05-25",
+        hora: "18:00",
+        cancha: "Cancha 1",
+        estado: "pendiente",
+
+        setsJugador1: [],
+        setsJugador2: [],
+        ganador: null
+    },
+    {
+        id: 3,
+        tipo: "torneo",
+        instancia: "final",
+        idTorneo: 2,
+        jugador1: 1,
+        jugador2: 2,
+        fecha: "2026-05-25",
+        hora: "18:00",
+        cancha: "Cancha 1",
+        estado: "pendiente",
+
+        setsJugador1: [],
+        setsJugador2: [],
+        ganador: null
+    },
+    {
+        id: 1,
+        tipo: "desafio",
+        instancia: "desafio",
+        idTorneo: null,
+        jugador1: 10,
+        jugador2: 11,
+        fecha: "2026-05-25",
+        hora: "18:00",
+        cancha: "Cancha 1",
+        estado: "finalizado",
+
+        setsJugador1: [],
+        setsJugador2: [],
+        ganador: null
+    },
+    {
+        id: 2,
+        tipo: "desafio",
+        instancia: "desafio",
+        idTorneo: null,
+        jugador1: 11,
+        jugador2: 4,
+        fecha: "2026-06-25",
         hora: "18:00",
         cancha: "Cancha 1",
         estado: "pendiente",
@@ -217,21 +208,21 @@ var torneos = [
   {
     id: 1,
     nombre: "Torneo Apertura",
-    deporte: "Tenis",
+    formato: "corto",
     fechaInicio: "2026-05-22",
-    estado: "activo"
+    estado: "finalizado"
   },
   {
     id: 2,
     nombre: "Torneo Clausura",
-    deporte: "Tenis",
+    formato: "largo",
     fechaInicio: "2026-05-22",
     estado: "activo"
   },
   {
     id: 3,
     nombre: "Torneo aaaaa ",
-    deporte: "Tenis",
+    formato: "corto",
     fechaInicio: "2026-05-22",
     estado: "activo"
   }

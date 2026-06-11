@@ -244,7 +244,7 @@ body{
 
 .bloque-torneo{
 
-    background: linear-gradient(135deg, #930000, #000000);
+    background: linear-gradient(135deg, #424242, #000000);
 
     border-radius: 12px;
 
@@ -324,6 +324,148 @@ body{
 
     cursor: pointer;
 
+}
+
+
+/* =========================
+   RANKING
+========================= */
+
+.ranking-page{
+    min-height: calc(100vh - 110px);
+    padding: 40px 20px;
+    background: #181a1b;
+}
+
+.ranking-section{
+    max-width: 1500px;
+    margin: 0 auto;
+    background: linear-gradient(145deg, #171a1c, #222629);
+    border-radius: 26px;
+    padding: 45px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow:
+        0 0 35px rgba(160,0,0,0.18),
+        0 25px 55px rgba(0,0,0,0.45);
+}
+
+.ranking-header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 38px;
+}
+
+.ranking-section h2{
+    margin: 0;
+    font-size: 64px;
+    color: white;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-family: "Bebas Neue", sans-serif;
+    text-shadow: 0 0 25px rgba(190,0,0,0.35);
+    position: relative;
+}
+
+.ranking-section h2::after{
+    content: "";
+    display: block;
+    width: 90px;
+    height: 5px;
+    background: #c00000;
+    margin: 12px auto 0;
+    border-radius: 10px;
+}
+
+.ranking-selector{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0;
+}
+
+.ranking-selector label{
+    color: #f1f1f1;
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.ranking-selector select{
+    padding: 12px 20px;
+    min-width: 165px;
+    border-radius: 12px;
+    border: 2px solid #c00000;
+    background: #101112;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tabla-ranking{
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    overflow: hidden;
+    border-radius: 18px;
+}
+
+.tabla-ranking thead{
+    background: #a00000;
+}
+
+.tabla-ranking thead th{
+    color: white;
+    font-size: 21px;
+    letter-spacing: 1px;
+    padding: 18px;
+    text-align: center;
+}
+
+.tabla-ranking tbody tr{
+    background: #f7f7f7;
+}
+
+.tabla-ranking tbody tr:nth-child(even){
+    background: #eeeeee;
+}
+
+.tabla-ranking tbody tr:hover{
+    background: #ffecec;
+}
+
+.tabla-ranking td{
+    padding: 18px;
+    text-align: center;
+    border-bottom: 1px solid #d8d8d8;
+    color: #111;
+    font-size: 17px;
+}
+
+.tabla-ranking tbody td:first-child{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.tabla-ranking tbody td:nth-child(2){
+    font-weight: 800;
+}
+
+.tabla-ranking tbody td:nth-child(3){
+    font-weight: 900;
+    color: #9b0000;
+}
+
+.tabla-ranking tbody tr:nth-child(1) td:first-child::before{
+    content: "🥇 ";
+}
+
+.tabla-ranking tbody tr:nth-child(2) td:first-child::before{
+    content: "🥈 ";
+}
+
+.tabla-ranking tbody tr:nth-child(3) td:first-child::before{
+    content: "🥉 ";
 }
 
 /* JUGADORES */
@@ -574,6 +716,83 @@ body{
     display: none;
 }
 
+/* =========================
+   FILTROS PARTIDOS
+========================= */
+
+.filtros-partidos{
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto 35px;
+
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+
+    background: linear-gradient(145deg, #171a1c, #222629);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+
+    padding: 22px;
+
+    box-shadow:
+        0 0 25px rgba(160,0,0,0.12),
+        0 15px 35px rgba(0,0,0,0.35);
+}
+
+.filtros-partidos select{
+    min-width: 220px;
+
+    padding: 13px 18px;
+
+    border-radius: 12px;
+
+    border: 2px solid #c00000;
+
+    background: #101112;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.ganador-partido{
+    background: rgba(0, 150, 70, 0.13);
+    border-radius: 14px;
+    padding: 10px;
+    border: 1px solid rgba(0, 190, 90, 0.45);
+}
+
+.texto-ganador{
+    display: inline-block;
+    margin-left: 8px;
+
+    background: #00a651;
+    color: white;
+
+    padding: 3px 8px;
+
+    border-radius: 10px;
+
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+    text-transform: uppercase;
+}
+
+.instancia-partido{
+    font-size: 13px;
+    color: #ffffff;
+
+    background: #222;
+
+    padding: 6px 12px;
+
+    border-radius: 16px;
+
+    text-transform: uppercase;
+}
 
                                 /* PERFIL */
 
@@ -1153,10 +1372,12 @@ body.admin-body{
     margin-bottom: 22px;
 }
 
+
 #form-partido{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
+    
 }
 
 #form-partido select,

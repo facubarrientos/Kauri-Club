@@ -17,21 +17,182 @@ if(botonMenu){
 
 const contenedorPartidos =
 document.getElementById("contenedor-partidos");
-
+const filtroCategoria = document.getElementById("filtro-categoria");
+const filtroTipo = document.getElementById("filtro-tipo");
+const filtroEstado = document.getElementById("filtro-estado");
 function renderPartidosPublicos(){
 
     if(!contenedorPartidos) return;
 
     contenedorPartidos.innerHTML = "";
 
+    const categoriaSeleccionada = filtroCategoria 
+        ? filtroCategoria.value 
+        : "todos";
+
+    const tipoSeleccionado = filtroTipo 
+        ? filtroTipo.value 
+        : "todos";
+
+    const estadoSeleccionado = filtroEstado
+        ? filtroEstado.value
+        : "todos";
+
+    let partidosFiltrados = partidos.filter(partido => {
+
+        const j1 = jugadores.find(j => Number(j.id) === Number(partido.jugador1));
+        const j2 = jugadores.find(j => Number(j.id) === Number(partido.jugador2));
+
+        const cumpleTipo =
+            tipoSeleccionado === "todos" ||
+            partido.tipo === tipoSeleccionado;
+
+        const cumpleCategoria =
+            categoriaSeleccionada === "todos" ||
+            j1?.categoria === categoriaSeleccionada ||
+            j2?.categoria === categoriaSeleccionada;
+
+        const cumpleEstado =
+            estadoSeleccionado === "todos" ||
+            partido.estado === estadoSeleccionado;
+
+        return cumpleTipo && cumpleCategoria && cumpleEstado;
+
+    });
+
+    partidosFiltrados.sort((a, b) => {
+        const fechaA = new Date(`${a.fecha}T${a.hora || "00:00"}`);
+        const fechaB = new Date(`${b.fecha}T${b.hora || "00:00"}`);
+        return fechaA - fechaB;
+    });
+
+    if(partidosFiltrados.length === 0){
+        contenedorPartidos.innerHTML = `
+            <p class="sin-partidos">
+                No hay partidos para mostrar.
+            </p>
+        `;
+        return;
+    }
+
+    function crearCardPartido(partido){
+
+        const torneo = torneos.find(t => Number(t.id) === Number(partido.idTorneo));
+        const j1 = jugadores.find(j => Number(j.id) === Number(partido.jugador1));
+        const j2 = jugadores.find(j => Number(j.id) === Number(partido.jugador2));
+
+        const ganadorId = Number(partido.ganador);
+
+        const ganoJ1 =
+            partido.estado === "finalizado" &&
+            ganadorId === Number(partido.jugador1);
+
+        const ganoJ2 =
+            partido.estado === "finalizado" &&
+            ganadorId === Number(partido.jugador2);
+
+        const card = document.createElement("div");
+        card.classList.add("card-partido");
+
+        card.innerHTML = `
+            <div class="info-fecha">
+                <p>📅 ${partido.fecha}</p>
+                <p>🕒 ${partido.hora}</p>
+            </div>
+
+            <div class="jugador jugador-1 ${ganoJ1 ? "ganador-partido" : ""}">
+                <img 
+                    src="${j1 ? j1.foto : 'img/default.png'}"
+                    class="foto-jugador"
+                >
+
+                <div>
+                    <h4>
+                        ${
+                            j1
+                            ? `#${obtenerPuestoRanking(j1.id)} ${j1.nombre}`
+                            : "Jugador eliminado"
+                        }
+                        ${ganoJ1 ? "<span class='texto-ganador'>Ganador</span>" : ""}
+                    </h4>
+
+                    <span>
+                        Categoría ${j1 ? j1.categoria : "-"}
+                    </span>
+                </div>
+            </div>
+
+            <div class="versus">
+                <span>VS</span>
+
+                <span class="badge-partido">
+                    ${partido.estado}
+                </span>
+
+                <span class="instancia-partido">
+                    ${partido.instancia || partido.tipo}
+                </span>
+            </div>
+
+            <div class="jugador jugador-2 ${ganoJ2 ? "ganador-partido" : ""}">
+                <img 
+                    src="${j2 ? j2.foto : 'img/default.png'}"
+                    class="foto-jugador"
+                >
+
+                <div>
+                    <h4>
+                        ${
+                            j2
+                            ? `#${obtenerPuestoRanking(j2.id)} ${j2.nombre}`
+                            : "Jugador eliminado"
+                        }
+                        ${ganoJ2 ? "<span class='texto-ganador'>Ganador</span>" : ""}
+                    </h4>
+
+                    <span>
+                        Categoría ${j2 ? j2.categoria : "-"}
+                    </span>
+                </div>
+            </div>
+
+            <div class="info-cancha">
+                <p>
+                    ${
+                        partido.tipo === "desafio"
+                        ? "Desafío"
+                        : torneo ? torneo.nombre : "Sin torneo"
+                    }
+                </p>
+
+                <p>${partido.cancha}</p>
+            </div>
+
+            <div class="resultado-partido">
+                ${formatearResultado(partido)}
+            </div>
+        `;
+
+        return card;
+    }
+
+    const desafios = partidosFiltrados.filter(
+        partido => partido.tipo === "desafio"
+    );
+
+    const partidosTorneo = partidosFiltrados.filter(
+        partido => partido.tipo === "torneo"
+    );
+
     torneos.forEach(torneo => {
 
-        const partidosDelTorneo = partidos.filter(
+        const partidosDelTorneo = partidosTorneo.filter(
             partido => Number(partido.idTorneo) === Number(torneo.id)
         );
 
-        const bloque = document.createElement("div");
+        if(partidosDelTorneo.length === 0) return;
 
+        const bloque = document.createElement("div");
         bloque.classList.add("bloque-torneo");
 
         bloque.innerHTML = `
@@ -42,106 +203,47 @@ function renderPartidosPublicos(){
             </p>
         `;
 
-        if(partidosDelTorneo.length === 0){
-
-            bloque.innerHTML += `
-                <p class="sin-partidos">
-                    No hay partidos cargados.
-                </p>
-            `;
-
-        }else{
-
-            partidosDelTorneo.forEach(partido => {
-
-                const j1 = jugadores.find(
-                    j => Number(j.id) === Number(partido.jugador1)
-                );
-
-                const j2 = jugadores.find(
-                    j => Number(j.id) === Number(partido.jugador2)
-                );
-
-                bloque.innerHTML += `
-                    <div class="card-partido">
-
-                        <div class="info-fecha">
-
-                            <p>📅 ${partido.fecha}</p>
-
-                            <p>🕒 ${partido.hora}</p>
-
-                        </div>
-
-                        <div class="jugador jugador-1">
-
-                            <img 
-                                src="${j1 ? j1.foto : 'img/default.png'}"
-                                class="foto-jugador"
-                            >
-
-                            <div>
-
-                                <h4>
-                                    ${j1 ? j1.nombre : "Jugador eliminado"}
-                                </h4>
-
-                                <span>
-                                    Ranking: ${j1 ? j1.puntos : "-"}
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                        <div class="versus">
-                            <span>VS</span>
-
-                            <span class="badge-partido">
-                                ${partido.estado}
-                            </span>
-                        </div>
-
-                        <div class="jugador jugador-2">
-
-                            <img 
-                                src="${j2 ? j2.foto : 'img/default.png'}"
-                                class="foto-jugador"
-                            >
-
-                            <div>
-
-                                <h4>
-                                    ${j2 ? j2.nombre : "Jugador eliminado"}
-                                </h4>
-
-                                <span>
-                                    Ranking: ${j2 ? j2.puntos : "-"}
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                        <div class="info-cancha">
-                            <p> ${partido.cancha}</p>
-                        </div>
-
-                        <div class="resultado-partido">
-                            ${formatearResultado(partido)}
-                        </div>
-
-                    </div>
-                `;
-
-            });
-
-        }
+        partidosDelTorneo.forEach(partido => {
+            bloque.appendChild(crearCardPartido(partido));
+        });
 
         contenedorPartidos.appendChild(bloque);
 
     });
 
+    if(desafios.length > 0){
+
+        const bloqueDesafios = document.createElement("div");
+        bloqueDesafios.classList.add("bloque-torneo");
+
+        bloqueDesafios.innerHTML = `
+            <h3>Desafíos</h3>
+
+            <p class="estado-torneo">
+                Partidos por ranking
+            </p>
+        `;
+
+        desafios.forEach(partido => {
+            bloqueDesafios.appendChild(crearCardPartido(partido));
+        });
+
+        contenedorPartidos.appendChild(bloqueDesafios);
+
+    }
+
+}
+
+if(filtroCategoria){
+    filtroCategoria.addEventListener("change", renderPartidosPublicos);
+}
+
+if(filtroTipo){
+    filtroTipo.addEventListener("change", renderPartidosPublicos);
+}
+
+if(filtroEstado){
+    filtroEstado.addEventListener("change", renderPartidosPublicos);
 }
 
 function formatearResultado(partido){
@@ -217,6 +319,14 @@ if(tablaPartidos){
                     ${partido.estado}
                 </span>
 
+                <span class="instancia-partido">
+                    ${
+                        partido.tipo === "desafio"
+                        ? "DESAFÍO"
+                        : partido.instancia
+                    }
+                </span>
+
             </div>
 
             <div class="jugador jugador-2">
@@ -259,12 +369,108 @@ if(tablaPartidos){
 
 }
 
+const PUNTOS_DESAFIO_VICTORIA = 100;
+const PUNTOS_DESAFIO_DERROTA = -50;
+const PUNTOS_BONUS_3_DESAFIOS = 100;
+
+function calcularStatsJugador(idJugador){
+
+    let puntos = 0;
+    let partidosJugados = 0;
+    let partidosGanados = 0;
+    let desafiosJugados = 0;
+
+    partidos.forEach(partido => {
+
+        if(partido.estado !== "finalizado") return;
+
+        const jugoPartido =
+            Number(partido.jugador1) === Number(idJugador) ||
+            Number(partido.jugador2) === Number(idJugador);
+
+        if(!jugoPartido) return;
+
+        partidosJugados++;
+
+        if(Number(partido.ganador) === Number(idJugador)){
+            partidosGanados++;
+        }
+
+        if(partido.tipo === "desafio"){
+
+            desafiosJugados++;
+
+            if(Number(partido.ganador) === Number(idJugador)){
+                puntos += PUNTOS_DESAFIO_VICTORIA;
+            }else{
+                puntos += PUNTOS_DESAFIO_DERROTA;
+            }
+        }
+
+    });
+
+    puntos += Math.floor(desafiosJugados / 3) * PUNTOS_BONUS_3_DESAFIOS;
+
+    return {
+        puntos,
+        partidosJugados,
+        partidosGanados
+    };
+}
+
+function obtenerPuestoRanking(idJugador){
+
+    const jugador = jugadores.find(j => Number(j.id) === Number(idJugador));
+
+    if(!jugador) return "-";
+
+    const rankingCategoria = jugadores
+        .filter(j => j.categoria === jugador.categoria)
+        .map(j => {
+            const stats = calcularStatsJugador(j.id);
+
+            return {
+                ...j,
+                puntos: stats.puntos
+            };
+        })
+        .sort((a, b) => b.puntos - a.puntos);
+
+    const posicion = rankingCategoria.findIndex(
+        j => Number(j.id) === Number(idJugador)
+    );
+
+    return posicion + 1;
+}
+
 renderPartidosPublicos();
+
 const tablaRanking = document.getElementById("tabla-ranking");
+const selectorRanking = document.getElementById("selector-ranking");
 
-if(tablaRanking){
+function renderRankingCategoria(categoria){
 
-    jugadores.forEach((jugador, index) => {
+    if(!tablaRanking) return;
+
+    tablaRanking.innerHTML = "";
+
+    const jugadoresRanking = jugadores
+        .filter(jugador => jugador.categoria === categoria)
+        .map(jugador => {
+
+            const stats = calcularStatsJugador(jugador.id);
+
+            return {
+                ...jugador,
+                puntos: stats.puntos,
+                partidosJugados: stats.partidosJugados,
+                partidosGanados: stats.partidosGanados
+            };
+
+        })
+        .sort((a, b) => b.puntos - a.puntos);
+
+    jugadoresRanking.forEach((jugador, index) => {
 
         const fila = document.createElement("tr");
 
@@ -282,6 +488,77 @@ if(tablaRanking){
 
 }
 
+const tablaRankingInicio = document.getElementById("tabla-ranking-inicio");
+
+function obtenerTopCategoria(categoria){
+
+    return jugadores
+        .filter(jugador => jugador.categoria === categoria)
+        .map(jugador => {
+
+            const stats = calcularStatsJugador(jugador.id);
+
+            return {
+                ...jugador,
+                puntos: stats.puntos
+            };
+
+        })
+        .sort((a, b) => b.puntos - a.puntos)
+        .slice(0, 3);
+}
+
+
+if(tablaRanking){
+
+    renderRankingCategoria("A");
+
+    if(selectorRanking){
+
+        selectorRanking.addEventListener("change", () => {
+            renderRankingCategoria(selectorRanking.value);
+        });
+
+    }
+
+}
+
+document.getElementById("tabla-ranking-inicio");
+
+function renderRankingInicio(){
+
+    if(!tablaRankingInicio) return;
+
+    tablaRankingInicio.innerHTML = "";
+
+    const rankingA = obtenerTopCategoria("A");
+    const rankingB = obtenerTopCategoria("B");
+    const rankingC = obtenerTopCategoria("C");
+    const rankingD = obtenerTopCategoria("D");
+
+    for(let i = 0; i < 3; i++){
+
+        const fila = document.createElement("tr");
+
+        fila.innerHTML = `
+            <td>${i + 1}</td>
+
+            <td>${rankingA[i]?.nombre || "-"}</td>
+
+            <td>${rankingB[i]?.nombre || "-"}</td>
+
+            <td>${rankingC[i]?.nombre || "-"}</td>
+
+            <td>${rankingD[i]?.nombre || "-"}</td>
+        `;
+
+        tablaRankingInicio.appendChild(fila);
+
+    }
+
+}
+
+
 const listaJugadores = document.getElementById("lista-jugadores");
 const buscadorJugadores = document.getElementById("buscador-jugadores");
 
@@ -297,6 +574,8 @@ function mostrarJugadores(filtro = ""){
         )
         .forEach(jugador => {
 
+
+            const stats = calcularStatsJugador(jugador.id);
             const card = document.createElement("div");
             card.classList.add("card-jugador");
 
@@ -312,11 +591,11 @@ function mostrarJugadores(filtro = ""){
                 <div class="stats-jugador">
 
                     <span>
-                        ${jugador.puntos} pts
+                        ${stats.puntos} pts
                     </span>
 
                     <span>
-                        ${jugador.partidosGanados} victorias
+                        ${stats.partidosGanados} victorias
                     </span>
 
                 </div>
@@ -349,7 +628,7 @@ if(perfilJugador){
     jugadores.find(j => j.id === idJugador);
 
     if(jugador){
-
+        const stats = calcularStatsJugador(jugador.id);
         perfilJugador.innerHTML = `
             <div class="perfil-card">
 
@@ -364,17 +643,17 @@ if(perfilJugador){
                     <div class="perfil-stats">
 
                         <div class="perfil-stat">
-                            <strong>${jugador.puntos}</strong>
+                            <strong>${stats.puntos}</strong>
                             <span>Puntos</span>
                         </div>
 
                         <div class="perfil-stat">
-                            <strong>${jugador.partidosJugados}</strong>
+                            <strong>${stats.partidosJugados}</strong>
                             <span>Partidos</span>
                         </div>
 
                         <div class="perfil-stat">
-                            <strong>${jugador.partidosGanados}</strong>
+                            <strong>${stats.partidosGanados}</strong>
                             <span>Victorias</span>
                         </div>
 
@@ -492,6 +771,7 @@ function renderAdminJugadores(){
             </td>
 
             <td>${jugador.nombre}</td>
+            <td>${jugador.categoria}</td>
             <td>${jugador.puntos}</td>
             <td>${jugador.partidosGanados}</td>
 
@@ -545,6 +825,7 @@ if(formJugador){
         e.preventDefault();
 
         const nombre = document.getElementById("nombre-jugador").value;
+        const categoria = document.getElementById("categoria-jugador").value;
         const puntos = parseInt(document.getElementById("puntos-jugador").value);
         const partidos = parseInt(document.getElementById("partidos-jugador").value);
         const victorias = parseInt(document.getElementById("victorias-jugador").value);
@@ -553,6 +834,7 @@ if(formJugador){
         if(jugadorEditando){
 
             jugadorEditando.nombre = nombre;
+            jugadorEditando.categoria = categoria;
             jugadorEditando.puntos = puntos;
             jugadorEditando.partidosJugados = partidos;
             jugadorEditando.partidosGanados = victorias;
@@ -563,6 +845,7 @@ if(formJugador){
             jugadores.push({
                 id: Date.now(),
                 nombre: nombre,
+                categoria: categoria,
                 puntos: puntos,
                 partidosJugados: partidos,
                 partidosGanados: victorias,
@@ -591,6 +874,7 @@ function editarJugador(id){
     jugadorEditando = jugador;
 
     document.getElementById("nombre-jugador").value = jugador.nombre;
+    document.getElementById("categoria-jugador").value = jugador.categoria || "A";
     document.getElementById("puntos-jugador").value = jugador.puntos;
     document.getElementById("partidos-jugador").value = jugador.partidosJugados;
     document.getElementById("victorias-jugador").value = jugador.partidosGanados;
@@ -702,6 +986,32 @@ function cargarSelectPartidos(){
     });
 }
 
+const selectTipoPartido = document.getElementById("tipo-partido");
+const selectInstanciaPartido = document.getElementById("instancia-partido");
+
+function actualizarCampoTorneo(){
+
+    if(!selectTipoPartido || !selectTorneo) return;
+
+    if(selectTipoPartido.value === "desafio"){
+        selectTorneo.disabled = true;
+        selectTorneo.required = false;
+        selectTorneo.value = "";
+    }else{
+        selectTorneo.disabled = false;
+        selectTorneo.required = true;
+    }
+
+}
+
+if(selectTipoPartido){
+
+    selectTipoPartido.addEventListener("change", actualizarCampoTorneo);
+
+    actualizarCampoTorneo();
+
+}
+
 if(formPartido){
 
     formPartido.addEventListener("submit", function(e){
@@ -727,7 +1037,11 @@ if(formPartido){
 
             if(!partido) return;
 
-            partido.idTorneo = Number(selectTorneo.value);
+            partido.tipo = selectTipoPartido.value;
+            partido.instancia = selectInstanciaPartido.value;
+            partido.idTorneo = selectTipoPartido.value === "torneo"
+                ? Number(selectTorneo.value)
+                : null;
             partido.jugador1 = jugador1;
             partido.jugador2 = jugador2;
             partido.fecha = document.getElementById("fecha-partido").value;
@@ -744,7 +1058,11 @@ if(formPartido){
 
             const nuevoPartido = {
                 id: Date.now(),
-                idTorneo: Number(selectTorneo.value),
+                tipo: selectTipoPartido.value,
+                instancia: selectInstanciaPartido.value,
+                idTorneo: selectTipoPartido.value === "torneo" 
+                    ? Number(selectTorneo.value) 
+                    : null,
                 jugador1: jugador1,
                 jugador2: jugador2,
                 fecha: document.getElementById("fecha-partido").value,
@@ -781,7 +1099,17 @@ function renderAdminPartidos(){
         const fila = document.createElement("tr");
 
         fila.innerHTML = `
-            <td>${torneo ? torneo.nombre : "Sin torneo"}</td>
+            <td>
+                ${
+                    partido.tipo === "desafio"
+                    ? "Desafío"
+                    : torneo ? torneo.nombre : "Sin torneo"
+                }
+            </td>
+
+            <td>
+                ${partido.instancia || "-"}
+            </td>
             <td>${j1 ? j1.nombre : "Jugador eliminado"}</td>
             <td>${j2 ? j2.nombre : "Jugador eliminado"}</td>
             <td>${partido.fecha}</td>
@@ -822,7 +1150,12 @@ function editarPartido(id){
 
     partidoEditando = Number(id);
 
-    selectTorneo.value = String(partido.idTorneo);
+
+    selectTipoPartido.value = partido.tipo || "torneo";
+    selectInstanciaPartido.value = partido.instancia || "desafio";
+    selectTorneo.value = partido.idTorneo !== null 
+    ? String(partido.idTorneo) 
+    : "";
     selectJugador1.value = String(partido.jugador1);
     selectJugador2.value = String(partido.jugador2);
 
@@ -965,3 +1298,4 @@ function eliminarTorneo(id){
 }
 
 renderAdminTorneos();
+renderRankingInicio();

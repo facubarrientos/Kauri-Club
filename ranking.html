@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking | KAURI CLUB</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+
+<body>
+
+    <header class="header-kauri">
+        <nav class="menu-kauri">
+
+            <div class="marca-menu">
+                <img src="img/kauri_logo.png" class="logo-menu">
+                <h2>KAURI CLUB</h2>
+            </div>
+
+            <ul>
+
+                <li>
+                    <a href="index.html">
+                        <i class="fa-solid fa-house"></i>
+                        Inicio
+                    </a>
+                </li>
+
+                <li>
+                    <a href="partidos.html">
+                        <i class="fa-solid fa-calendar-days"></i>
+                        Partidos
+                    </a>
+                </li>
+
+                <li>
+                    <a class="activo" href="ranking.html">
+                        <i class="fa-solid fa-trophy"></i>
+                        Ranking
+                    </a>
+                </li>
+
+                <li>
+                    <a href="jugadores.html">
+                        <i class="fa-solid fa-users"></i>
+                        Jugadores
+                    </a>
+                </li>
+
+            </ul>
+
+            <a href="#" class="btn-reservar">Reservar</a>
+
+        </nav>
+    </header>
+
+    <main class="ranking-page">
+
+        <section class="ranking-section">
+
+            <div class="ranking-header">
+
+                <h2>Ranking de jugadores</h2>
+
+                <div class="ranking-selector">
+                    <label for="selector-ranking">Categoría</label>
+                    <select id="selector-ranking">
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <table class="tabla-ranking">
+                <thead>
+                    <tr>
+                        <th>Posición</th>
+                        <th>Jugador</th>
+                        <th>Puntos</th>
+                        <th>Partidos</th>
+                        <th>Victorias</th>
+                    </tr>
+                </thead>
+
+                <tbody id="tabla-ranking">
+                </tbody>
+            </table>
+
+        </section>
+
+    </main>
+
+    <footer></footer>
+
+    <script src="datos.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
