@@ -68,6 +68,11 @@
                     required
                 >
 
+                <select id="formato-torneo" required>
+                    <option value="largo">Largo</option>
+                    <option value="corto">Corto</option>
+                </select>
+
                 <select id="estado-torneo">
 
                     <option value="Activo">
@@ -101,6 +106,7 @@
                         <tr>
                             <th>Nombre</th>
                             <th>Fecha Inicio</th>
+                            <th>Formato</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -118,7 +124,7 @@
     </main>
 
     <script src="datos.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 
 </body>
 </html>

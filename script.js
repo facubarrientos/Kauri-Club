@@ -1,3 +1,11 @@
+import { auth } from "./firebase.js";
+
+import { 
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
 const botonMenu =
 document.getElementById("menu-toggle");
 
@@ -15,8 +23,7 @@ if(botonMenu){
 }
 
 
-const contenedorPartidos =
-document.getElementById("contenedor-partidos");
+const contenedorPartidos =document.getElementById("contenedor-partidos");
 const filtroCategoria = document.getElementById("filtro-categoria");
 const filtroTipo = document.getElementById("filtro-tipo");
 const filtroEstado = document.getElementById("filtro-estado");
@@ -184,6 +191,28 @@ function renderPartidosPublicos(){
         partido => partido.tipo === "torneo"
     );
 
+    if(desafios.length > 0){
+
+        const bloqueDesafios = document.createElement("div");
+        bloqueDesafios.classList.add("bloque-torneo");
+
+        bloqueDesafios.innerHTML = `
+            <h3>Desafíos</h3>
+
+            <p class="estado-torneo">
+                Partidos por ranking
+            </p>
+        `;
+
+        desafios.forEach(partido => {
+            bloqueDesafios.appendChild(crearCardPartido(partido));
+        });
+
+        contenedorPartidos.appendChild(bloqueDesafios);
+
+    }
+
+
     torneos.forEach(torneo => {
 
         const partidosDelTorneo = partidosTorneo.filter(
@@ -211,26 +240,7 @@ function renderPartidosPublicos(){
 
     });
 
-    if(desafios.length > 0){
-
-        const bloqueDesafios = document.createElement("div");
-        bloqueDesafios.classList.add("bloque-torneo");
-
-        bloqueDesafios.innerHTML = `
-            <h3>Desafíos</h3>
-
-            <p class="estado-torneo">
-                Partidos por ranking
-            </p>
-        `;
-
-        desafios.forEach(partido => {
-            bloqueDesafios.appendChild(crearCardPartido(partido));
-        });
-
-        contenedorPartidos.appendChild(bloqueDesafios);
-
-    }
+    
 
 }
 
@@ -369,8 +379,8 @@ if(tablaPartidos){
 
 }
 
-const PUNTOS_DESAFIO_VICTORIA = 100;
-const PUNTOS_DESAFIO_DERROTA = -50;
+const PUNTOS_VICTORIA = 100;
+const PUNTOS_DERROTA = -50;
 const PUNTOS_BONUS_3_DESAFIOS = 100;
 
 function calcularStatsJugador(idJugador){
@@ -383,6 +393,7 @@ function calcularStatsJugador(idJugador){
     partidos.forEach(partido => {
 
         if(partido.estado !== "finalizado") return;
+        if(partido.ganador === null || partido.ganador === undefined) return;
 
         const jugoPartido =
             Number(partido.jugador1) === Number(idJugador) ||
@@ -392,33 +403,54 @@ function calcularStatsJugador(idJugador){
 
         partidosJugados++;
 
-        if(Number(partido.ganador) === Number(idJugador)){
-            partidosGanados++;
+        if(partido.tipo === "desafio"){
+            desafiosJugados++;
         }
 
-        if(partido.tipo === "desafio"){
-
-            desafiosJugados++;
-
-            if(Number(partido.ganador) === Number(idJugador)){
-                puntos += PUNTOS_DESAFIO_VICTORIA;
-            }else{
-                puntos += PUNTOS_DESAFIO_DERROTA;
-            }
+        if(Number(partido.ganador) === Number(idJugador)){
+            partidosGanados++;
+            puntos += PUNTOS_VICTORIA;
+        }else{
+            puntos += PUNTOS_DERROTA;
         }
 
     });
 
-    puntos += Math.floor(desafiosJugados / 3) * PUNTOS_BONUS_3_DESAFIOS;
+    const bonusDesafios =
+        Math.floor(desafiosJugados / 3) * PUNTOS_BONUS_3_DESAFIOS;
+
+    puntos += bonusDesafios;
 
     return {
         puntos,
         partidosJugados,
-        partidosGanados
+        partidosGanados,
+        desafiosJugados,
+        bonusDesafios
     };
 }
 
+function actualizarStatsJugadores(){
+
+    jugadores.forEach(jugador => {
+
+        if(jugador.puntosBase === undefined){
+            jugador.puntosBase = jugador.puntos || 0;
+        }
+
+        const stats = calcularStatsJugador(jugador.id);
+
+        jugador.puntos = jugador.puntosBase + stats.puntos;
+        jugador.partidosJugados = stats.partidosJugados;
+        jugador.partidosGanados = stats.partidosGanados;
+        jugador.desafiosJugados = stats.desafiosJugados;
+
+    });
+}
+
 function obtenerPuestoRanking(idJugador){
+
+    actualizarStatsJugadores();
 
     const jugador = jugadores.find(j => Number(j.id) === Number(idJugador));
 
@@ -426,14 +458,6 @@ function obtenerPuestoRanking(idJugador){
 
     const rankingCategoria = jugadores
         .filter(j => j.categoria === jugador.categoria)
-        .map(j => {
-            const stats = calcularStatsJugador(j.id);
-
-            return {
-                ...j,
-                puntos: stats.puntos
-            };
-        })
         .sort((a, b) => b.puntos - a.puntos);
 
     const posicion = rankingCategoria.findIndex(
@@ -452,22 +476,12 @@ function renderRankingCategoria(categoria){
 
     if(!tablaRanking) return;
 
+    actualizarStatsJugadores();
+
     tablaRanking.innerHTML = "";
 
     const jugadoresRanking = jugadores
         .filter(jugador => jugador.categoria === categoria)
-        .map(jugador => {
-
-            const stats = calcularStatsJugador(jugador.id);
-
-            return {
-                ...jugador,
-                puntos: stats.puntos,
-                partidosJugados: stats.partidosJugados,
-                partidosGanados: stats.partidosGanados
-            };
-
-        })
         .sort((a, b) => b.puntos - a.puntos);
 
     jugadoresRanking.forEach((jugador, index) => {
@@ -485,25 +499,16 @@ function renderRankingCategoria(categoria){
         tablaRanking.appendChild(fila);
 
     });
-
 }
 
 const tablaRankingInicio = document.getElementById("tabla-ranking-inicio");
 
 function obtenerTopCategoria(categoria){
 
+    actualizarStatsJugadores();
+
     return jugadores
         .filter(jugador => jugador.categoria === categoria)
-        .map(jugador => {
-
-            const stats = calcularStatsJugador(jugador.id);
-
-            return {
-                ...jugador,
-                puntos: stats.puntos
-            };
-
-        })
         .sort((a, b) => b.puntos - a.puntos)
         .slice(0, 3);
 }
@@ -561,26 +566,34 @@ function renderRankingInicio(){
 
 const listaJugadores = document.getElementById("lista-jugadores");
 const buscadorJugadores = document.getElementById("buscador-jugadores");
+const filtroCategoriaJugadores = document.getElementById("filtro-categoria-jugadores");
 
-function mostrarJugadores(filtro = ""){
+function mostrarJugadores(){
 
     if(!listaJugadores) return;
+    actualizarStatsJugadores();
+    const textoBuscado = buscadorJugadores?.value.toLowerCase() || "";
+    const categoriaSeleccionada = filtroCategoriaJugadores?.value || "todas";
 
     listaJugadores.innerHTML = "";
 
     jugadores
-        .filter(jugador =>
-            jugador.nombre.toLowerCase().includes(filtro.toLowerCase())
-        )
+        .filter(jugador => {
+            const coincideNombre = jugador.nombre.toLowerCase().includes(textoBuscado);
+
+            const coincideCategoria =
+                categoriaSeleccionada === "todas" ||
+                jugador.categoria === categoriaSeleccionada;
+
+            return coincideNombre && coincideCategoria;
+        })
         .forEach(jugador => {
 
-
-            const stats = calcularStatsJugador(jugador.id);
             const card = document.createElement("div");
             card.classList.add("card-jugador");
 
             card.addEventListener("click", () => {
-                 window.location.href = `perfil.html?id=${jugador.id}`;
+                window.location.href = `perfil.html?id=${jugador.id}`;
             });
 
             card.innerHTML = `
@@ -588,16 +601,11 @@ function mostrarJugadores(filtro = ""){
 
                 <h3>${jugador.nombre}</h3>
 
+                <p>Categoría ${jugador.categoria}</p>
+
                 <div class="stats-jugador">
-
-                    <span>
-                        ${stats.puntos} pts
-                    </span>
-
-                    <span>
-                        ${stats.partidosGanados} victorias
-                    </span>
-
+                    <span>${jugador.puntos} pts</span>
+                    <span>${jugador.partidosGanados} victorias</span>
                 </div>
             `;
 
@@ -605,10 +613,15 @@ function mostrarJugadores(filtro = ""){
         });
 }
 
-if(buscadorJugadores){
-    buscadorJugadores.addEventListener("input", () => {
-        mostrarJugadores(buscadorJugadores.value);
-    });
+if(listaJugadores){
+
+    if(buscadorJugadores){
+        buscadorJugadores.addEventListener("input", mostrarJugadores);
+    }
+
+    if(filtroCategoriaJugadores){
+        filtroCategoriaJugadores.addEventListener("change", mostrarJugadores);
+    }
 
     mostrarJugadores();
 }
@@ -628,7 +641,7 @@ if(perfilJugador){
     jugadores.find(j => j.id === idJugador);
 
     if(jugador){
-        const stats = calcularStatsJugador(jugador.id);
+        actualizarStatsJugadores();
         perfilJugador.innerHTML = `
             <div class="perfil-card">
 
@@ -643,17 +656,17 @@ if(perfilJugador){
                     <div class="perfil-stats">
 
                         <div class="perfil-stat">
-                            <strong>${stats.puntos}</strong>
+                            <strong>${jugador.puntos}</strong>
                             <span>Puntos</span>
                         </div>
 
                         <div class="perfil-stat">
-                            <strong>${stats.partidosJugados}</strong>
+                            <strong>${jugador.partidosJugados}</strong>
                             <span>Partidos</span>
                         </div>
 
                         <div class="perfil-stat">
-                            <strong>${stats.partidosGanados}</strong>
+                            <strong>${jugador.partidosGanados}</strong>
                             <span>Victorias</span>
                         </div>
 
@@ -674,77 +687,75 @@ if(perfilJugador){
 
                                                                             /* admin*/
 
-const formLogin =
-document.getElementById("form-login");
+    /* LOGIN FIREBASE */
 
-if(formLogin){
+const formLogin = document.getElementById("form-login");
 
-    formLogin.addEventListener("submit", (e) => {
+if (formLogin) {
+
+    formLogin.addEventListener("submit", async function(e) {
 
         e.preventDefault();
 
-        const usuario =
-        document.getElementById("usuario").value;
+        const email =
+            document.getElementById("usuario").value;
 
         const password =
-        document.getElementById("password").value;
+            document.getElementById("password").value;
 
-        if(
-            usuario === "Lauchi.admin"
-            &&
-            password === "Acceso645@"
-        ){
+        try {
 
-            localStorage.setItem("adminLogueado", "true");
+            await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
 
             window.location.href = "admin.html";
-        }
-        else{
-            alert("Datos incorrectos");
+
+        } catch (error) {
+
+            alert("Email o contraseña incorrectos");
+
         }
 
     });
 
 }
 
-                                            /* proteccion admin*/
-const adminLogueado =
-localStorage.getItem("adminLogueado");
+/* PROTECCION ADMIN */
 
 const paginasProtegidas = [
-
     "admin.html",
     "admin-jugadores.html",
     "admin-partidos.html",
     "admin-torneos.html"
-
 ];
 
 const paginaActual =
-window.location.pathname.split("/").pop();
+    window.location.pathname.split("/").pop();
 
-if(
+if (paginasProtegidas.includes(paginaActual)) {
 
-    paginasProtegidas.includes(paginaActual)
+    onAuthStateChanged(auth, (user) => {
 
-    &&
+        if (
+            !user ||
+            user.email !== "kau.admin@gmail.com"
+        ) {
 
-    adminLogueado !== "true"
+            window.location.href = "login.html";
 
-){
+        }
 
-    window.location.href = "login.html";
+    });
 
 }
 
-function cerrarSesion(){
-
-    localStorage.removeItem("adminLogueado");
-
+async function cerrarSesion() {
+    await signOut(auth);
     window.location.href = "login.html";
 }
-
-
                                             /* admin-jugadores */
 
 let jugadorEditando = null;
@@ -1209,6 +1220,7 @@ if(formTorneo){
 
         const nombre = document.getElementById("nombre-torneo").value;
         const fecha = document.getElementById("fecha-torneo").value;
+        const formato = document.getElementById("formato-torneo").value;
         const estado = document.getElementById("estado-torneo").value;
 
         if(torneoEditando !== null){
@@ -1219,6 +1231,7 @@ if(formTorneo){
 
             torneo.nombre = nombre;
             torneo.fechaInicio = fecha;
+            torneo.formato = formato;
             torneo.estado = estado;
 
             torneoEditando = null;
@@ -1253,7 +1266,9 @@ function renderAdminTorneos(){
         fila.innerHTML = `
             <td>${torneo.nombre}</td>
             <td>${torneo.fechaInicio}</td>
+            <td>${torneo.formato || "-"}</td>
             <td>${torneo.estado}</td>
+
             <td class="acciones-admin">
                 <button class="btn-editar" type="button" onclick="editarTorneo(${torneo.id})">
                     Editar
@@ -1279,6 +1294,7 @@ function editarTorneo(id){
 
     document.getElementById("nombre-torneo").value = torneo.nombre;
     document.getElementById("fecha-torneo").value = torneo.fechaInicio;
+    document.getElementById("formato-torneo").value =torneo.formato || "largo";
     document.getElementById("estado-torneo").value = torneo.estado;
 }
 
@@ -1299,3 +1315,14 @@ function eliminarTorneo(id){
 
 renderAdminTorneos();
 renderRankingInicio();
+
+window.editarJugador = editarJugador;
+window.eliminarJugador = eliminarJugador;
+
+window.editarPartido = editarPartido;
+window.eliminarPartido = eliminarPartido;
+
+window.editarTorneo = editarTorneo;
+window.eliminarTorneo = eliminarTorneo;
+
+window.cerrarSesion = cerrarSesion;

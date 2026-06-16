@@ -1,123 +1,139 @@
 var jugadores = [
-
     {
         id: 1,
-        nombre: "Gavi Quintero",
-        puntos: 120,
+        nombre: "Julian Matesanz",
+        puntos: 3000,
         partidosJugados: 5,
         partidosGanados: 4,
-        categoria: "A",
+        categoria: "C",
         foto: "./img/gavi.JPG"
     },
-
     {
         id: 2,
-        nombre: "Duo Putin",
-        puntos: 90,
-        partidosJugados: 4,
-        partidosGanados: 3,
-        categoria: "A",
-        foto: "./img/putitos.JPG"
+        nombre: 'Diego "Papu" Pagliaro',
+        puntos: 2850,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
+        foto: "./img/putitos.jpg"
     },
-
     {
         id: 3,
-        nombre: "juan Barrientos",
-        puntos: 150,
-        partidosJugados: 7,
-        partidosGanados: 6,
-        categoria: "A",
+        nombre: "Daniel Abons",
+        puntos: 2700,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
         foto: "./img/gavi.JPG"
     },
-
     {
         id: 4,
-        nombre: "Lucas Medina",
-        puntos: 110,
-        partidosJugados: 6,
-        partidosGanados: 4,
-        categoria: "A",
-        foto: "./img/putitos.JPG"
+        nombre: "Marcos Bertani",
+        puntos: 2550,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
+        foto: "./img/putitos.jpg"
     },
-
     {
         id: 5,
-        nombre: "Nico Alvarez",
-        puntos: 95,
-        partidosJugados: 5,
-        partidosGanados: 3,
-        categoria: "A",
+        nombre: "Sergio Alegre",
+        puntos: 2400,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
         foto: "./img/gavi.JPG"
     },
-
     {
         id: 6,
-        nombre: "Tomy Suarez",
-        puntos: 180,
-        partidosJugados: 9,
-        partidosGanados: 8,
-        categoria: "A",
-        foto: "./img/putitos.JPG"
+        nombre: "Gabriel Bongiorno",
+        puntos: 2250,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
+        foto: "./img/putitos.jpg"
     },
-
     {
         id: 7,
-        nombre: "Matias Rojas",
-        puntos: 130,
-        partidosJugados: 6,
-        partidosGanados: 5,
-        categoria: "A",
+        nombre: "Claudio Estenssoro",
+        puntos: 2100,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
         foto: "./img/gavi.JPG"
     },
-
     {
         id: 8,
-        nombre: "Ivan Lopez",
-        puntos: 85,
-        partidosJugados: 4,
-        partidosGanados: 2,
-        categoria: "A",
-        foto: "./img/putitos.JPG"
+        nombre: "Fernando Mansilla",
+        puntos: 2000,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
+        foto: "./img/putitos.jpg"
     },
-
     {
         id: 9,
-        nombre: "Santi Gomez",
-        puntos: 170,
-        partidosJugados: 8,
-        partidosGanados: 7,
-        categoria: "A",
+        nombre: "Leonardo Fretes",
+        puntos: 1900,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
         foto: "./img/gavi.JPG"
     },
-
     {
         id: 10,
-        nombre: "Mauro Diaz",
-        puntos: 100,
-        partidosJugados: 5,
-        partidosGanados: 4,
-        categoria: "B",
-        foto: "./img/putitos.JPG"
+        nombre: "Gabriel Grasso",
+        puntos: 1800,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
+        foto: "./img/putitos.jpg"
     },
-
     {
         id: 11,
-        nombre: "Juan Perez",
-        puntos: 140,
-        partidosJugados: 7,
-        partidosGanados: 5,
-        categoria: "B",
+        nombre: "Pedro Cassullo",
+        puntos: 1700,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
         foto: "./img/gavi.JPG"
     },
     {
         id: 12,
-        nombre: "Leo Fernandez",
-        puntos: 115,
-        partidosJugados: 6,
-        partidosGanados: 4,
-        categoria: "C",     
-        foto: "./img/putitos.JPG"
+        nombre: "Cristian Giolito",
+        puntos: 1600,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
+        foto: "./img/putitos.jpg"
     },
+    {
+        id: 13,
+        nombre: 'Diego "El Gallego" Hidalgo',
+        puntos: 1500,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
+        foto: "./img/gavi.JPG"
+    },
+    {
+        id: 14,
+        nombre: "Matías Ferreiro",
+        puntos: 1400,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
+        foto: "./img/putitos.jpg"
+    },
+    {
+        id: 15,
+        nombre: 'Pablo "Viejín" Rosa',
+        puntos: 1300,
+        partidosJugados: 0,
+        partidosGanados: 0,
+        categoria: "C",
+        foto: "./img/gavi.JPG"
+    }
 ];
 
 let partidos = [
@@ -131,11 +147,11 @@ let partidos = [
         fecha: "2026-05-25",
         hora: "18:00",
         cancha: "Cancha 1",
-        estado: "pendiente",
+        estado: "finalizado",
 
         setsJugador1: [],
         setsJugador2: [],
-        ganador: null
+        ganador: 1
     },
     {
         id: 2,
@@ -147,11 +163,11 @@ let partidos = [
         fecha: "2026-05-25",
         hora: "18:00",
         cancha: "Cancha 1",
-        estado: "pendiente",
+        estado: "finalizado",
 
         setsJugador1: [],
         setsJugador2: [],
-        ganador: null
+        ganador: 2
     },
     {
         id: 3,

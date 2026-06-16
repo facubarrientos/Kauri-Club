@@ -56,20 +56,30 @@
         </nav>
     </header>
 
-    <main>
-
+   <main>
         <section class="jugadores">
 
-            <input
-                type="text"
-                id="buscador-jugadores"
-                placeholder="Buscar jugador..."
-            >
+            <div class="barra-filtros-jugadores">
+
+                <input
+                    type="text"
+                    id="buscador-jugadores"
+                    placeholder="Buscar jugador..."
+                >
+
+                <select id="filtro-categoria-jugadores">
+                    <option value="todas">Todas las categorías</option>
+                    <option value="A">Categoría A</option>
+                    <option value="B">Categoría B</option>
+                    <option value="C">Categoría C</option>
+                    <option value="D">Categoría D</option>
+                </select>
+
+            </div>
 
             <div id="lista-jugadores" class="lista-jugadores"></div>
 
         </section>
-
     </main>
 
     <footer>
@@ -77,7 +87,7 @@
     </footer>
 
     <script src="datos.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 
 </body>
 
