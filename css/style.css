@@ -243,31 +243,41 @@ body{
 }
 
 .bloque-torneo{
-
     background: linear-gradient(135deg, #424242, #000000);
-
     border-radius: 12px;
-
-    padding: 14px;
-
+    padding: 34px 14px 14px;
     margin-bottom: 35px;
-
     box-shadow: 0 8px 22px rgba(0,0,0,0.25);
-
 }
 
 .bloque-torneo h3{
-
     color: white;
-
-    font-size: 40px;
-
-    margin-bottom: 8px;
-
+    font-size: 54px;
+    margin: 0 0 10px;
     font-family: "Bebas Neue", sans-serif;
+    letter-spacing: 3px;
+    text-transform: uppercase;
 
-    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
 
+.bloque-torneo h3::before{
+    color: #620000;
+    font-size: 42px;
+}
+
+.bloque-torneo h3::after{
+    content: "    ";
+    display: block;
+    width: 400px;
+    height: 4px;
+    background: #990101;
+    border-radius: 999px;
+    position: absolute;
+    margin-top: 75px;
+    margin-left: 0;
 }
 
 .estado-torneo {
@@ -1182,8 +1192,8 @@ body{
 
     border-radius: 22px;
 
-    overflow: hidden;
-
+    overflow-x: auto;
+    overflow-y: hidden;
     border: 1px solid rgba(255,0,0,0.35);
 
     box-shadow:
@@ -1193,7 +1203,7 @@ body{
 
 .tabla-admin{
     width: 100%;
-    border-collapse: collapse;
+    min-width: 720px;
 }
 
 .tabla-admin thead{
@@ -1600,152 +1610,3 @@ body.admin-body{
 
 
 
-
-
-/* resposive*/
-.menu-toggle{
-    display: none;
-
-    font-size: 35px;
-
-    color: rgb(202, 13, 13);
-
-    cursor: pointer;
-
-    padding: 10px 20px;
-    
-}
-
-html, body{
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    width: 100%;
-}
-
-/* ================= RESPONSIVE GENERAL ================= */
-
-*{
-    box-sizing: border-box;
-}
-
-body{
-    margin: 0;
-    overflow-x: hidden;
-}
-
-img{
-    max-width: 100%;
-    height: auto;
-}
-
-/* ================= TABLET / CELULAR ================= */
-
-@media(max-width: 768px){
-
-    header{
-        width: 100%;
-    }
-
-    .logo-titulo{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 12px;
-        text-align: center;
-        flex-wrap: nowrap;
-    }
-
-    .logo-titulo img{
-        width: 75px;
-    }
-
-    .logo-titulo h1{
-        font-size: 34px;
-        white-space: nowrap;
-        margin: 0;
-    }
-
-    .menu{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 18px;
-        flex-wrap: wrap;
-        padding: 12px;
-    }
-
-    .menu a{
-        text-decoration: none;
-        font-size: 22px;
-    }
-
-     .hero{
-        height: 320px;
-        background-image: linear-gradient(
-            rgba(0,0,0,0.35),
-            rgba(0,0,0,0.65)
-        ), url("img aux/roland-garros-tournament-profile.jpg");
-
-        background-size: cover;
-        background-position: center;
-        border-radius: 0;
-    }
-
-    .hero img,
-    #imagen-slider{
-        display: none;
-    }
-
-    section,
-    .Bienvenida,
-    .ranking{
-        width: 95%;
-        margin: 20px auto;
-    }
-}
-
-/* ================= CELULAR CHICO ================= */
-
-@media(max-width: 480px){
-
-      .logo-titulo{
-        justify-content: center;
-        gap: 12px;
-        padding: 15px 10px;
-    }
-
-    .logo-titulo img{
-        width: 60px;
-    }
-
-    .logo-titulo h1{
-        font-size: 26px;
-        letter-spacing: 2px;
-    }
-
-    .menu{
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .menu a{
-        font-size: 20px;
-    }
-
-   hero img,
-    #imagen-slider{
-        height: 260px;
-        object-position: center 45%;
-    }
-
-    h2{
-        font-size: 28px;
-        text-align: center;
-    }
-
-    p{
-        font-size: 16px;
-        line-height: 1.5;
-    }
-}

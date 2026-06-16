@@ -137,47 +137,15 @@ var jugadores = [
 ];
 
 let partidos = [
-    {
-        id: 1,
-        tipo: "torneo",
-        instancia: "fase de grupos",
-        idTorneo: 1,
+        {
+        id: 101,
+        tipo: "desafio",
+        instancia: "desafio",
+        idTorneo: null,
         jugador1: 1,
-        jugador2: 2,
-        fecha: "2026-05-25",
-        hora: "18:00",
-        cancha: "Cancha 1",
-        estado: "finalizado",
-
-        setsJugador1: [],
-        setsJugador2: [],
-        ganador: 1
-    },
-    {
-        id: 2,
-        tipo: "torneo",
-        instancia: "final",
-        idTorneo: 1,
-        jugador1: 1,
-        jugador2: 2,
-        fecha: "2026-05-25",
-        hora: "18:00",
-        cancha: "Cancha 1",
-        estado: "finalizado",
-
-        setsJugador1: [],
-        setsJugador2: [],
-        ganador: 2
-    },
-    {
-        id: 3,
-        tipo: "torneo",
-        instancia: "final",
-        idTorneo: 2,
-        jugador1: 1,
-        jugador2: 2,
-        fecha: "2026-05-25",
-        hora: "18:00",
+        jugador2: 4,
+        fecha: "2026-06-18",
+        hora: "19:00",
         cancha: "Cancha 1",
         estado: "pendiente",
 
@@ -185,37 +153,107 @@ let partidos = [
         setsJugador2: [],
         ganador: null
     },
+
     {
-        id: 1,
+        id: 102,
+        tipo: "desafio",
+        instancia: "desafio",
+        idTorneo: null,
+        jugador1: 8,
+        jugador2: 12,
+        fecha: "2026-06-20",
+        hora: "18:30",
+        cancha: "Cancha 2",
+        estado: "pendiente",
+
+        setsJugador1: [],
+        setsJugador2: [],
+        ganador: null
+    },
+
+    {
+        id: 103,
+        tipo: "torneo",
+        instancia: "fase de grupos",
+        idTorneo: 2,
+        jugador1: 2,
+        jugador2: 7,
+        fecha: "2026-06-22",
+        hora: "20:00",
+        cancha: "Cancha Central",
+        estado: "pendiente",
+
+        setsJugador1: [],
+        setsJugador2: [],
+        ganador: null
+    },
+
+    {
+        id: 104,
+        tipo: "torneo",
+        instancia: "cuartos",
+        idTorneo: 2,
+        jugador1: 3,
+        jugador2: 5,
+        fecha: "2026-06-24",
+        hora: "21:00",
+        cancha: "Cancha 1",
+        estado: "pendiente",
+
+        setsJugador1: [],
+        setsJugador2: [],
+        ganador: null
+    },
+
+    {
+        id: 105,
         tipo: "desafio",
         instancia: "desafio",
         idTorneo: null,
         jugador1: 10,
-        jugador2: 11,
-        fecha: "2026-05-25",
+        jugador2: 14,
+        fecha: "2026-06-15",
         hora: "18:00",
-        cancha: "Cancha 1",
+        cancha: "Cancha 3",
         estado: "finalizado",
 
-        setsJugador1: [],
-        setsJugador2: [],
-        ganador: null
+        setsJugador1: [6, 6],
+        setsJugador2: [3, 4],
+        ganador: 10
     },
-    {
-        id: 2,
-        tipo: "desafio",
-        instancia: "desafio",
-        idTorneo: null,
-        jugador1: 11,
-        jugador2: 4,
-        fecha: "2026-06-25",
-        hora: "18:00",
-        cancha: "Cancha 1",
-        estado: "pendiente",
 
-        setsJugador1: [6, 6, 6],
-        setsJugador2: [5, 5, 5],
-        ganador: null
+    {
+        id: 106,
+        tipo: "torneo",
+        instancia: "fase de grupos",
+        idTorneo: 2,
+        jugador1: 6,
+        jugador2: 9,
+        fecha: "2026-06-14",
+        hora: "19:30",
+        cancha: "Cancha Central",
+        estado: "finalizado",
+
+        setsJugador1: [4, 6, 6],
+        setsJugador2: [6, 3, 2],
+        ganador: 6
+    },
+
+    {
+        id: 107,
+        tipo: "torneo",
+        instancia: "semifinal",
+        idTorneo: 1,
+        jugador1: 1,
+        jugador2: 2,
+        fecha: "2026-05-28",
+        hora: "20:00",
+        cancha: "Cancha Central",
+        estado: "finalizado",
+
+        setsJugador1: [6, 7],
+        setsJugador2: [4, 5],
+        ganador: 1
     }
 ];
 

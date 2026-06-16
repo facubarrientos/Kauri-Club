@@ -1040,6 +1040,14 @@ if(formPartido){
         const estado = document.getElementById("estado-partido").value;
         const sets = obtenerSets();
 
+        if(
+            estado === "finalizado" &&
+            sets.setsJugador1.length === 0
+        ){
+            alert("Debes cargar al menos un set para finalizar el partido");
+            return;
+        }
+
         if(partidoEditando !== null){
 
             const partido = partidos.find(
@@ -1053,16 +1061,24 @@ if(formPartido){
             partido.idTorneo = selectTipoPartido.value === "torneo"
                 ? Number(selectTorneo.value)
                 : null;
+
             partido.jugador1 = jugador1;
             partido.jugador2 = jugador2;
+
             partido.fecha = document.getElementById("fecha-partido").value;
             partido.hora = document.getElementById("hora-partido").value;
             partido.cancha = document.getElementById("cancha-partido").value;
+
             partido.estado = estado;
+
             partido.setsJugador1 = sets.setsJugador1;
             partido.setsJugador2 = sets.setsJugador2;
-            partido.ganador = calcularGanador(partido);
 
+            if(estado === "finalizado"){
+                partido.ganador = calcularGanador(partido);
+            }else{
+                partido.ganador = null;
+            }
             partidoEditando = null;
 
         }else{
@@ -1106,7 +1122,9 @@ function renderAdminPartidos(){
         const torneo = torneos.find(t => Number(t.id) === Number(partido.idTorneo));
         const j1 = jugadores.find(j => Number(j.id) === Number(partido.jugador1));
         const j2 = jugadores.find(j => Number(j.id) === Number(partido.jugador2));
-
+        const ganador = jugadores.find(
+            j => Number(j.id) === Number(partido.ganador)
+        );
         const fila = document.createElement("tr");
 
         fila.innerHTML = `
@@ -1133,8 +1151,13 @@ function renderAdminPartidos(){
                 </span>
             </td>
 
-            <td>${formatearResultado(partido)}</td>
-
+            <td>
+                ${formatearResultado(partido)}
+                <br>
+                <strong>
+                    ${ganador ? `Ganador: ${ganador.nombre}` : "Sin ganador"}
+                </strong>
+            </td>
             <td class="acciones-admin">
                 <button class="btn-editar" type="button" onclick="editarPartido(${partido.id})">
                     Editar
