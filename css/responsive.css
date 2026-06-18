@@ -782,3 +782,44 @@ img{
         font-weight: 700;
     }
 }
+
+@media(max-width: 768px){
+
+    .partidos-inicio .card-partido{
+        display: grid;
+        grid-template-columns: 1fr 70px 1fr;
+        grid-template-areas:
+            "fecha fecha fecha"
+            "j1 vs j2"
+            "meta meta meta"
+            "resultado resultado resultado";
+        gap: 14px;
+        padding: 18px 12px;
+        border-radius: 20px;
+        text-align: center;
+    }
+
+    .partidos-inicio .info-fecha{
+        grid-area: fecha;
+        display: flex;
+        justify-content: center;
+        gap: 18px;
+        background: #f1e9e6;
+        border-radius: 14px;
+        padding: 14px 18px;
+        border: 1px solid #e3d7d3;
+    }
+
+    .partidos-inicio .jugador-1{
+        grid-area: j1;
+    }
+
+    .partidos-inicio .jugador-2{
+        grid-area: j2;
+    }
+
+    .partidos-inicio .versus{
+        grid-area: vs;
+    }
+
+}

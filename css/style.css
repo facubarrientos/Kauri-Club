@@ -825,96 +825,327 @@ body{
 
                                 /* PERFIL */
 
-
 .perfil-jugador{
-    width: 90%;
-    margin: 80px auto;
+    width: 100%;
     font-family: "Bebas Neue", sans-serif;
 }
 
-.perfil-card{
-    max-width: 1000px;
-    margin: auto;
-
+.perfil-hero{
+    padding: 70px 7% 120px;
     display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 45px;
-
+    grid-template-columns: 330px 1fr;
+    gap: 60px;
     align-items: center;
-
-    background-color: white;
-    padding: 35px;
-
-    border-radius: 25px;
-
-    box-shadow: 0 12px 35px rgba(0,0,0,0.22);
+    background: linear-gradient(135deg, #151919, #060606);
 }
 
 .perfil-foto img{
-    width: 320px;
-    height: 320px;
-
+    width: 330px;
+    height: 430px;
     object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 25px 55px rgba(0,0,0,.5);
+}
 
-    border-radius: 22px;
+.perfil-label{
+    color: #d00000;
+    font-size: 22px;
+    letter-spacing: 2px;
+}
+
+.perfil-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .perfil-info h2{
-    font-size: 42px;
-    margin: 0 0 25px;
-
-    color: rgb(131, 6, 6);
+    color: white;
+    font-size: 68px;
+    margin: 12px 0 30px;
+    line-height: 1;
 }
 
-.perfil-info p{
-    font-size: 20px;
-    margin-bottom: 10px;
-}
-
-.perfil-stats{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
-
-.perfil-stat{
-    background-color: #f3f3f3;
-
-    padding: 22px;
-
-    border-radius: 16px;
-
+.perfil-meta{
+    display: flex;
+    gap: 45px;
+    margin-bottom: 35px;
     text-align: center;
 }
 
-.perfil-stat strong{
+.perfil-meta div{
+    border-right: 1px solid rgba(255,255,255,.25);
+    padding-right: 45px;
+}
+
+.perfil-meta span{
+    display: block;
+    color: #cfcfcf;
+    font-size: 18px;
+}
+
+.perfil-meta strong{
+    display: block;
+    color: #d00000;
+    font-size: 42px;
+}
+
+.perfil-resumen-stats{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 650px;
+    border-top: 1px solid rgba(255,255,255,.18);
+    padding-top: 30px;
+    text-align: center;
+}
+
+.perfil-resumen-stats div{
+    border-right: 1px solid rgba(255,255,255,.18);
+}
+
+.perfil-resumen-stats strong{
+    display: block;
+    color: white;
+    font-size: 46px;
+}
+
+.perfil-resumen-stats span{
+    color: #aaa;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.perfil-panel-stats{
+    width: 86%;
+    margin: -70px auto 50px;
+    background: white;
+    border-radius: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    box-shadow: 0 20px 45px rgba(0,0,0,.25);
+    overflow: hidden;
+}
+
+.perfil-panel-item{
+    padding: 32px;
+    text-align: center;
+    border-right: 1px solid #ddd;
+}
+
+.perfil-panel-item span{
+    display: block;
+    color: #111;
+    font-size: 18px;
+}
+
+.perfil-panel-item strong{
+    display: block;
+    font-size: 46px;
+    color: #111;
+    margin: 8px 0;
+}
+
+.perfil-panel-item small{
+    color: #b00000;
+    font-size: 17px;
+}
+
+.perfil-partidos{
+    width: 86%;
+    margin: 0 auto 60px;
+    color: white;
+}
+
+.perfil-partidos-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 35px 0 15px;
+}
+
+.perfil-partidos h3{
+    font-size: 34px;
+    color: white;
+    margin: 0;
+}
+
+.partido-perfil-item{
+    background: linear-gradient(135deg,#1d2424,#222b2b);
+
+    border: 1px solid rgba(255,255,255,.08);
+
+    border-radius: 18px;
+
+    padding: 22px 28px;
+
+    margin-bottom: 16px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    transition: .25s;
+}
+
+.partido-perfil-item:hover{
+    transform: translateY(-3px);
+    border-color: rgba(208,0,0,.4);
+}
+
+.partido-perfil-fecha{
+    display: inline-block;
+
+    background: rgba(255,255,255,.08);
+
+    padding: 5px 10px;
+
+    border-radius: 8px;
+
+    color: #cfcfcf;
+
+    font-size: 13px;
+
+    margin-bottom: 10px;
+}
+
+.partido-perfil-item strong{
     display: block;
 
     font-size: 30px;
 
-    color: rgb(131, 6, 6);
+    color: white;
+
+    margin-bottom: 6px;
 }
 
-.perfil-stat span{
-    color: #555;
+.partido-perfil-item small{
+    color: #9f9f9f;
+    font-size: 15px;
+}   
+
+.partido-perfil-resultado{
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+
+    min-width: 120px;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.partido-perfil-resultado .set{
+    background: rgba(255,255,255,.15);
+
+    padding: 4px 10px;
+
+    border-radius: 8px;
+
+    width: 70px;
+
+    text-align: center;
+
+    font-size: 18px;
+}
+
+.partido-perfil-resultado.gano{
+    background: linear-gradient(135deg,#0d7f2c,#11a33a);
+}
+
+.partido-perfil-resultado.perdio{
+    background: linear-gradient(135deg,#8b1010,#c01818);
+}
+
+.mini-score{
+
+    display: grid;
+
+    grid-template-columns:
+        40px
+        repeat(var(--sets), 36px);
+
+    gap: 4px;
+
+    align-items: center;
+    justify-items: center;
+
+    font-size: 13px;
+}
+
+
+.mini-score div{
+    background:rgba(255,255,255,.15);
+    width:30px;
+    height:26px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:6px;
+}
+
+.mini-score div:nth-child(1),
+.mini-score div:nth-child(5),
+.mini-score div:nth-child(9){
+    background:none;
+    width:auto;
+}
+
+.score-header{
+
+    color: rgba(255,255,255,.7);
+
+    font-size: 11px;
+}
+
+.score-player{
+
+    font-weight: bold;
+
+    color: white;
+
+    font-size: 12px;
+}
+
+.score-cell{
+
+    width: 34px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,.15);
+
+    border-radius: 6px;
+
+    color: white;
+
+    font-weight: bold;
+}
+
+.perfil-vacio{
+    background: #202525;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 16px;
+    padding: 25px;
+    color: #ccc;
+    font-size: 18px;
 }
 
 .volver-jugadores{
-    display: inline-block;
-
-    margin-top: 30px;
-
-    background-color: rgb(131, 6, 6);
+    display: inline-flex;
+    margin: 0 0 60px 7%;
+    background: #b00000;
     color: white;
-
-    padding: 12px 22px;
-
-    border-radius: 10px;
-
+    padding: 13px 24px;
+    border-radius: 12px;
     text-decoration: none;
+    font-size: 20px;
 }
-
-
                                 /* admin html*/
 
 .admin-body{

@@ -628,62 +628,284 @@ if(listaJugadores){
 
 const perfilJugador =
 document.getElementById("perfil-jugador");
-
 if(perfilJugador){
 
-    const parametros =
-    new URLSearchParams(window.location.search);
-
-    const idJugador =
-    parseInt(parametros.get("id"));
-
-    const jugador =
-    jugadores.find(j => j.id === idJugador);
+    const parametros = new URLSearchParams(window.location.search);
+    const idJugador = parseInt(parametros.get("id"));
+    const jugador = jugadores.find(j => Number(j.id) === Number(idJugador));
 
     if(jugador){
+
         actualizarStatsJugadores();
+
+        const partidosDelJugador = partidos.filter(p =>
+            Number(p.jugador1) === Number(jugador.id) ||
+            Number(p.jugador2) === Number(jugador.id)
+        );
+        
+        const derrotas = jugador.partidosJugados - jugador.partidosGanados;
+
+        const efectividad = jugador.partidosJugados > 0
+            ? Math.round((jugador.partidosGanados / jugador.partidosJugados) * 100)
+            : 0;
+
+        const record = `${jugador.partidosGanados} - ${derrotas}`;
+
+        const textoRacha = calcularRachaJugador(jugador.id);
+
+        const partidosJugados = partidosDelJugador.filter(p => p.estado === "finalizado");
+        const proximosPartidos = partidosDelJugador.filter(p => p.estado !== "finalizado");
+
         perfilJugador.innerHTML = `
-            <div class="perfil-card">
+
+            <section class="perfil-hero">
 
                 <div class="perfil-foto">
                     <img src="${jugador.foto}" alt="${jugador.nombre}">
                 </div>
 
                 <div class="perfil-info">
-
+                    <span class="perfil-label">JUGADOR</span>
                     <h2>${jugador.nombre}</h2>
 
-                    <div class="perfil-stats">
+                    <div class="perfil-meta">
+                        <div>
+                            <span>Categoría</span>
+                            <strong>${jugador.categoria}</strong>
+                        </div>
 
-                        <div class="perfil-stat">
+                        <div>
+                            <span>Ranking</span>
+                            <strong>#${obtenerPuestoRanking(jugador.id, jugador.categoria)}</strong>
+                        </div>
+                    </div>
+
+                    <div class="perfil-resumen-stats">
+                        <div>
                             <strong>${jugador.puntos}</strong>
                             <span>Puntos</span>
                         </div>
 
-                        <div class="perfil-stat">
+                        <div>
                             <strong>${jugador.partidosJugados}</strong>
                             <span>Partidos</span>
                         </div>
 
-                        <div class="perfil-stat">
+                        <div>
                             <strong>${jugador.partidosGanados}</strong>
                             <span>Victorias</span>
                         </div>
-
                     </div>
-
-                    <a href="jugadores.html" class="volver-jugadores">
-                        <- Volver
-                    </a>
-
                 </div>
+
+            </section>
+
+            <section class="perfil-panel-stats">
+
+                <div class="perfil-panel-item">
+                    <span>Récord</span>
+                    <strong>${record}</strong>
+                    <small>Ganados - perdidos</small>
+                </div>
+
+                <div class="perfil-panel-item">
+                    <span>Efectividad</span>
+                    <strong>${efectividad}%</strong>
+                    <small>Porcentaje de victorias</small>
+                </div>
+
+                <div class="perfil-panel-item">
+                    <span>Racha</span>
+                    <strong>${textoRacha}</strong>
+                    <small>Últimos resultados</small>
+                </div>
+
+            </section>
+            <a href="jugadores.html" class="volver-jugadores">← Volver</a>
+            <section class="perfil-partidos">
+
+                <h3>Partidos jugados</h3>
+
+                <div class="lista-perfil-partidos">
+                    ${
+                        partidosJugados.length > 0
+                        ? partidosJugados.map(p => crearItemPartidoPerfil(p, jugador.id)).join("")
+                        : `<p class="perfil-vacio">Todavía no hay partidos jugados.</p>`
+                    }
+                </div>
+
+                <h3>Próximos partidos</h3>
+
+                <div class="lista-perfil-partidos">
+                    ${
+                        proximosPartidos.length > 0
+                        ? proximosPartidos.map(p => crearItemPartidoPerfil(p, jugador.id)).join("")
+                        : `<p class="perfil-vacio">No hay próximos partidos cargados.</p>`
+                    }
+                </div>
+
+            </section>
+
+            
+        `;
+    }
+}
+
+function calcularRachaJugador(idJugador){
+
+    const partidosJugador = partidos
+        .filter(p =>
+            p.estado === "finalizado" &&
+            (
+                Number(p.jugador1) === Number(idJugador) ||
+                Number(p.jugador2) === Number(idJugador)
+            )
+        )
+        .sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+
+    if(partidosJugador.length === 0){
+        return "Sin partidos";
+    }
+
+    const ganoUltimo =
+    Number(partidosJugador[0].ganador) === Number(idJugador);
+
+    let contador = 0;
+
+    for(const partido of partidosJugador){
+
+        const gano =
+        Number(partido.ganador) === Number(idJugador);
+
+        if(gano === ganoUltimo){
+            contador++;
+        }else{
+            break;
+        }
+    }
+
+    return ganoUltimo
+    ? `${contador} Victorias`
+    : `${contador} Derrotas`;
+}
+
+function crearItemPartidoPerfil(partido, idJugador){
+
+    const j1 = jugadores.find(j => Number(j.id) === Number(partido.jugador1));
+    const j2 = jugadores.find(j => Number(j.id) === Number(partido.jugador2));
+
+    const jugadorPerfil =
+        Number(partido.jugador1) === Number(idJugador)
+        ? j1
+        : j2;
+
+    const rival =
+        Number(partido.jugador1) === Number(idJugador)
+        ? j2
+        : j1;
+
+    const esGanador =
+        Number(partido.ganador) === Number(idJugador);
+
+    const claseResultado =
+        partido.estado === "finalizado"
+        ? (esGanador ? "gano" : "perdio")
+        : "";
+
+    let resultadoHTML = `<span>Pendiente</span>`;
+
+    if(partido.estado === "finalizado"){
+
+        const apellidoJugador =
+            jugadorPerfil.nombre
+            .split(" ")
+            .pop()
+            .substring(0,3)
+            .toUpperCase();
+
+        const apellidoRival =
+            rival.nombre
+            .split(" ")
+            .pop()
+            .substring(0,3)
+            .toUpperCase();
+
+        const sets1 =
+            String(partido.setsJugador1)
+            .split(",")
+            .filter(s => s !== "");
+
+        const sets2 =
+            String(partido.setsJugador2)
+            .split(",")
+            .filter(s => s !== "");
+
+        const cantidadSets =
+            Math.max(sets1.length, sets2.length);
+
+        resultadoHTML = `
+            <div class="mini-score" style="--sets:${cantidadSets}">
+
+                <div></div>
+
+                ${Array.from({length: cantidadSets}).map((_, i)=>`
+                    <div class="score-header">S${i+1}</div>
+                `).join("")}
+
+                <div class="score-player">${apellidoJugador}</div>
+
+                ${Array.from({length: cantidadSets}).map((_, i)=>`
+                    <div class="score-cell">
+                        ${
+                            Number(partido.jugador1) === Number(idJugador)
+                            ? (sets1[i] ?? "-")
+                            : (sets2[i] ?? "-")
+                        }
+                    </div>
+                `).join("")}
+
+                <div class="score-player">${apellidoRival}</div>
+
+                ${Array.from({length: cantidadSets}).map((_, i)=>`
+                    <div class="score-cell">
+                        ${
+                            Number(partido.jugador1) === Number(idJugador)
+                            ? (sets2[i] ?? "-")
+                            : (sets1[i] ?? "-")
+                        }
+                    </div>
+                `).join("")}
 
             </div>
         `;
     }
 
-}
+    return `
+        <div class="partido-perfil-item">
 
+            <div class="partido-perfil-info">
+
+                <span class="partido-perfil-fecha">
+                    ${partido.fecha} • ${partido.hora}
+                </span>
+
+                <strong>
+                    VS ${rival ? rival.nombre : "Rival"}
+                </strong>
+
+                <small>
+                    ${partido.cancha || "Cancha sin definir"}
+                </small>
+
+            </div>
+
+            <div class="partido-perfil-resultado ${claseResultado}">
+                ${resultadoHTML}
+            </div>
+
+        </div>
+    `;
+}
 
                                                                             /* admin*/
 
