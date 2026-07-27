@@ -510,7 +510,7 @@ function obtenerTopCategoria(categoria){
     return jugadores
         .filter(jugador => jugador.categoria === categoria)
         .sort((a, b) => b.puntos - a.puntos)
-        .slice(0, 3);
+        .slice(0, 5);
 }
 
 
@@ -541,7 +541,7 @@ function renderRankingInicio(){
     const rankingC = obtenerTopCategoria("C");
     const rankingD = obtenerTopCategoria("D");
 
-    for(let i = 0; i < 3; i++){
+    for(let i = 0; i < 5; i++){
 
         const fila = document.createElement("tr");
 

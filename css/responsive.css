@@ -1,12 +1,13 @@
-/* =========================
+/* =========================================
    RESPONSIVE KAURI CLUB
-========================= */
+========================================= */
 
 *{
     box-sizing: border-box;
 }
 
-html, body{
+html,
+body{
     margin: 0;
     padding: 0;
     width: 100%;
@@ -15,61 +16,65 @@ html, body{
 
 img{
     max-width: 100%;
+    height: auto;
 }
 
-/* =========================
-   MONITORES MEDIANOS
-========================= */
+/* =========================================
+   MENÚ RESPONSIVE
+========================================= */
 
-@media(max-width: 1200px){
+@media (max-width: 1200px){
 
     .menu-kauri{
-        grid-template-columns: 360px 1fr 230px;
+        grid-template-columns: 340px 1fr 220px;
     }
 
     .marca-menu{
-        padding-left: 30px;
+        padding-left: 24px;
     }
 
     .marca-menu h2{
-        font-size: 32px;
-        line-height: 36px;
+        font-size: 30px;
+        line-height: 34px;
     }
 
     .menu-kauri ul{
-        gap: 38px;
+        gap: 28px;
     }
 
     .btn-reservar{
-        width: 240px;
-        font-size: 19px;
-    }
-
-    .resultado-partido{
-        grid-column: 1 / -1;
-        margin-top: 10px;
+        width: 220px;
+        font-size: 18px;
     }
 }
 
-/* =========================
-   TABLET
-========================= */
 
-@media(max-width: 900px){
+@media (max-width: 992px){
 
     .menu-kauri{
+        width: 100%;
         height: auto;
-        min-height: 120px;
-        grid-template-columns: 1fr;
-        padding: 20px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
         gap: 18px;
+        padding: 18px 16px;
+
         overflow: visible;
     }
 
     .marca-menu{
+        width: 100%;
         height: auto;
+
+        display: flex;
         justify-content: center;
-        padding-left: 0;
+        align-items: center;
+
+        gap: 14px;
+        padding: 0;
     }
 
     .marca-menu::after{
@@ -77,162 +82,54 @@ img{
     }
 
     .logo-menu{
-        width: 80px;
-        height: 80px;
+        width: 74px;
+        height: 74px;
+        object-fit: contain;
     }
 
     .marca-menu h2{
-        font-size: 34px;
-        line-height: 36px;
+        margin: 0;
+
+        font-size: 32px;
+        line-height: 34px;
+
         text-align: center;
-    }
-
-    .menu-kauri ul{
-        flex-wrap: wrap;
-        gap: 24px;
-    }
-
-    .menu-kauri ul li a{
-        font-size: 18px;
-    }
-
-    .btn-reservar{
-        width: 220px;
-        height: 55px;
-        margin: auto;
-        clip-path: none;
-        border-radius: 12px;
-    }
-
-    .hero1{
-        height: 520px;
-        background-attachment: scroll;
-    }
-
-    .filtros-partidos{
-        flex-wrap: wrap;
-        width: 95%;
-    }
-
-    .filtros-partidos select{
-        flex: 1 1 220px;
-    }
-
-    .card-partido{
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 18px;
-        padding: 24px 18px;
-    }
-
-    .info-fecha,
-    .jugador-1,
-    .jugador-2,
-    .info-cancha{
-        padding: 0;
-        border: none;
-    }
-
-    .jugador{
-        justify-content: center;
-    }
-
-    .resultado-partido{
-        min-width: 0;
         white-space: normal;
-    }
-
-    .perfil-card{
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .perfil-foto img{
-        width: 280px;
-        height: 280px;
-    }
-
-    .perfil-stats{
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .admin-header{
-        height: auto;
-        padding: 22px;
-        flex-direction: column;
-        gap: 18px;
-        text-align: center;
-    }
-
-    .admin-logo-box{
-        justify-content: center;
-    }
-
-    .admin-cards{
-        grid-template-columns: 1fr;
-    }
-
-    #form-partido,
-    #form-torneo{
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .tabla-admin-container,
-    .lista-partidos-box{
-        overflow-x: auto;
-    }
-
-    .tabla-admin{
-        min-width: 850px;
-    }
-}
-
-/* =========================
-   CELULAR
-========================= */
-
-@media(max-width: 600px){
-
-    body{
-        font-size: 15px;
-    }
-
-    .menu-kauri{
-        padding: 16px 12px;
-    }
-
-    .marca-menu{
-        gap: 12px;
-    }
-
-    .logo-menu{
-        width: 65px;
-        height: 65px;
-    }
-
-    .marca-menu h2{
-        font-size: 27px;
-        line-height: 30px;
-        letter-spacing: 1px;
     }
 
     .menu-kauri ul{
         width: 100%;
-        gap: 10px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+
+        gap: 12px;
+
+        margin: 0;
+        padding: 0;
     }
 
     .menu-kauri ul li{
-        flex: 1 1 40%;
-        text-align: center;
+        list-style: none;
     }
 
     .menu-kauri ul li a{
         display: block;
-        background: #1c1c1c;
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 10px;
-        padding: 10px;
+
+        padding: 10px 14px;
+
+        background: #1b1b1b;
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 9px;
+
+        text-align: center;
         font-size: 16px;
+    }
+
+    .menu-kauri ul li a.activo{
+        background: #8f0000;
     }
 
     .menu-kauri ul li a.activo::after{
@@ -242,358 +139,453 @@ img{
     .btn-reservar{
         width: 100%;
         max-width: 260px;
+        height: 50px;
+
+        margin: 0 auto;
+
+        border-radius: 10px;
+        clip-path: none;
+
         font-size: 18px;
-    }
-
-    .hero1{
-        height: 360px;
-        background-position: center;
-    }
-
-    .partidos-inicio,
-    .ranking,
-    .jugadores,
-    .partidos-page,
-    .perfil-jugador,
-    .admin-panel,
-    .admin-jugadores,
-    .admin-partidos{
-        width: 94%;
-        margin: 35px auto;
-    }
-
-    .partidos-inicio h2,
-    .ranking h2,
-    .jugadores h2,
-    .partidos-page h2,
-    .admin-panel h2,
-    .admin-top h2{
-        font-size: 34px;
-    }
-
-    .ranking-section{
-        padding: 24px 14px;
-        border-radius: 18px;
-    }
-
-    .ranking-section h2{
-        font-size: 42px;
-        letter-spacing: 2px;
-    }
-
-    .ranking-selector{
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .ranking-selector select{
-        width: 100%;
-    }
-
-    .tabla-ranking{
-        min-width: 620px;
-    }
-
-    .ranking-section{
-        overflow-x: auto;
-    }
-
-    #buscador-jugadores{
-        width: 100%;
-    }
-
-    .lista-jugadores{
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 18px;
-    }
-
-    .card-jugador img{
-        height: 160px;
-    }
-
-    .card-jugador h3{
-        font-size: 20px;
-    }
-
-    .stats-jugador{
-        font-size: 13px;
-        gap: 8px;
-    }
-
-    .bloque-torneo h3{
-        display: inline-block;
-        font-size: 42px;
-        line-height: 0.95;
-        margin-bottom: 22px;
-        position: relative;
-    }
-
-    .bloque-torneo h3::before{
-        font-size: 28px;
-        margin-right: 8px;
-    }
-
-    .bloque-torneo h3::after{
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: -12px;
-        width: 200px;
-        height: 4px;
-        background: #c00000;
-        border-radius: 999px;
-    }
-
-    .card-partido{
-        border-radius: 16px;
-    }
-
-    .foto-jugador{
-        width: 70px;
-        height: 70px;
-    }
-
-    .jugador{
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .jugador h4{
-        font-size: 18px;
-    }
-
-    .versus{
-        font-size: 28px;
-    }
-
-    .perfil-card{
-        padding: 24px 18px;
-    }
-
-    .perfil-foto img{
-        width: 230px;
-        height: 230px;
-    }
-
-    .perfil-info h2{
-        font-size: 34px;
-    }
-
-    .perfil-info p{
-        font-size: 18px;
-    }
-
-    .perfil-stats{
-        grid-template-columns: 1fr;
-    }
-
-    .admin-logo-box{
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    .admin-logo{
-        width: 75px;
-        height: 75px;
-    }
-
-    .admin-logo-box h1{
-        font-size: 34px;
-    }
-
-    .admin-top{
-        flex-direction: column;
-        gap: 16px;
-        text-align: center;
-    }
-
-    .btn-volver,
-    #btn-agregar-jugador,
-    .btn-cerrar-admin{
-        width: 100%;
-        text-align: center;
-    }
-
-    .admin-card{
-        min-height: 240px;
-        padding: 32px 20px;
-    }
-
-    .admin-card h3{
-        font-size: 30px;
-    }
-
-    .form-partido-box,
-    .lista-partidos-box,
-    .tabla-admin-container{
-        padding: 18px;
-        border-radius: 18px;
-    }
-
-    #form-partido,
-    #form-torneo{
-        grid-template-columns: 1fr;
-    }
-
-    .form-jugador{
-        width: 92%;
-        padding: 26px 20px;
-    }
-
-    .form-botones{
-        flex-direction: column;
-    }
-
-    #form-login{
-        width: 92%;
-        padding: 30px 22px;
     }
 }
 
-/* =========================
-   CELULAR MUY CHICO
-========================= */
 
-@media(max-width: 380px){
+@media (max-width: 768px){
+
+    .menu-kauri{
+        gap: 14px;
+        padding: 14px 12px;
+    }
+
+    .marca-menu{
+        gap: 10px;
+    }
+
+    .logo-menu{
+        width: 62px;
+        height: 62px;
+    }
 
     .marca-menu h2{
-        font-size: 23px;
-        line-height: 26px;
+        font-size: 26px;
+        line-height: 28px;
+        letter-spacing: 1px;
     }
+
+    .menu-kauri ul{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 9px;
+    }
+
+    .menu-kauri ul li{
+        width: 100%;
+    }
+
+    .menu-kauri ul li a{
+        width: 100%;
+
+        padding: 10px 6px;
+
+        font-size: 15px;
+    }
+
+    .btn-reservar{
+        max-width: none;
+        height: 48px;
+        font-size: 17px;
+    }
+}
+
+
+@media (max-width: 480px){
 
     .logo-menu{
         width: 55px;
         height: 55px;
     }
 
-    .menu-kauri ul li a{
-        font-size: 15px;
-        padding: 9px 6px;
+    .marca-menu h2{
+        font-size: 23px;
+        line-height: 25px;
     }
+
+    .menu-kauri ul li a{
+        font-size: 14px;
+        padding: 9px 4px;
+    }
+}
+
+/* =========================================
+   INICIO RESPONSIVE
+========================================= */
+
+@media (max-width: 768px){
+
+    /* HERO */
+
+    .hero1{
+        width: 100%;
+        height: 360px;
+
+        background-attachment: scroll;
+        background-position: center;
+        background-size: cover;
+    }
+
+    /* SECCIÓN PRÓXIMOS PARTIDOS */
+
+    .partidos-inicio{
+        width: 100%;
+        margin: 0;
+        padding: 35px 14px;
+    }
+
+    .partidos-inicio h2{
+        margin: 0 0 28px;
+
+        font-size: 38px;
+        line-height: 1.05;
+
+        text-align: center;
+    }
+
+    .partidos-inicio .card-partido{
+        width: 100%;
+
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 55px minmax(0, 1fr);
+
+        grid-template-areas:
+            "fecha fecha fecha"
+            "jugador1 versus jugador2"
+            "cancha cancha cancha"
+            "resultado resultado resultado";
+
+        gap: 16px;
+
+        padding: 18px 14px;
+        margin-bottom: 16px;
+
+        border-radius: 18px;
+
+        text-align: center;
+    }
+
+    /* FECHA Y HORA */
+
+    .partidos-inicio .info-fecha{
+        grid-area: fecha;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 22px;
+
+        width: 100%;
+
+        padding: 11px 12px;
+
+        border: none;
+        border-radius: 12px;
+
+        background: #f1e9e6;
+    }
+
+    .partidos-inicio .info-fecha p{
+        margin: 0;
+
+        font-size: 14px;
+        font-weight: 700;
+
+        color: #222;
+    }
+
+    /* JUGADORES */
+
+    .partidos-inicio .jugador-1{
+        grid-area: jugador1;
+    }
+
+    .partidos-inicio .jugador-2{
+        grid-area: jugador2;
+    }
+
+    .partidos-inicio .jugador{
+        min-width: 0;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        gap: 8px;
+
+        padding: 4px;
+        border: none;
+    }
+
+    .partidos-inicio .foto-jugador{
+        width: 68px;
+        height: 68px;
+
+        flex-shrink: 0;
+
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .partidos-inicio .jugador h4{
+        margin: 0;
+
+        max-width: 130px;
+
+        font-size: 16px;
+        line-height: 1.1;
+
+        overflow-wrap: anywhere;
+    }
+
+    .partidos-inicio .jugador span{
+        font-size: 12px;
+    }
+
+    /* VS, ESTADO E INSTANCIA */
+
+    .partidos-inicio .versus{
+        grid-area: versus;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        gap: 7px;
+
+        min-width: 0;
+
+        font-size: 25px;
+    }
+
+    .partidos-inicio .badge-partido,
+    .partidos-inicio .instancia-partido{
+        width: Fit-content;
+        min-width: 90px;
+
+        padding: 6px 10px;
+
+        border-radius: 999px;
+        white-space: nowrap;
+        font-size: 9px;
+        line-height: 1.1;
+    }
+
+    /* CANCHA Y DATOS DEL PARTIDO */
+
+    .partidos-inicio .info-cancha{
+        grid-area: cancha;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        gap: 18px;
+
+        width: 100%;
+
+        padding: 10px 12px;
+
+        border: none;
+        border-radius: 12px;
+
+        background: #f1e9e6;
+    }
+
+    .partidos-inicio .info-cancha p{
+        margin: 0;
+
+        font-size: 13px;
+        font-weight: 700;
+
+        color: #222;
+    }
+
+    /* RESULTADO */
+
+    .partidos-inicio .resultado-partido{
+        grid-area: resultado;
+
+        width: 100%;
+        min-width: 0;
+
+        margin: 0;
+        padding: 13px 0 0;
+
+        border-top: 1px solid #ddd0cc;
+
+        font-size: 18px;
+        text-align: center;
+        white-space: normal;
+    }
+
+    .partidos-inicio .texto-ganador{
+        display: block;
+
+        width: fit-content;
+
+        margin: 5px auto 0;
+        padding: 3px 7px;
+
+        font-size: 9px;
+    }
+}
+
+
+/* =========================================
+   INICIO - CELULAR ANGOSTO
+========================================= */
+
+@media (max-width: 480px){
 
     .hero1{
         height: 300px;
     }
 
-    .partidos-inicio h2,
-    .ranking h2,
-    .jugadores h2,
-    .partidos-page h2,
-    .admin-panel h2,
-    .admin-top h2{
-        font-size: 30px;
+    .partidos-inicio{
+        padding: 30px 10px;
     }
 
-    .card-jugador img{
-        height: 135px;
-    }
-}
-
-/* =========================
-   FIX TABLAS RESPONSIVE
-========================= */
-
-@media(max-width: 900px){
-
-    .tabla-admin-container,
-    .lista-partidos-box,
-    .ranking-section,
-    .ranking{
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
+    .partidos-inicio h2{
+        font-size: 34px;
     }
 
-    .tabla-admin,
-    .tabla-ranking,
-    .ranking table{
-        min-width: 720px;
+    .partidos-inicio .card-partido{
+        grid-template-columns: minmax(0, 1fr) 45px minmax(0, 1fr);
+
+        gap: 12px;
+
+        padding: 16px 10px;
     }
 
-    .tabla-admin th,
-    .tabla-admin td,
-    .tabla-ranking th,
-    .tabla-ranking td,
-    .ranking th,
-    .ranking td{
-        white-space: nowrap;
-        padding: 14px 12px;
-        font-size: 15px;
-    }
-}
-
-@media(max-width: 600px){
-
-    .tabla-admin-container,
-    .lista-partidos-box,
-    .ranking-section,
-    .ranking{
-        border-radius: 14px;
-        overflow-x: auto;
+    .partidos-inicio .foto-jugador{
+        width: 58px;
+        height: 58px;
     }
 
-    .tabla-admin,
-    .tabla-ranking,
-    .ranking table{
-        min-width: 680px;
-    }
-
-    .tabla-admin th,
-    .tabla-admin td,
-    .tabla-ranking th,
-    .tabla-ranking td,
-    .ranking th,
-    .ranking td{
-        padding: 12px 10px;
+    .partidos-inicio .jugador h4{
         font-size: 14px;
     }
 
-    .acciones-admin{
-        flex-wrap: nowrap;
+    .partidos-inicio .jugador span{
+        font-size: 11px;
     }
 
-    .btn-editar,
-    .btn-eliminar{
-        padding: 8px 12px;
-        font-size: 13px;
+    .partidos-inicio .versus{
+        font-size: 22px;
+    }
+
+    .partidos-inicio .info-fecha{
+        gap: 14px;
+    }
+
+    .partidos-inicio .info-fecha p,
+    .partidos-inicio .info-cancha p{
+        font-size: 12px;
     }
 }
 
-/* =========================
-   RANKING PUBLICO MOBILE
-========================= */
+/* =========================================
+   RANKING RESPONSIVE
+========================================= */
 
-@media(max-width: 768px){
+@media (max-width: 768px){
+
+    .ranking{
+        width: 100%;
+        margin: 0;
+        padding: 35px 14px;
+    }
 
     .ranking-section{
-        width: 100%;
-        padding: 26px 14px;
-        overflow: hidden;
+    width: 100%;
+
+    padding: 24px 10px;
+
+    border-radius: 18px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    -webkit-overflow-scrolling: touch;
     }
 
     .ranking-section h2{
-        font-size: 42px;
-        line-height: 1.1;
+        margin: 0 0 22px;
+
+        font-size: 38px;
+        line-height: 1.05;
+
         text-align: center;
+        letter-spacing: 1px;
     }
 
-    .ranking-selector,
+    /* SELECTOR DE CATEGORÍA */
+
+    .ranking-selector{
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 10px;
+
+        margin-bottom: 18px;
+    }
+
+    .ranking-selector label{
+        font-size: 14px;
+        font-weight: 700;
+    }
+
     .ranking-selector select{
         width: 100%;
+        height: 46px;
+
+        padding: 0 12px;
+
+        border-radius: 10px;
+
+        font-size: 15px;
     }
 
+    /* TABLA */
+
+    .ranking table,
     .tabla-ranking{
-        width: 100%;
-        min-width: 0;
+        width: 650px;
+        min-width: 650px;
+
         table-layout: fixed;
+        border-collapse: collapse;
     }
 
     .tabla-ranking th,
     .tabla-ranking td{
-        padding: 12px 8px;
-        font-size: 14px;
+        padding: 14px 8px;
+
         white-space: normal;
+        text-align: center;
+
+        font-size: 14px;
     }
+
+    .tabla-ranking thead th{
+        font-size: 15px;
+    }
+
+    /* OCULTAMOS PJ Y PG EN MOBILE */
 
     .tabla-ranking th:nth-child(4),
     .tabla-ranking th:nth-child(5),
@@ -602,224 +594,50 @@ img{
         display: none;
     }
 
-    .tabla-ranking th:nth-child(1),
-    .tabla-ranking td:nth-child(1){
-        width: 20%;
+    /* ANCHOS */
+
+    .ranking th:first-child,
+    .ranking td:first-child{
+        width: 80px;
     }
 
-    .tabla-ranking th:nth-child(2),
-    .tabla-ranking td:nth-child(2){
-        width: 55%;
+    .ranking th:not(:first-child),
+    .ranking td:not(:first-child){
+        width: 140px;
     }
 
-    .tabla-ranking th:nth-child(3),
-    .tabla-ranking td:nth-child(3){
-        width: 25%;
+        .tabla-ranking tbody td:nth-child(2){
+            font-weight: 700;
+            line-height: 1.2;
+        }
     }
-}
 
-@media(max-width: 768px){
+
+@media (max-width: 480px){
+
+    .ranking{
+        padding: 30px 10px;
+    }
+
+    .ranking-section{
+        padding: 20px 10px;
+    }
+
+    .ranking-section h2{
+        font-size: 34px;
+    }
+
+    .tabla-ranking th,
+    .tabla-ranking td{
+        padding: 12px 5px;
+        font-size: 13px;
+    }
 
     .tabla-ranking thead th{
-        font-size: 18px;
-        padding: 16px 8px;
-    }
-
-    .tabla-ranking td{
-        font-size: 15px;
-        padding: 16px 8px;
+        font-size: 14px;
     }
 
     .tabla-ranking tbody td:nth-child(2){
-        font-size: 16px;
-        font-weight: 700;
-        line-height: 1.2;
-    }
-}
-
-
-
-@media(max-width: 768px){
-
-    .partidos-page{
-        width: 100%;
-        padding: 0 12px;
-        margin: 25px auto;
-    }
-
-    .partidos-page .card-partido{
-        display: grid;
-        grid-template-columns: 1fr 70px 1fr;
-        grid-template-areas:
-            "fecha fecha fecha"
-            "j1 vs j2"
-            "meta meta meta"
-            "resultado resultado resultado";
-        gap: 14px;
-        padding: 18px 12px;
-        border-radius: 20px;
-        text-align: center;
-    }
-
-    .partidos-page .info-fecha{
-        grid-area: fecha;
-        display: flex;
-        justify-content: center;
-        gap: 18px;
-        border: none;
-        padding: 0;
-    }
-
-    .partidos-page .info-fecha p{
-        margin: 0;
         font-size: 14px;
     }
-
-    .partidos-page .jugador-1{
-        grid-area: j1;
-    }
-
-    .partidos-page .jugador-2{
-        grid-area: j2;
-    }
-
-    .partidos-page .jugador{
-        padding: 10px 6px;
-        flex-direction: column;
-        gap: 7px;
-
-        background: transparent;
-        border-radius: 0;
-    }
-
-    .partidos-page .foto-jugador{
-        width: 58px;
-        height: 58px;
-    }
-
-    .partidos-page .jugador h4{
-        font-size: 14px;
-        line-height: 1.15;
-        margin: 0;
-    }
-
-    .partidos-page .jugador span{
-        font-size: 11px;
-    }
-
-    .partidos-page .versus{
-        grid-area: vs;
-        align-self: center;
-        font-size: 24px;
-        gap: 6px;
-    }
-
-    .partidos-page .badge-partido,
-    .partidos-page .instancia-partido{
-        font-size: 10px;
-        padding: 5px 9px;
-        border-radius: 999px;
-        width: fit-content;
-    }
-
-    .partidos-page .info-cancha{
-        grid-area: meta;
-        display: flex;
-        justify-content: center;
-        gap: 18px;
-        border: none;
-        padding: 8px 0 0;
-    }
-
-    .partidos-page .info-cancha p{
-        margin: 0;
-        font-size: 13px;
-        color: #222;
-    }
-
-    .partidos-page .resultado-partido{
-        grid-area: resultado;
-        min-width: 0;
-        width: 100%;
-        padding-top: 12px;
-        margin: 0;
-        border-top: 1px solid #ddd0cc;
-        font-size: 20px;
-        white-space: normal;
-    }
-
-    .partidos-page .texto-ganador{
-        display: block;
-        margin: 5px auto 0;
-        font-size: 9px;
-        padding: 3px 7px;
- 
-    }
-}
-
-@media(max-width: 768px){
-
-    .partidos-page .info-fecha,
-    .partidos-page .info-cancha{
-        background: #f1e9e6;
-        border-radius: 14px;
-        padding: 10px 12px;
-        border: 1px solid #e3d7d3;
-    }
-
-    .partidos-page .info-fecha,
-    .partidos-page .info-cancha{
-        background: #f1e9e6;
-        border-radius: 14px;
-        padding: 14px 18px;
-        border: 1px solid #e3d7d3;
-    }
-
-    .partidos-page .info-cancha p,
-    .partidos-page .info-fecha p{
-        color: #222;
-        font-size: 15px;
-        font-weight: 700;
-    }
-}
-
-@media(max-width: 768px){
-
-    .partidos-inicio .card-partido{
-        display: grid;
-        grid-template-columns: 1fr 70px 1fr;
-        grid-template-areas:
-            "fecha fecha fecha"
-            "j1 vs j2"
-            "meta meta meta"
-            "resultado resultado resultado";
-        gap: 14px;
-        padding: 18px 12px;
-        border-radius: 20px;
-        text-align: center;
-    }
-
-    .partidos-inicio .info-fecha{
-        grid-area: fecha;
-        display: flex;
-        justify-content: center;
-        gap: 18px;
-        background: #f1e9e6;
-        border-radius: 14px;
-        padding: 14px 18px;
-        border: 1px solid #e3d7d3;
-    }
-
-    .partidos-inicio .jugador-1{
-        grid-area: j1;
-    }
-
-    .partidos-inicio .jugador-2{
-        grid-area: j2;
-    }
-
-    .partidos-inicio .versus{
-        grid-area: vs;
-    }
-
 }

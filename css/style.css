@@ -1049,13 +1049,6 @@ body{
     font-size: 18px;
 }
 
-.partido-perfil-resultado.gano{
-    background: linear-gradient(135deg,#0d7f2c,#11a33a);
-}
-
-.partido-perfil-resultado.perdio{
-    background: linear-gradient(135deg,#8b1010,#c01818);
-}
 
 .mini-score{
 
@@ -1070,34 +1063,16 @@ body{
     align-items: center;
     justify-items: center;
 
-    font-size: 13px;
-}
-
-
-.mini-score div{
-    background:rgba(255,255,255,.15);
-    width:30px;
-    height:26px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:6px;
-}
-
-.mini-score div:nth-child(1),
-.mini-score div:nth-child(5),
-.mini-score div:nth-child(9){
-    background:none;
-    width:auto;
+    font-size: 23px;
 }
 
 .score-header{
 
-    color: rgba(255,255,255,.7);
+    color: white;
 
-    font-size: 11px;
+    background: rgba(255,255,255,.15);
+
+    font-size: 21px;
 }
 
 .score-player{
@@ -1105,8 +1080,10 @@ body{
     font-weight: bold;
 
     color: white;
+    
+    background: rgba(255,255,255,.15);
 
-    font-size: 12px;
+    font-size: 21px;
 }
 
 .score-cell{
@@ -1118,7 +1095,7 @@ body{
     align-items: center;
     justify-content: center;
 
-    background: rgba(255,255,255,.15);
+    background:transparent;
 
     border-radius: 6px;
 
