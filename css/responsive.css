@@ -560,59 +560,66 @@ img{
         font-size: 15px;
     }
 
-    /* TABLA */
+    /* TABLA DEL RANKING EN INICIO */
+
+    .ranking-section{
+        overflow-x: hidden;
+    }
 
     .ranking table,
     .tabla-ranking{
-        width: 650px;
-        min-width: 650px;
+        width: 100%;
+        min-width: 0;
 
         table-layout: fixed;
         border-collapse: collapse;
     }
 
+    /* TODAS LAS COLUMNAS VISIBLES */
+
     .tabla-ranking th,
     .tabla-ranking td{
-        padding: 14px 8px;
+        display: table-cell;
+
+        padding: 12px 3px;
+
+        text-align: center;
+        vertical-align: middle;
+
+        font-size: 12px;
+        line-height: 1.15;
 
         white-space: normal;
-        text-align: center;
-
-        font-size: 14px;
+        word-break: normal;
+        overflow-wrap: break-word;
     }
+
+    /* ENCABEZADOS */
 
     .tabla-ranking thead th{
-        font-size: 15px;
+        padding: 10px 1px;
+
+        font-size: 8px;
+        line-height: 1.05;
+
+        letter-spacing: 0;
     }
 
-    /* OCULTAMOS PJ Y PG EN MOBILE */
+    /* POSICIÓN */
 
-    .tabla-ranking th:nth-child(4),
-    .tabla-ranking th:nth-child(5),
-    .tabla-ranking td:nth-child(4),
-    .tabla-ranking td:nth-child(5){
-        display: none;
+    .tabla-ranking th:nth-child(1),
+    .tabla-ranking td:nth-child(1){
+        width: 18%;
     }
 
-    /* ANCHOS */
+    /* NOMBRES */
 
-    .ranking th:first-child,
-    .ranking td:first-child{
-        width: 80px;
+    .tabla-ranking tbody td:not(:first-child){
+        font-size: 12px;
+        line-height: 1.15;
     }
 
-    .ranking th:not(:first-child),
-    .ranking td:not(:first-child){
-        width: 140px;
-    }
-
-        .tabla-ranking tbody td:nth-child(2){
-            font-weight: 700;
-            line-height: 1.2;
-        }
-    }
-
-
+}
 @media (max-width: 480px){
 
     .ranking{
@@ -629,15 +636,731 @@ img{
 
     .tabla-ranking th,
     .tabla-ranking td{
-        padding: 12px 5px;
-        font-size: 13px;
+        padding: 11px 2px;
+        font-size: 11px;
     }
 
     .tabla-ranking thead th{
-        font-size: 14px;
+        padding: 12px 1px;
+        font-size: 10px;
+        line-height: 1.1;
     }
 
-    .tabla-ranking tbody td:nth-child(2){
+    .tabla-ranking tbody td:not(:first-child){
+        font-size: 11px;
+    }
+}
+/* =========================================
+   PERFIL RESPONSIVE
+========================================= */
+
+@media (max-width: 768px){
+
+    /* PARTE SUPERIOR DEL PERFIL */
+
+    .perfil-jugador{
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .perfil-hero{
+        grid-template-columns: 1fr;
+        gap: 34px;
+
+        padding: 45px 22px 105px;
+
+        text-align: center;
+    }
+
+    .perfil-foto img{
+        display: block;
+
+        width: min(220px, 72vw);
+        height: 290px;
+
+        margin: 0 auto;
+
+        object-fit: cover;
+    }
+
+    .perfil-info{
+        width: 100%;
+        align-items: center;
+    }
+
+    .perfil-info h2{
+        max-width: 100%;
+
+        margin: 12px 0 28px;
+
+        font-size: clamp(42px, 13vw, 58px);
+        line-height: .92;
+
+        overflow-wrap: anywhere;
+    }
+
+    .perfil-meta{
+        justify-content: center;
+
+        width: 100%;
+        gap: 0;
+
+        margin-bottom: 34px;
+    }
+
+    .perfil-meta div{
+        width: 50%;
+
+        padding: 0 18px;
+
+        border-right: 1px solid rgba(255,255,255,.25);
+    }
+
+    .perfil-meta div:last-child{
+        border-right: none;
+    }
+
+    .perfil-meta span{
+        font-size: 17px;
+    }
+
+    .perfil-meta strong{
+        font-size: 40px;
+    }
+
+    .perfil-resumen-stats{
+        width: 100%;
+        max-width: 100%;
+
+        grid-template-columns: repeat(3, minmax(0,1fr));
+
+        padding-top: 28px;
+    }
+
+    .perfil-resumen-stats div{
+        min-width: 0;
+        padding: 0 5px;
+    }
+
+    .perfil-resumen-stats div:last-child{
+        border-right: none;
+    }
+
+    .perfil-resumen-stats strong{
+        font-size: clamp(34px, 10vw, 44px);
+    }
+
+    .perfil-resumen-stats span{
+        font-size: clamp(14px, 4vw, 18px);
+    }
+
+    /* PANEL BLANCO */
+
+    .perfil-panel-stats{
+        width: calc(100% - 24px);
+
+        margin: -62px auto 40px;
+
+        grid-template-columns: repeat(3, minmax(0,1fr));
+
+        border-radius: 18px;
+    }
+
+    .perfil-panel-item{
+        min-width: 0;
+
+        padding: 20px 7px 22px;
+    }
+
+    .perfil-panel-item:last-child{
+        border-right: none;
+    }
+
+    .perfil-panel-item span{
+        font-size: 21px;
+    }
+
+    .perfil-panel-item strong{
+        margin: 8px 0;
+
+        font-size: clamp(28px, 8vw, 38px);
+        line-height: 1.05;
+
+        overflow-wrap: anywhere;
+    }
+
+    .perfil-panel-item small{
+        display: block;
+
+        font-size: 15px;
+        line-height: 1.3;
+    }
+
+    /* BOTÓN VOLVER */
+
+    .volver-jugadores{
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+
+        margin: 0 0 55px 24px;
+        padding: 14px 25px;
+
+        border-radius: 12px;
+
+        font-size: 20px;
+    }
+
+    /* CONTENEDOR DE PARTIDOS */
+
+    .perfil-partidos{
+        width: calc(100% - 24px);
+
+        margin: 0 auto 60px;
+    }
+
+    .perfil-partidos h3{
+        margin: 0 0 12px;
+
+        font-size: clamp(32px, 9vw, 40px);
+        line-height: 1;
+    }
+
+    .lista-perfil-partidos{
+        margin-bottom: 24px;
+    }
+
+    /* TARJETA DE PARTIDO */
+
+    .partido-perfil-item{
+        width: 100%;
+
+        display: grid;
+        grid-template-columns: minmax(0,1fr) auto;
+        align-items: center;
+
+        gap: 15px;
+
+        padding: 18px;
+
+        border-radius: 18px;
+    }
+
+    .partido-perfil-info{
+        min-width: 0;
+    }
+
+    .partido-perfil-fecha{
+        width: fit-content;
+        max-width: 100%;
+
+        margin-bottom: 12px;
+
+        padding: 5px 9px;
+
+        font-size: 12px;
+        white-space: nowrap;
+    }
+
+    .partido-perfil-item strong{
+        max-width: 100%;
+
+        margin-bottom: 8px;
+
+        font-size: clamp(24px, 7vw, 31px);
+        line-height: 1.05;
+
+        overflow-wrap: anywhere;
+    }
+
+    .partido-perfil-item small{
+        font-size: 15px;
+    }
+
+    /* RESULTADO */
+
+    .partido-perfil-resultado{
+        min-width: 0;
+
+        align-items: flex-end;
+    }
+
+    .partido-perfil-resultado > span{
+        display: inline-block;
+
+        padding: 8px 12px;
+
+        border-radius: 9px;
+
+        background: #d00000;
+        color: white;
+
+        font-size: 15px;
+        white-space: nowrap;
+    }
+
+    .mini-score{
+        grid-template-columns: 34px repeat(var(--sets), 28px);
+
+        gap: 4px;
+
+        font-size: 17px;
+    }
+
+    .score-header,
+    .score-player{
+        font-size: 16px;
+    }
+
+    .score-header{
+        min-width: 26px;
+        padding: 2px;
+    }
+
+    .score-player{
+        min-width: 34px;
+        padding: 2px;
+    }
+
+    .score-cell{
+        width: 26px;
+        height: 25px;
+
+        font-size: 16px;
+    }
+}
+
+/* =========================================
+   PARTIDOS RESPONSIVE
+========================================= */
+
+@media (max-width: 768px){
+
+    /* CONTENEDOR GENERAL */
+
+    .partidos-page{
+        width: 100%;
+        max-width: 100%;
+
+        margin: 28px auto 50px;
+        padding: 0 12px;
+
+        overflow-x: hidden;
+    }
+
+    .partidos-page section,
+    #contenedor-partidos{
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* FILTROS */
+
+    .filtros-partidos{
+        width: 100%;
+        max-width: 100%;
+
+        display: grid;
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+
+        margin: 0 auto 30px;
+        padding: 16px;
+
+        border-radius: 18px;
+    }
+
+    .filtros-partidos select{
+        width: 100%;
+        min-width: 0;
+        height: 48px;
+
+        padding: 0 14px;
+
+        font-size: 15px;
+    }
+
+    /* BLOQUE DESAFÍO / TORNEO */
+
+    .bloque-torneo{
+        width: 100%;
+        max-width: 100%;
+
+        margin-bottom: 28px;
+        padding: 24px 12px 12px;
+
+        border-radius: 18px;
+
+        overflow: hidden;
+    }
+
+    .bloque-torneo h3{
+        width: 100%;
+
+        margin: 0 0 12px;
+
+        font-size: clamp(44px, 14vw, 58px);
+        line-height: 1;
+        letter-spacing: 2px;
+
+        display: block;
+
+        overflow-wrap: anywhere;
+    }
+
+    .bloque-torneo h3::after{
+        position: static;
+
+        width: 100%;
+        height: 4px;
+
+        margin: 10px 0 14px;
+    }
+
+    .estado-torneo{
+        margin: 0 0 18px;
+
+        padding: 6px 12px;
+
+        font-size: 12px;
+    }
+
+    /* TARJETA */
+
+    .partidos-page .card-partido{
+        width: 100%;
+        max-width: 100%;
+        min-height: 0;
+
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            58px
+            minmax(0, 1fr);
+
+        grid-template-areas:
+            "fecha fecha fecha"
+            "jugador1 versus jugador2"
+            "cancha cancha cancha"
+            "resultado resultado resultado";
+
+        align-items: stretch;
+
+        gap: 14px 8px;
+
+        margin-bottom: 14px;
+        padding: 16px 10px;
+
+        border-radius: 16px;
+    }
+
+    /* FECHA */
+
+    .partidos-page .info-fecha{
+        grid-area: fecha;
+
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+
+        gap: 8px 18px;
+
+        padding: 10px;
+
+        border-right: none;
+        border-radius: 11px;
+
+        background: #eee5e2;
+    }
+
+    .partidos-page .info-fecha p{
+        margin: 0;
+
+        font-size: 15px;
+        line-height: 1.2;
+    }
+
+    /* JUGADORES */
+
+    .partidos-page .jugador-1{
+        grid-area: jugador1;
+    }
+
+    .partidos-page .jugador-2{
+        grid-area: jugador2;
+    }
+
+    .partidos-page .jugador{
+        width: 100%;
+        min-width: 0;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+
+        gap: 8px;
+
+        padding: 6px 3px;
+
+        text-align: center;
+    }
+
+    .partidos-page .jugador-1,
+    .partidos-page .jugador-2{
+        padding-left: 3px;
+    }
+
+    .partidos-page .foto-jugador{
+        width: 68px;
+        height: 68px;
+
+        flex-shrink: 0;
+
+        border-width: 2px;
+    }
+
+    .partidos-page .jugador > div{
+        width: 100%;
+        min-width: 0;
+    }
+
+    .partidos-page .jugador h4{
+        width: 100%;
+
+        margin: 0 0 5px;
+
+        font-size: 15px;
+        line-height: 1.15;
+
+        overflow-wrap: anywhere;
+    }
+
+    .partidos-page .jugador span{
+        font-size: 12px;
+        line-height: 1.2;
+    }
+
+    /* GANADOR */
+
+    .partidos-page .ganador-partido{
+        padding: 8px 3px;
+
+        border-radius: 12px;
+    }
+
+    .partidos-page .texto-ganador{
+        display: block;
+
+        width: fit-content;
+
+        margin: 5px auto 0;
+        padding: 3px 6px;
+
+        font-size: 9px;
+    }
+
+    /* VS */
+
+    .partidos-page .versus{
+        grid-area: versus;
+
+        min-width: 0;
+
+        gap: 7px;
+
+        font-size: 26px;
+    }
+
+    .partidos-page .badge-partido,
+    .partidos-page .instancia-partido{
+        min-width: 90px;      /* antes no tenía o era muy chico */
+        height: 26px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 0 10px;
+
+        border-radius: 999px;
+
+        font-size: 15px;
+        line-height: 1;
+
+        white-space: nowrap;
+    }
+
+    /* CANCHA Y TORNEO */
+
+    .partidos-page .info-cancha{
+        grid-area: cancha;
+
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+
+        gap: 8px 20px;
+
+        padding: 10px;
+
+        border-radius: 11px;
+
+        background: #eee5e2;
+    }
+
+    .partidos-page .info-cancha p{
+        margin: 0;
+
+        color: #222;
         font-size: 14px;
+        line-height: 1.2;
+    }
+
+    /* RESULTADO */
+
+    .partidos-page .resultado-partido{
+        grid-area: resultado;
+
+        width: 100%;
+        min-width: 0;
+
+        padding-top: 12px;
+
+        border-top: 1px solid #dfd4d0;
+
+        font-size: 20px;
+        line-height: 1.2;
+
+        white-space: normal;
+    }
+
+    .partidos-page .sin-partidos{
+        width: 100%;
+
+        margin: 0;
+        padding: 18px;
+
+        text-align: center;
+    }
+}
+
+/* =========================================
+   JUGADORES RESPONSIVE
+========================================= */
+
+@media (max-width: 768px){
+
+    .jugadores{
+        width: 100%;
+        max-width: 100%;
+
+        margin: 0;
+        padding: 45px 14px 60px;
+    }
+
+    /* BUSCADOR Y FILTRO */
+
+    .barra-filtros-jugadores{
+        width: 100%;
+        max-width: 430px;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 14px;
+
+        margin: 0 auto 32px;
+        padding: 0;
+    }
+
+    #buscador-jugadores,
+    #filtro-categoria-jugadores{
+        width: 100%;
+        max-width: 100%;
+        height: 48px;
+
+        margin: 0;
+        padding: 0 15px;
+
+        border-radius: 12px;
+
+        font-size: 15px;
+    }
+
+    /* LISTA DE JUGADORES */
+
+    .lista-jugadores{
+        width: 100%;
+        max-width: 100%;
+
+        display: grid;
+        grid-template-columns: 1fr;
+
+        justify-items: center;
+
+        gap: 28px;
+
+        margin: 0;
+        padding: 0;
+    }
+
+    /* TARJETAS GENERADAS DESDE JAVASCRIPT */
+
+    .lista-jugadores .card-jugador{
+        width: 100%;
+        max-width: 330px;
+
+        margin: 0;
+
+        border-radius: 18px;
+
+        overflow: hidden;
+    }
+
+    .lista-jugadores .card-jugador img{
+        display: block;
+
+        width: 100%;
+        height: 260px;
+
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .lista-jugadores .card-jugador h3{
+        margin: 0;
+
+        font-size: 24px;
+        line-height: 1.1;
+
+        overflow-wrap: anywhere;
+    }
+}
+
+@media (max-width: 420px){
+
+    .jugadores{
+        padding: 32px 10px 50px;
+    }
+
+    .barra-filtros-jugadores{
+        margin-bottom: 26px;
+    }
+
+    .lista-jugadores .card-jugador{
+        max-width: 310px;
+    }
+
+    .lista-jugadores .card-jugador img{
+        height: 245px;
     }
 }
