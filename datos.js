@@ -1,3 +1,4 @@
+
 var jugadores = [
     {
         id: 1,
@@ -135,9 +136,6 @@ var jugadores = [
         foto: "./img/gavi.JPG"
     },
 
-    /* =========================
-       JUGADORES CATEGORÍA A
-    ========================= */
 
     {
         id: 16,
@@ -194,10 +192,6 @@ var jugadores = [
         foto: "./img/putitos.jpg"
     },
 
-    /* =========================
-       JUGADORES CATEGORÍA B
-    ========================= */
-
     {
         id: 22,
         nombre: "Matías Rojas",
@@ -252,10 +246,6 @@ var jugadores = [
         categoria: "B",
         foto: "./img/putitos.jpg"
     },
-
-    /* =========================
-       JUGADORES CATEGORÍA D
-    ========================= */
 
     {
         id: 28,
@@ -312,6 +302,8 @@ var jugadores = [
         foto: "./img/putitos.jpg"
     }
 ];
+
+
 
 
 let partidos = [

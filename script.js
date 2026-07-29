@@ -1,10 +1,87 @@
-import { auth } from "./firebase.js";
-
+import { auth, db } from "./firebase.js";
 import { 
     signInWithEmailAndPassword,
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+
+import {
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+let jugadores = [];
+
+async function cargarJugadores() {
+
+    const snapshot = await getDocs(
+        collection(db, "jugadores")
+    );
+
+    const jugadoresFirebase = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
+
+    console.log("Jugadores Firestore:", jugadoresFirebase);
+
+    return jugadoresFirebase;
+}
+
+async function cargarTorneos() {
+
+    const snapshot = await getDocs(
+        collection(db, "torneos")
+    );
+
+    const torneosFirebase = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
+
+    console.log("Torneos Firestore:", torneosFirebase);
+
+    return torneosFirebase;
+}
+
+async function cargarPartidos() {
+
+    const snapshot = await getDocs(
+        collection(db, "partidos")
+    );
+
+    const partidosFirebase = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }));
+
+    console.log("Partidos Firestore:", partidosFirebase);
+
+    return partidosFirebase;
+}
+
+async function iniciarApp(){
+
+    await cargarJugadores();
+    await cargarTorneos();
+    await cargarPartidos();
+
+    renderPartidosPublicos();
+    renderRankingInicio();
+    mostrarJugadores();
+    renderAdminJugadores();
+    cargarSelectPartidos();
+    renderAdminPartidos();
+    renderAdminTorneos();
+
+    console.log("Datos listos para usar");
+}
+
+iniciarApp();
+
+const PUNTOS_VICTORIA = 100;
+const PUNTOS_DERROTA = -50;
+const PUNTOS_BONUS_3_DESAFIOS = 100;
 
 const botonMenu =
 document.getElementById("menu-toggle");
@@ -315,7 +392,7 @@ if(tablaPartidos){
                     </h4>
 
                     <span>
-                        Ranking: ${j1 ? j1.puntos : "-"}
+                        Ranking: #${j1 ? obtenerPuestoRanking(j1.id) : "-"}
                     </span>
 
                 </div>
@@ -353,7 +430,7 @@ if(tablaPartidos){
                     </h4>
 
                     <span>
-                        Ranking: ${j2 ? j2.puntos : "-"}
+                        Ranking: #${j2 ? obtenerPuestoRanking(j2.id) : "-"}
                     </span>
 
                 </div>
@@ -378,10 +455,6 @@ if(tablaPartidos){
     });
 
 }
-
-const PUNTOS_VICTORIA = 100;
-const PUNTOS_DERROTA = -50;
-const PUNTOS_BONUS_3_DESAFIOS = 100;
 
 function calcularStatsJugador(idJugador){
 
@@ -466,8 +539,6 @@ function obtenerPuestoRanking(idJugador){
 
     return posicion + 1;
 }
-
-renderPartidosPublicos();
 
 const tablaRanking = document.getElementById("tabla-ranking");
 const selectorRanking = document.getElementById("selector-ranking");
@@ -1128,9 +1199,6 @@ function eliminarJugador(id){
 
     }
 }
-
-renderAdminJugadores();
-
                                             /* admin partidos */
 let partidoEditando = null;
 
@@ -1447,9 +1515,6 @@ function eliminarPartido(id){
 
     renderAdminPartidos();
 }
-
-cargarSelectPartidos();
-renderAdminPartidos();
                                     /* admin torneos */
 
 let torneoEditando = null;
@@ -1559,8 +1624,6 @@ function eliminarTorneo(id){
 }
 
 renderAdminTorneos();
-renderRankingInicio();
-
 window.editarJugador = editarJugador;
 window.eliminarJugador = eliminarJugador;
 
