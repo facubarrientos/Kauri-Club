@@ -67,9 +67,8 @@ async function cargarPartidos() {
 async function iniciarApp(){
 
     jugadores = await cargarJugadores();
-
-    const torneosFirebase = await cargarTorneos();
-    const partidosFirebase = await cargarPartidos();
+    torneos = await cargarTorneos();
+    partidos = await cargarPartidos();
 
     renderPartidosPublicos();
     renderRankingInicio();
@@ -363,11 +362,11 @@ if(tablaPartidos){
     partidosNoFinalizados.forEach(partido => {
 
         const j1 = jugadores.find(
-            j => Number(j.id) === Number(partido.jugador1)
+            j => String(j.id) === String(partido.jugador1)
         );
 
         const j2 = jugadores.find(
-            j => Number(j.id) === Number(partido.jugador2)
+            j => String(j.id) === String(partido.jugador2)
         );
 
         const card = document.createElement("div");
@@ -472,11 +471,15 @@ function calcularStatsJugador(idJugador){
     partidos.forEach(partido => {
 
         if(partido.estado !== "finalizado") return;
-        if(partido.ganador === null || partido.ganador === undefined) return;
+
+        if(
+            partido.ganador === null ||
+            partido.ganador === undefined
+        ) return;
 
         const jugoPartido =
-            Number(partido.jugador1) === Number(idJugador) ||
-            Number(partido.jugador2) === Number(idJugador);
+            String(partido.jugador1) === String(idJugador) ||
+            String(partido.jugador2) === String(idJugador);
 
         if(!jugoPartido) return;
 
@@ -486,17 +489,22 @@ function calcularStatsJugador(idJugador){
             desafiosJugados++;
         }
 
-        if(Number(partido.ganador) === Number(idJugador)){
+        if(String(partido.ganador) === String(idJugador)){
+
             partidosGanados++;
             puntos += PUNTOS_VICTORIA;
+
         }else{
+
             puntos += PUNTOS_DERROTA;
+
         }
 
     });
 
     const bonusDesafios =
-        Math.floor(desafiosJugados / 3) * PUNTOS_BONUS_3_DESAFIOS;
+        Math.floor(desafiosJugados / 3) *
+        PUNTOS_BONUS_3_DESAFIOS;
 
     puntos += bonusDesafios;
 
@@ -1374,12 +1382,12 @@ if(selectTipoPartido){
 
 if(formPartido){
 
-    formPartido.addEventListener("submit", function(e){
+    formPartido.addEventListener("submit", async function(e){
 
         e.preventDefault();
 
-        const jugador1 = Number(selectJugador1.value);
-        const jugador2 = Number(selectJugador2.value);
+        const jugador1 = selectJugador1.value;
+        const jugador2 = selectJugador2.value;
 
         if(jugador1 === jugador2){
             alert("No podés seleccionar el mismo jugador");
@@ -1399,62 +1407,80 @@ if(formPartido){
 
         if(partidoEditando !== null){
 
-            const partido = partidos.find(
-                p => Number(p.id) === Number(partidoEditando)
-            );
-
-            if(!partido) return;
-
-            partido.tipo = selectTipoPartido.value;
-            partido.instancia = selectInstanciaPartido.value;
-            partido.idTorneo = selectTipoPartido.value === "torneo"
-                ? Number(selectTorneo.value)
-                : null;
-
-            partido.jugador1 = jugador1;
-            partido.jugador2 = jugador2;
-
-            partido.fecha = document.getElementById("fecha-partido").value;
-            partido.hora = document.getElementById("hora-partido").value;
-            partido.cancha = document.getElementById("cancha-partido").value;
-
-            partido.estado = estado;
-
-            partido.setsJugador1 = sets.setsJugador1;
-            partido.setsJugador2 = sets.setsJugador2;
-
-            if(estado === "finalizado"){
-                partido.ganador = calcularGanador(partido);
-            }else{
-                partido.ganador = null;
-            }
-            partidoEditando = null;
-
-        }else{
-
-            const nuevoPartido = {
-                id: Date.now(),
+            const partidoActualizado = {
                 tipo: selectTipoPartido.value,
                 instancia: selectInstanciaPartido.value,
-                idTorneo: selectTipoPartido.value === "torneo" 
-                    ? Number(selectTorneo.value) 
+
+                idTorneo:
+                    selectTipoPartido.value === "torneo"
+                    ? selectTorneo.value
                     : null,
+
                 jugador1: jugador1,
                 jugador2: jugador2,
+
                 fecha: document.getElementById("fecha-partido").value,
                 hora: document.getElementById("hora-partido").value,
                 cancha: document.getElementById("cancha-partido").value,
+
                 estado: estado,
+
                 setsJugador1: sets.setsJugador1,
                 setsJugador2: sets.setsJugador2,
+
                 ganador: null
             };
 
-            nuevoPartido.ganador = calcularGanador(nuevoPartido);
+            partidoActualizado.ganador =
+                estado === "finalizado"
+                ? calcularGanador(partidoActualizado)
+                : null;
 
-            partidos.push(nuevoPartido);
+            await updateDoc(
+                doc(db, "partidos", String(partidoEditando)),
+                partidoActualizado
+            );
+
+            partidos = await cargarPartidos();
+
+            partidoEditando = null;
+        }else{
+            const nuevoPartido = {
+                tipo: selectTipoPartido.value,
+                instancia: selectInstanciaPartido.value,
+
+                idTorneo:
+                    selectTipoPartido.value === "torneo"
+                    ? selectTorneo.value
+                    : null,
+
+                jugador1: jugador1,
+                jugador2: jugador2,
+
+                fecha: document.getElementById("fecha-partido").value,
+                hora: document.getElementById("hora-partido").value,
+                cancha: document.getElementById("cancha-partido").value,
+
+                estado: estado,
+
+                setsJugador1: sets.setsJugador1,
+                setsJugador2: sets.setsJugador2,
+
+                ganador: null
+            };
+
+            nuevoPartido.ganador =
+                estado === "finalizado"
+                ? calcularGanador(nuevoPartido)
+                : null;
+
+            await addDoc(
+                collection(db, "partidos"),
+                nuevoPartido
+            );
+
+            partidos = await cargarPartidos();
         }
-
         renderAdminPartidos();
         formPartido.reset();
     });
@@ -1468,7 +1494,7 @@ function renderAdminPartidos(){
 
     partidos.forEach(partido => {
 
-        const torneo = torneos.find(t => Number(t.id) === Number(partido.idTorneo));
+        const torneo = torneos.find(t => String(t.id) === String(partido.idTorneo));
         const j1 = jugadores.find(j => Number(j.id) === Number(partido.jugador1));
         const j2 = jugadores.find(j => Number(j.id) === Number(partido.jugador2));
         const ganador = jugadores.find(
@@ -1508,11 +1534,16 @@ function renderAdminPartidos(){
                 </strong>
             </td>
             <td class="acciones-admin">
-                <button class="btn-editar" type="button" onclick="editarPartido(${partido.id})">
+                <button
+                    class="btn-editar"
+                    type="button"
+                    onclick="editarPartido('${partido.id}')">
                     Editar
                 </button>
-
-                <button class="btn-eliminar" type="button" onclick="eliminarPartido(${partido.id})">
+                <button
+                    class="btn-eliminar"
+                    type="button"
+                    onclick="eliminarPartido('${partido.id}')">
                     Eliminar
                 </button>
             </td>
@@ -1524,53 +1555,59 @@ function renderAdminPartidos(){
 
 function editarPartido(id){
 
-    const partido = partidos.find(p => Number(p.id) === Number(id));
+    const partido = partidos.find(
+        p => String(p.id) === String(id)
+    );
 
     if(!partido){
         alert("No encontré el partido");
         return;
     }
 
-    partidoEditando = Number(id);
-
+    partidoEditando = id;
 
     selectTipoPartido.value = partido.tipo || "torneo";
     selectInstanciaPartido.value = partido.instancia || "desafio";
-    selectTorneo.value = partido.idTorneo !== null 
-    ? String(partido.idTorneo) 
-    : "";
+
+    selectTorneo.value =
+        partido.idTorneo !== null
+        ? String(partido.idTorneo)
+        : "";
+
     selectJugador1.value = String(partido.jugador1);
     selectJugador2.value = String(partido.jugador2);
 
     document.getElementById("fecha-partido").value = partido.fecha;
     document.getElementById("hora-partido").value = partido.hora;
     document.getElementById("cancha-partido").value = partido.cancha;
-    document.getElementById("estado-partido").value = partido.estado || "pendiente";
+    document.getElementById("estado-partido").value =
+        partido.estado || "pendiente";
 
     for(let i = 1; i <= 3; i++){
+
         document.getElementById(`set${i}-jugador1`).value =
-            partido.setsJugador1 && partido.setsJugador1[i - 1] !== undefined
-            ? partido.setsJugador1[i - 1]
-            : "";
+            partido.setsJugador1?.[i - 1] ?? "";
 
         document.getElementById(`set${i}-jugador2`).value =
-            partido.setsJugador2 && partido.setsJugador2[i - 1] !== undefined
-            ? partido.setsJugador2[i - 1]
-            : "";
+            partido.setsJugador2?.[i - 1] ?? "";
     }
+
+    actualizarCampoTorneo();
 }
 
-function eliminarPartido(id){
+async function eliminarPartido(id){
 
-    const confirmar = confirm("¿Seguro que querés eliminar este partido?");
+    const confirmar = confirm(
+        "¿Seguro que querés eliminar este partido?"
+    );
 
     if(!confirmar) return;
 
-    const index = partidos.findIndex(p => Number(p.id) === Number(id));
+    await deleteDoc(
+        doc(db, "partidos", String(id))
+    );
 
-    if(index !== -1){
-        partidos.splice(index, 1);
-    }
+    partidos = await cargarPartidos();
 
     renderAdminPartidos();
 }
@@ -1583,7 +1620,7 @@ const tablaAdminTorneos = document.getElementById("tabla-admin-torneos");
 
 if(formTorneo){
 
-    formTorneo.addEventListener("submit", function(e){
+    formTorneo.addEventListener("submit", async function(e){
 
         e.preventDefault();
 
@@ -1594,32 +1631,41 @@ if(formTorneo){
 
         if(torneoEditando !== null){
 
-            const torneo = torneos.find(t => Number(t.id) === Number(torneoEditando));
+            await updateDoc(
+                doc(db, "torneos", torneoEditando),
+                {
+                    nombre: nombre,
+                    fechaInicio: fecha,
+                    formato: formato,
+                    estado: estado
+                }
+            );
 
-            if(!torneo) return;
-
-            torneo.nombre = nombre;
-            torneo.fechaInicio = fecha;
-            torneo.formato = formato;
-            torneo.estado = estado;
+            torneos = await cargarTorneos();
 
             torneoEditando = null;
 
         }else{
 
-            const nuevoTorneo = {
-                id: Date.now(),
-                nombre: nombre,
-                fechaInicio: fecha,
-                estado: estado
-            };
+            await addDoc(
+                collection(db, "torneos"),
+                {
+                    nombre: nombre,
+                    fechaInicio: fecha,
+                    formato: formato,
+                    estado: estado
+                }
+            );
 
-            torneos.push(nuevoTorneo);
+            torneos = await cargarTorneos();
         }
 
         renderAdminTorneos();
+
         formTorneo.reset();
+
     });
+
 }
 
 function renderAdminTorneos(){
@@ -1639,11 +1685,17 @@ function renderAdminTorneos(){
             <td>${torneo.estado}</td>
 
             <td class="acciones-admin">
-                <button class="btn-editar" type="button" onclick="editarTorneo(${torneo.id})">
+                <button
+                    class="btn-editar"
+                    type="button"
+                    onclick="editarTorneo('${torneo.id}')">
                     Editar
                 </button>
 
-                <button class="btn-eliminar" type="button" onclick="eliminarTorneo(${torneo.id})">
+                <button
+                    class="btn-eliminar"
+                    type="button"
+                    onclick="eliminarTorneo('${torneo.id}')">
                     Eliminar
                 </button>
             </td>
@@ -1655,31 +1707,46 @@ function renderAdminTorneos(){
 
 function editarTorneo(id){
 
-    const torneo = torneos.find(t => Number(t.id) === Number(id));
+    const torneo = torneos.find(
+        t => String(t.id) === String(id)
+    );
 
-    if(!torneo) return;
+    if(!torneo){
+        alert("No encontré el torneo");
+        return;
+    }
 
-    torneoEditando = id;
+    torneoEditando = String(id);
 
-    document.getElementById("nombre-torneo").value = torneo.nombre;
-    document.getElementById("fecha-torneo").value = torneo.fechaInicio;
-    document.getElementById("formato-torneo").value =torneo.formato || "largo";
-    document.getElementById("estado-torneo").value = torneo.estado;
+    document.getElementById("nombre-torneo").value =
+        torneo.nombre;
+
+    document.getElementById("fecha-torneo").value =
+        torneo.fechaInicio;
+
+    document.getElementById("formato-torneo").value =
+        torneo.formato || "largo";
+
+    document.getElementById("estado-torneo").value =
+        torneo.estado;
 }
 
-function eliminarTorneo(id){
+async function eliminarTorneo(id){
 
-    const confirmar = confirm("¿Seguro que querés eliminar este torneo?");
+    const confirmar = confirm(
+        "¿Seguro que querés eliminar este torneo?"
+    );
 
     if(!confirmar) return;
 
-    const index = torneos.findIndex(t => Number(t.id) === Number(id));
+    await deleteDoc(
+        doc(db, "torneos", String(id))
+    );
 
-    if(index !== -1){
-        torneos.splice(index, 1);
-    }
+    torneos = await cargarTorneos();
 
     renderAdminTorneos();
+
 }
 
 renderAdminTorneos();
