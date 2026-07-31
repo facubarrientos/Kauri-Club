@@ -7,7 +7,8 @@ import {
 
 import {
     collection,
-    getDocs
+    getDocs,
+    addDoc
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 let jugadores = [];
@@ -62,9 +63,10 @@ async function cargarPartidos() {
 
 async function iniciarApp(){
 
-    await cargarJugadores();
-    await cargarTorneos();
-    await cargarPartidos();
+    jugadores = await cargarJugadores();
+
+    const torneosFirebase = await cargarTorneos();
+    const partidosFirebase = await cargarPartidos();
 
     renderPartidosPublicos();
     renderRankingInicio();
@@ -1124,8 +1126,7 @@ if(cerrarModal && modalJugador){
 
 if(formJugador){
 
-    formJugador.addEventListener("submit", (e) => {
-
+        formJugador.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const nombre = document.getElementById("nombre-jugador").value;
@@ -1146,8 +1147,7 @@ if(formJugador){
 
         } else {
 
-            jugadores.push({
-                id: Date.now(),
+            await addDoc(collection(db, "jugadores"), {
                 nombre: nombre,
                 categoria: categoria,
                 puntos: puntos,
@@ -1156,6 +1156,7 @@ if(formJugador){
                 foto: foto
             });
 
+            jugadores = await cargarJugadores();
         }
 
         renderAdminJugadores();
