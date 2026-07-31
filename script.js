@@ -8,7 +8,10 @@ import {
 import {
     collection,
     getDocs,
-    addDoc
+    addDoc,
+    doc,
+    updateDoc,
+    deleteDoc
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 let jugadores = [];
@@ -75,6 +78,7 @@ async function iniciarApp(){
     cargarSelectPartidos();
     renderAdminPartidos();
     renderAdminTorneos();
+    renderPerfilJugador();
 
     console.log("Datos listos para usar");
 }
@@ -698,130 +702,168 @@ if(listaJugadores){
 
     mostrarJugadores();
 }
+function renderPerfilJugador(){
 
-const perfilJugador =
-document.getElementById("perfil-jugador");
-if(perfilJugador){
+    const perfilJugador =
+        document.getElementById("perfil-jugador");
 
-    const parametros = new URLSearchParams(window.location.search);
-    const idJugador = parseInt(parametros.get("id"));
-    const jugador = jugadores.find(j => Number(j.id) === Number(idJugador));
+    if(!perfilJugador) return;
 
-    if(jugador){
+    const parametros =
+        new URLSearchParams(window.location.search);
 
-        actualizarStatsJugadores();
+    const idJugador =
+        parametros.get("id");
 
-        const partidosDelJugador = partidos.filter(p =>
-            Number(p.jugador1) === Number(jugador.id) ||
-            Number(p.jugador2) === Number(jugador.id)
+    const jugador = jugadores.find(
+        j => String(j.id) === String(idJugador)
+    );
+
+    if(!jugador) return;
+
+    actualizarStatsJugadores();
+
+    const partidosDelJugador = partidos.filter(p =>
+        String(p.jugador1) === String(jugador.id) ||
+        String(p.jugador2) === String(jugador.id)
+    );
+
+    const derrotas =
+        jugador.partidosJugados - jugador.partidosGanados;
+
+    const efectividad =
+        jugador.partidosJugados > 0
+        ? Math.round(
+            (jugador.partidosGanados / jugador.partidosJugados) * 100
+        )
+        : 0;
+
+    const record =
+        `${jugador.partidosGanados} - ${derrotas}`;
+
+    const textoRacha =
+        calcularRachaJugador(jugador.id);
+
+    const partidosJugados =
+        partidosDelJugador.filter(
+            p => p.estado === "finalizado"
         );
-        
-        const derrotas = jugador.partidosJugados - jugador.partidosGanados;
 
-        const efectividad = jugador.partidosJugados > 0
-            ? Math.round((jugador.partidosGanados / jugador.partidosJugados) * 100)
-            : 0;
+    const proximosPartidos =
+        partidosDelJugador.filter(
+            p => p.estado !== "finalizado"
+        );
 
-        const record = `${jugador.partidosGanados} - ${derrotas}`;
+    perfilJugador.innerHTML = `
 
-        const textoRacha = calcularRachaJugador(jugador.id);
+        <section class="perfil-hero">
 
-        const partidosJugados = partidosDelJugador.filter(p => p.estado === "finalizado");
-        const proximosPartidos = partidosDelJugador.filter(p => p.estado !== "finalizado");
+            <div class="perfil-foto">
+                <img src="${jugador.foto}" alt="${jugador.nombre}">
+            </div>
 
-        perfilJugador.innerHTML = `
+            <div class="perfil-info">
+                <span class="perfil-label">JUGADOR</span>
+                <h2>${jugador.nombre}</h2>
 
-            <section class="perfil-hero">
-
-                <div class="perfil-foto">
-                    <img src="${jugador.foto}" alt="${jugador.nombre}">
-                </div>
-
-                <div class="perfil-info">
-                    <span class="perfil-label">JUGADOR</span>
-                    <h2>${jugador.nombre}</h2>
-
-                    <div class="perfil-meta">
-                        <div>
-                            <span>Categoría</span>
-                            <strong>${jugador.categoria}</strong>
-                        </div>
-
-                        <div>
-                            <span>Ranking</span>
-                            <strong>#${obtenerPuestoRanking(jugador.id, jugador.categoria)}</strong>
-                        </div>
+                <div class="perfil-meta">
+                    <div>
+                        <span>Categoría</span>
+                        <strong>${jugador.categoria}</strong>
                     </div>
 
-                    <div class="perfil-resumen-stats">
-                        <div>
-                            <strong>${jugador.puntos}</strong>
-                            <span>Puntos</span>
-                        </div>
-
-                        <div>
-                            <strong>${jugador.partidosJugados}</strong>
-                            <span>Partidos</span>
-                        </div>
-
-                        <div>
-                            <strong>${jugador.partidosGanados}</strong>
-                            <span>Victorias</span>
-                        </div>
+                    <div>
+                        <span>Ranking</span>
+                        <strong>#${obtenerPuestoRanking(jugador.id)}</strong>
                     </div>
                 </div>
 
-            </section>
+                <div class="perfil-resumen-stats">
+                    <div>
+                        <strong>${jugador.puntos}</strong>
+                        <span>Puntos</span>
+                    </div>
 
-            <section class="perfil-panel-stats">
+                    <div>
+                        <strong>${jugador.partidosJugados}</strong>
+                        <span>Partidos</span>
+                    </div>
 
-                <div class="perfil-panel-item">
-                    <span>Récord</span>
-                    <strong>${record}</strong>
-                    <small>Ganados - perdidos</small>
+                    <div>
+                        <strong>${jugador.partidosGanados}</strong>
+                        <span>Victorias</span>
+                    </div>
                 </div>
+            </div>
 
-                <div class="perfil-panel-item">
-                    <span>Efectividad</span>
-                    <strong>${efectividad}%</strong>
-                    <small>Porcentaje de victorias</small>
-                </div>
+        </section>
 
-                <div class="perfil-panel-item">
-                    <span>Racha</span>
-                    <strong>${textoRacha}</strong>
-                    <small>Últimos resultados</small>
-                </div>
+        <section class="perfil-panel-stats">
 
-            </section>
-            <a href="jugadores.html" class="volver-jugadores">← Volver</a>
-            <section class="perfil-partidos">
+            <div class="perfil-panel-item">
+                <span>Récord</span>
+                <strong>${record}</strong>
+                <small>Ganados - perdidos</small>
+            </div>
 
-                <h3>Partidos jugados</h3>
+            <div class="perfil-panel-item">
+                <span>Efectividad</span>
+                <strong>${efectividad}%</strong>
+                <small>Porcentaje de victorias</small>
+            </div>
 
-                <div class="lista-perfil-partidos">
-                    ${
-                        partidosJugados.length > 0
-                        ? partidosJugados.map(p => crearItemPartidoPerfil(p, jugador.id)).join("")
-                        : `<p class="perfil-vacio">Todavía no hay partidos jugados.</p>`
-                    }
-                </div>
+            <div class="perfil-panel-item">
+                <span>Racha</span>
+                <strong>${textoRacha}</strong>
+                <small>Últimos resultados</small>
+            </div>
 
-                <h3>Próximos partidos</h3>
+        </section>
 
-                <div class="lista-perfil-partidos">
-                    ${
-                        proximosPartidos.length > 0
-                        ? proximosPartidos.map(p => crearItemPartidoPerfil(p, jugador.id)).join("")
-                        : `<p class="perfil-vacio">No hay próximos partidos cargados.</p>`
-                    }
-                </div>
+        <a href="jugadores.html" class="volver-jugadores">
+            ← Volver
+        </a>
 
-            </section>
+        <section class="perfil-partidos">
 
-            
-        `;
-    }
+            <h3>Partidos jugados</h3>
+
+            <div class="lista-perfil-partidos">
+                ${
+                    partidosJugados.length > 0
+                    ? partidosJugados
+                        .map(p =>
+                            crearItemPartidoPerfil(p, jugador.id)
+                        )
+                        .join("")
+                    : `
+                        <p class="perfil-vacio">
+                            Todavía no hay partidos jugados.
+                        </p>
+                    `
+                }
+            </div>
+
+            <h3>Próximos partidos</h3>
+
+            <div class="lista-perfil-partidos">
+                ${
+                    proximosPartidos.length > 0
+                    ? proximosPartidos
+                        .map(p =>
+                            crearItemPartidoPerfil(p, jugador.id)
+                        )
+                        .join("")
+                    : `
+                        <p class="perfil-vacio">
+                            No hay próximos partidos cargados.
+                        </p>
+                    `
+                }
+            </div>
+
+        </section>
+    `;
 }
 
 function calcularRachaJugador(idJugador){
@@ -1060,7 +1102,6 @@ const formJugador = document.getElementById("form-jugador");
 const btnAgregarJugador = document.getElementById("btn-agregar-jugador");
 const modalJugador = document.getElementById("modal-jugador");
 const cerrarModal = document.getElementById("cerrar-modal");
-
 function renderAdminJugadores(){
 
     if(!tablaAdminJugadores) return;
@@ -1082,18 +1123,25 @@ function renderAdminJugadores(){
             <td>${jugador.partidosGanados}</td>
 
             <td class="acciones-admin">
-                <button class="btn-editar" onclick="editarJugador(${jugador.id})">
+
+                <button
+                    class="btn-editar"
+                    onclick="editarJugador('${jugador.id}')">
                     Editar
                 </button>
 
-                <button class="btn-eliminar" onclick="eliminarJugador(${jugador.id})">
+                <button
+                    class="btn-eliminar"
+                    onclick="eliminarJugador('${jugador.id}')">
                     Eliminar
                 </button>
+
             </td>
         `;
 
         tablaAdminJugadores.appendChild(fila);
     });
+
 }
 
 if(btnAgregarJugador && modalJugador){
@@ -1138,14 +1186,21 @@ if(formJugador){
 
         if(jugadorEditando){
 
-            jugadorEditando.nombre = nombre;
-            jugadorEditando.categoria = categoria;
-            jugadorEditando.puntos = puntos;
-            jugadorEditando.partidosJugados = partidos;
-            jugadorEditando.partidosGanados = victorias;
-            jugadorEditando.foto = foto;
+            await updateDoc(
+                doc(db, "jugadores", jugadorEditando.id),
+                {
+                    nombre: nombre,
+                    categoria: categoria,
+                    puntos: puntos,
+                    partidosJugados: partidos,
+                    partidosGanados: victorias,
+                    foto: foto
+                }
+            );
 
-        } else {
+            jugadores = await cargarJugadores();
+
+        }else {
 
             await addDoc(collection(db, "jugadores"), {
                 nombre: nombre,
@@ -1172,7 +1227,9 @@ if(formJugador){
 
 function editarJugador(id){
 
-    const jugador = jugadores.find(j => j.id === id);
+    const jugador = jugadores.find(
+        j => String(j.id) === String(id)
+    );
 
     if(!jugador) return;
 
@@ -1188,17 +1245,18 @@ function editarJugador(id){
     modalJugador.classList.add("activo");
 }
 
-function eliminarJugador(id){
+async function eliminarJugador(id){
 
-    const indice = jugadores.findIndex(j => j.id === id);
+    if(!confirm("¿Eliminar este jugador?")) return;
 
-    if(indice !== -1){
+    await deleteDoc(
+        doc(db, "jugadores", id)
+    );
 
-        jugadores.splice(indice, 1);
+    jugadores = await cargarJugadores();
 
-        renderAdminJugadores();
+    renderAdminJugadores();
 
-    }
 }
                                             /* admin partidos */
 let partidoEditando = null;
