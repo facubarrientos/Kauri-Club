@@ -70,8 +70,16 @@ async function iniciarApp(){
     torneos = await cargarTorneos();
     partidos = await cargarPartidos();
 
+    renderPartidosInicio();
     renderPartidosPublicos();
     renderRankingInicio();
+
+    if(tablaRanking){
+        renderRankingCategoria(
+            selectorRanking ? selectorRanking.value : "A"
+        );
+    }
+
     mostrarJugadores();
     renderAdminJugadores();
     cargarSelectPartidos();
@@ -109,6 +117,7 @@ const contenedorPartidos =document.getElementById("contenedor-partidos");
 const filtroCategoria = document.getElementById("filtro-categoria");
 const filtroTipo = document.getElementById("filtro-tipo");
 const filtroEstado = document.getElementById("filtro-estado");
+
 function renderPartidosPublicos(){
 
     if(!contenedorPartidos) return;
@@ -129,8 +138,13 @@ function renderPartidosPublicos(){
 
     let partidosFiltrados = partidos.filter(partido => {
 
-        const j1 = jugadores.find(j => Number(j.id) === Number(partido.jugador1));
-        const j2 = jugadores.find(j => Number(j.id) === Number(partido.jugador2));
+        const j1 = jugadores.find(
+            j => String(j.id) === String(partido.jugador1)
+        );
+
+        const j2 = jugadores.find(
+            j => String(j.id) === String(partido.jugador2)
+        );
 
         const cumpleTipo =
             tipoSeleccionado === "todos" ||
@@ -166,19 +180,27 @@ function renderPartidosPublicos(){
 
     function crearCardPartido(partido){
 
-        const torneo = torneos.find(t => Number(t.id) === Number(partido.idTorneo));
-        const j1 = jugadores.find(j => Number(j.id) === Number(partido.jugador1));
-        const j2 = jugadores.find(j => Number(j.id) === Number(partido.jugador2));
+        const torneo = torneos.find(
+            t => String(t.id) === String(partido.idTorneo)
+        );
 
-        const ganadorId = Number(partido.ganador);
+        const j1 = jugadores.find(
+            j => String(j.id) === String(partido.jugador1)
+        );
+
+        const j2 = jugadores.find(
+            j => String(j.id) === String(partido.jugador2)
+        );
+
+        const ganadorId = String(partido.ganador);
 
         const ganoJ1 =
             partido.estado === "finalizado" &&
-            ganadorId === Number(partido.jugador1);
+            ganadorId === String(partido.jugador1);
 
         const ganoJ2 =
             partido.estado === "finalizado" &&
-            ganadorId === Number(partido.jugador2);
+            ganadorId === String(partido.jugador2);
 
         const card = document.createElement("div");
         card.classList.add("card-partido");
@@ -298,7 +320,7 @@ function renderPartidosPublicos(){
     torneos.forEach(torneo => {
 
         const partidosDelTorneo = partidosTorneo.filter(
-            partido => Number(partido.idTorneo) === Number(torneo.id)
+            partido => String(partido.idTorneo) === String(torneo.id)
         );
 
         if(partidosDelTorneo.length === 0) return;
@@ -340,18 +362,30 @@ if(filtroEstado){
 
 function formatearResultado(partido){
 
-    if(!partido.setsJugador1 || partido.setsJugador1.length === 0){
+    if(partido.estado !== "finalizado"){
+        return "-";
+    }
+
+    if(
+        !partido.setsJugador1 ||
+        partido.setsJugador1.length === 0
+    ){
         return "-";
     }
 
     return partido.setsJugador1
-        .map((setJ1, index) => `${setJ1}-${partido.setsJugador2[index]}`)
+        .map(
+            (setJ1, index) =>
+                `${setJ1}-${partido.setsJugador2[index]}`
+        )
         .join(" / ");
 }
 
 const tablaPartidos = document.getElementById("tabla-partidos");
 
-if(tablaPartidos){
+function renderPartidosInicio(){
+
+    if(!tablaPartidos) return;
 
     tablaPartidos.innerHTML = "";
 
@@ -444,7 +478,7 @@ if(tablaPartidos){
 
             <div class="info-cancha">
 
-                <p> ${partido.cancha}</p>
+                <p>${partido.cancha}</p>
 
             </div>
 
@@ -539,7 +573,9 @@ function obtenerPuestoRanking(idJugador){
 
     actualizarStatsJugadores();
 
-    const jugador = jugadores.find(j => Number(j.id) === Number(idJugador));
+    const jugador = jugadores.find(
+        j => String(j.id) === String(idJugador)
+    );
 
     if(!jugador) return "-";
 
@@ -548,7 +584,7 @@ function obtenerPuestoRanking(idJugador){
         .sort((a, b) => b.puntos - a.puntos);
 
     const posicion = rankingCategoria.findIndex(
-        j => Number(j.id) === Number(idJugador)
+        j => String(j.id) === String(idJugador)
     );
 
     return posicion + 1;
@@ -600,8 +636,6 @@ function obtenerTopCategoria(categoria){
 
 
 if(tablaRanking){
-
-    renderRankingCategoria("A");
 
     if(selectorRanking){
 
@@ -880,8 +914,8 @@ function calcularRachaJugador(idJugador){
         .filter(p =>
             p.estado === "finalizado" &&
             (
-                Number(p.jugador1) === Number(idJugador) ||
-                Number(p.jugador2) === Number(idJugador)
+                String(p.jugador1) === String(idJugador) ||
+                String(p.jugador2) === String(idJugador)
             )
         )
         .sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
@@ -891,14 +925,14 @@ function calcularRachaJugador(idJugador){
     }
 
     const ganoUltimo =
-    Number(partidosJugador[0].ganador) === Number(idJugador);
+    String(partidosJugador[0].ganador) === String(idJugador);
 
     let contador = 0;
 
     for(const partido of partidosJugador){
 
         const gano =
-        Number(partido.ganador) === Number(idJugador);
+        String(partido.ganador) === String(idJugador);
 
         if(gano === ganoUltimo){
             contador++;
@@ -914,21 +948,26 @@ function calcularRachaJugador(idJugador){
 
 function crearItemPartidoPerfil(partido, idJugador){
 
-    const j1 = jugadores.find(j => Number(j.id) === Number(partido.jugador1));
-    const j2 = jugadores.find(j => Number(j.id) === Number(partido.jugador2));
+   const j1 = jugadores.find(
+        j => String(j.id) === String(partido.jugador1)
+    );
+
+    const j2 = jugadores.find(
+        j => String(j.id) === String(partido.jugador2)
+    );
 
     const jugadorPerfil =
-        Number(partido.jugador1) === Number(idJugador)
+        String(partido.jugador1) === String(idJugador)
         ? j1
         : j2;
 
     const rival =
-        Number(partido.jugador1) === Number(idJugador)
+        String(partido.jugador1) === String(idJugador)
         ? j2
         : j1;
 
     const esGanador =
-        Number(partido.ganador) === Number(idJugador);
+        String(partido.ganador) === String(idJugador);
 
     const claseResultado =
         partido.estado === "finalizado"
@@ -980,7 +1019,7 @@ function crearItemPartidoPerfil(partido, idJugador){
                 ${Array.from({length: cantidadSets}).map((_, i)=>`
                     <div class="score-cell">
                         ${
-                            Number(partido.jugador1) === Number(idJugador)
+                            String(partido.jugador1) === String(idJugador)
                             ? (sets1[i] ?? "-")
                             : (sets2[i] ?? "-")
                         }
@@ -992,7 +1031,7 @@ function crearItemPartidoPerfil(partido, idJugador){
                 ${Array.from({length: cantidadSets}).map((_, i)=>`
                     <div class="score-cell">
                         ${
-                            Number(partido.jugador1) === Number(idJugador)
+                            String(partido.jugador1) === String(idJugador)
                             ? (sets2[i] ?? "-")
                             : (sets1[i] ?? "-")
                         }
@@ -1394,16 +1433,15 @@ if(formPartido){
             return;
         }
 
-        const estado = document.getElementById("estado-partido").value;
         const sets = obtenerSets();
 
-        if(
-            estado === "finalizado" &&
-            sets.setsJugador1.length === 0
-        ){
-            alert("Debes cargar al menos un set para finalizar el partido");
-            return;
-        }
+        const tieneResultado =
+            sets.setsJugador1.length > 0 &&
+            sets.setsJugador2.length > 0;
+
+        const estado = tieneResultado
+            ? "finalizado"
+            : "pendiente";
 
         if(partidoEditando !== null){
 
@@ -1494,20 +1532,38 @@ function renderAdminPartidos(){
 
     partidos.forEach(partido => {
 
-        const torneo = torneos.find(t => String(t.id) === String(partido.idTorneo));
-        const j1 = jugadores.find(j => Number(j.id) === Number(partido.jugador1));
-        const j2 = jugadores.find(j => Number(j.id) === Number(partido.jugador2));
+        const torneo = torneos.find(
+            t => String(t.id).trim() === String(partido.idTorneo).trim()
+        );
+
+        console.log(
+            "ID partido:", JSON.stringify(partido.idTorneo),
+            "ID torneo:", JSON.stringify(torneos[0]?.id),
+            "Coinciden:",
+            String(partido.idTorneo).trim() === String(torneos[0]?.id).trim()
+        );
+
+        console.log(
+            "Tipo:", partido.tipo,
+            "Torneo encontrado:", torneo
+        );
+
+
+        const j1 = jugadores.find(j => String(j.id) === String(partido.jugador1));
+        const j2 = jugadores.find(j => String(j.id) === String(partido.jugador2));
         const ganador = jugadores.find(
-            j => Number(j.id) === Number(partido.ganador)
+            j => String(j.id) === String(partido.ganador)
         );
         const fila = document.createElement("tr");
 
         fila.innerHTML = `
-            <td>
+           <td>
                 ${
                     partido.tipo === "desafio"
                     ? "Desafío"
-                    : torneo ? torneo.nombre : "Sin torneo"
+                    : torneo
+                        ? torneo.nombre
+                        : "Sin torneo"
                 }
             </td>
 
