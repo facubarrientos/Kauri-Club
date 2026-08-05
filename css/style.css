@@ -389,7 +389,7 @@ body{
         0 0 26px rgba(255,0,0,.25);
 
     position: relative;
-}
+}v
 
 .ranking-section h2::after{
     content: "";

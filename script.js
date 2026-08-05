@@ -30,8 +30,6 @@ async function cargarJugadores() {
         ...doc.data()
     }));
 
-    console.log("Jugadores Firestore:", jugadoresFirebase);
-
     return jugadoresFirebase;
 }
 
@@ -45,8 +43,6 @@ async function cargarTorneos() {
         id: doc.id,
         ...doc.data()
     }));
-
-    console.log("Torneos Firestore:", torneosFirebase);
 
     return torneosFirebase;
 }
@@ -62,7 +58,6 @@ async function cargarPartidos() {
         ...doc.data()
     }));
 
-    console.log("Partidos Firestore:", partidosFirebase);
 
     return partidosFirebase;
 }
@@ -90,7 +85,6 @@ async function iniciarApp(){
     renderAdminTorneos();
     renderPerfilJugador();
 
-    console.log("Datos listos para usar");
 }
 
 iniciarApp();
@@ -601,10 +595,6 @@ function actualizarStatsJugadores(){
 
     jugadores.forEach(jugador => {
 
-        /*
-        Guarda como base los valores que cargaste
-        manualmente al crear o editar al jugador.
-        */
         if(jugador.puntosBase === undefined){
             jugador.puntosBase =
                 Number(jugador.puntos) || 0;
@@ -623,10 +613,7 @@ function actualizarStatsJugadores(){
         const stats =
             calcularStatsJugador(jugador.id);
 
-        /*
-        Suma los datos iniciales más los partidos
-        cargados posteriormente en la aplicación.
-        */
+  
         jugador.puntos =
             jugador.puntosBase +
             stats.puntos;
@@ -1707,19 +1694,6 @@ function renderAdminPartidos(){
             t => String(t.id).trim() === String(partido.idTorneo).trim()
         );
 
-        console.log(
-            "ID partido:", JSON.stringify(partido.idTorneo),
-            "ID torneo:", JSON.stringify(torneos[0]?.id),
-            "Coinciden:",
-            String(partido.idTorneo).trim() === String(torneos[0]?.id).trim()
-        );
-
-        console.log(
-            "Tipo:", partido.tipo,
-            "Torneo encontrado:", torneo
-        );
-
-
         const j1 = jugadores.find(j => String(j.id) === String(partido.jugador1));
         const j2 = jugadores.find(j => String(j.id) === String(partido.jugador2));
         const ganador = jugadores.find(
@@ -1960,6 +1934,20 @@ function editarTorneo(id){
 
 async function eliminarTorneo(id){
 
+    const partidosDelTorneo = partidos.filter(
+        partido =>
+            String(partido.idTorneo) === String(id)
+    );
+
+    if(partidosDelTorneo.length > 0){
+
+        alert(
+            `No podés eliminar este torneo porque tiene ${partidosDelTorneo.length} partido(s) asociado(s). Eliminá primero los partidos.`
+        );
+
+        return;
+    }
+
     const confirmar = confirm(
         "¿Seguro que querés eliminar este torneo?"
     );
@@ -1973,7 +1961,6 @@ async function eliminarTorneo(id){
     torneos = await cargarTorneos();
 
     renderAdminTorneos();
-
 }
 
 renderAdminTorneos();
