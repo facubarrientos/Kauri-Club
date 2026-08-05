@@ -371,15 +371,22 @@ img{
 
     .partidos-inicio .badge-partido,
     .partidos-inicio .instancia-partido{
-        width: Fit-content;
-        min-width: 90px;
 
-        padding: 6px 10px;
+        min-width: 90px;
+        height: 26px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 0 10px;
 
         border-radius: 999px;
+
+        font-size: 15px;
+        line-height: 1;
+
         white-space: nowrap;
-        font-size: 9px;
-        line-height: 1.1;
     }
 
     /* CANCHA Y DATOS DEL PARTIDO */
@@ -425,7 +432,7 @@ img{
 
         border-top: 1px solid #ddd0cc;
 
-        font-size: 18px;
+        font-size: 22px;
         text-align: center;
         white-space: normal;
     }
@@ -475,7 +482,7 @@ img{
     }
 
     .partidos-inicio .jugador h4{
-        font-size: 14px;
+        font-size: 18px;
     }
 
     .partidos-inicio .jugador span{
