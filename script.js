@@ -64,27 +64,62 @@ async function cargarPartidos() {
 
 async function iniciarApp(){
 
-    jugadores = await cargarJugadores();
-    torneos = await cargarTorneos();
-    partidos = await cargarPartidos();
+    try{
 
-    renderPartidosInicio();
-    renderPartidosPublicos();
-    renderRankingInicio();
+        const [
+            jugadoresFirebase,
+            torneosFirebase,
+            partidosFirebase
+        ] = await Promise.all([
+            cargarJugadores(),
+            cargarTorneos(),
+            cargarPartidos()
+        ]);
 
-    if(tablaRanking){
-        renderRankingCategoria(
-            selectorRanking ? selectorRanking.value : "A"
+        jugadores = jugadoresFirebase;
+        torneos = torneosFirebase;
+        partidos = partidosFirebase;
+
+        renderPartidosInicio();
+        renderPartidosPublicos();
+        renderRankingInicio();
+
+        if(tablaRanking){
+            renderRankingCategoria(
+                selectorRanking
+                    ? selectorRanking.value
+                    : "A"
+            );
+        }
+
+        mostrarJugadores();
+        renderAdminJugadores();
+        cargarSelectPartidos();
+        renderAdminPartidos();
+        renderAdminTorneos();
+        renderPerfilJugador();
+
+        console.log("Datos listos para usar");
+
+    }catch(error){
+
+        console.error(
+            "Error cargando los datos:",
+            error
         );
+
+        const tablaPartidos =
+            document.getElementById("tabla-partidos");
+
+        if(tablaPartidos){
+            tablaPartidos.innerHTML = `
+                <p class="sin-partidos">
+                    No se pudieron cargar los datos.
+                    Revisá tu conexión e intentá nuevamente.
+                </p>
+            `;
+        }
     }
-
-    mostrarJugadores();
-    renderAdminJugadores();
-    cargarSelectPartidos();
-    renderAdminPartidos();
-    renderAdminTorneos();
-    renderPerfilJugador();
-
 }
 
 iniciarApp();
@@ -210,7 +245,7 @@ function renderPartidosPublicos(){
 
             <div class="jugador jugador-1 ${ganoJ1 ? "ganador-partido" : ""}">
                 <img 
-                    src="${j1 ? j1.foto : 'img/default.png'}"
+                    src="${j1 ? optimizarFotoCloudinary(j1.foto, 160) : 'img/default.png'}"
                     class="foto-jugador"
                 >
 
@@ -244,7 +279,7 @@ function renderPartidosPublicos(){
 
             <div class="jugador jugador-2 ${ganoJ2 ? "ganador-partido" : ""}">
                 <img 
-                    src="${j2 ? j2.foto : 'img/default.png'}"
+                    src="${j2 ? optimizarFotoCloudinary(j2.foto, 160) : 'img/default.png'}"
                     class="foto-jugador"
                 >
 
@@ -1490,6 +1525,20 @@ function obtenerSets(){
     }
 
     return { setsJugador1, setsJugador2 };
+}
+
+function optimizarFotoCloudinary(url, ancho = 200){
+
+    if(!url) return "img/default.png";
+
+    if(!url.includes("res.cloudinary.com")){
+        return url;
+    }
+
+    return url.replace(
+        "/image/upload/",
+        `/image/upload/f_auto,q_auto,c_fill,w_${ancho},h_${ancho}/`
+    );
 }
 
 function calcularGanador(partido){
