@@ -1,4 +1,5 @@
 import { auth, db } from "./firebase.js";
+
 import { 
     signInWithEmailAndPassword,
     onAuthStateChanged,
@@ -15,6 +16,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
 let jugadores = [];
+let torneos = [];
+let partidos = [];
 
 async function cargarJugadores() {
 
@@ -381,6 +384,49 @@ function formatearResultado(partido){
         .join(" / ");
 }
 
+async function subirFotoJugador(archivo){
+
+    if(!archivo){
+        return null;
+    }
+
+    const formData = new FormData();
+
+    formData.append("file", archivo);
+    formData.append("upload_preset", "kauri-club");
+
+    const respuesta = await fetch(
+        "https://api.cloudinary.com/v1_1/h6ukpiu7/image/upload",
+        {
+            method: "POST",
+            body: formData
+        }
+    );
+
+    const datos = await respuesta.json();
+
+    if(!respuesta.ok){
+
+        console.error(
+            "Error de Cloudinary:",
+            datos
+        );
+
+        throw new Error(
+            datos.error?.message ||
+            "No se pudo subir la imagen a Cloudinary"
+        );
+    }
+
+    if(!datos.secure_url){
+        throw new Error(
+            "Cloudinary no devolvió la URL de la imagen"
+        );
+    }
+
+    return datos.secure_url;
+}
+
 const tablaPartidos = document.getElementById("tabla-partidos");
 
 function renderPartidosInicio(){
@@ -555,17 +601,46 @@ function actualizarStatsJugadores(){
 
     jugadores.forEach(jugador => {
 
+        /*
+        Guarda como base los valores que cargaste
+        manualmente al crear o editar al jugador.
+        */
         if(jugador.puntosBase === undefined){
-            jugador.puntosBase = jugador.puntos || 0;
+            jugador.puntosBase =
+                Number(jugador.puntos) || 0;
         }
 
-        const stats = calcularStatsJugador(jugador.id);
+        if(jugador.partidosJugadosBase === undefined){
+            jugador.partidosJugadosBase =
+                Number(jugador.partidosJugados) || 0;
+        }
 
-        jugador.puntos = jugador.puntosBase + stats.puntos;
-        jugador.partidosJugados = stats.partidosJugados;
-        jugador.partidosGanados = stats.partidosGanados;
-        jugador.desafiosJugados = stats.desafiosJugados;
+        if(jugador.partidosGanadosBase === undefined){
+            jugador.partidosGanadosBase =
+                Number(jugador.partidosGanados) || 0;
+        }
 
+        const stats =
+            calcularStatsJugador(jugador.id);
+
+        /*
+        Suma los datos iniciales más los partidos
+        cargados posteriormente en la aplicación.
+        */
+        jugador.puntos =
+            jugador.puntosBase +
+            stats.puntos;
+
+        jugador.partidosJugados =
+            jugador.partidosJugadosBase +
+            stats.partidosJugados;
+
+        jugador.partidosGanados =
+            jugador.partidosGanadosBase +
+            stats.partidosGanados;
+
+        jugador.desafiosJugados =
+            stats.desafiosJugados;
     });
 }
 
@@ -1149,6 +1224,7 @@ const formJugador = document.getElementById("form-jugador");
 const btnAgregarJugador = document.getElementById("btn-agregar-jugador");
 const modalJugador = document.getElementById("modal-jugador");
 const cerrarModal = document.getElementById("cerrar-modal");
+
 function renderAdminJugadores(){
 
     if(!tablaAdminJugadores) return;
@@ -1161,7 +1237,12 @@ function renderAdminJugadores(){
 
         fila.innerHTML = `
             <td>
-                <img src="${jugador.foto}" class="admin-foto">
+                <img
+                    src="${jugador.foto || 'img/default.png'}"
+                    class="admin-foto"
+                    alt="${jugador.nombre}"
+                    onerror="this.onerror=null; this.src='img/default.png';"
+                >
             </td>
 
             <td>${jugador.nombre}</td>
@@ -1221,53 +1302,128 @@ if(cerrarModal && modalJugador){
 
 if(formJugador){
 
-        formJugador.addEventListener("submit", async (e) => {
+    formJugador.addEventListener("submit", async function(e){
+
         e.preventDefault();
 
-        const nombre = document.getElementById("nombre-jugador").value;
-        const categoria = document.getElementById("categoria-jugador").value;
-        const puntos = parseInt(document.getElementById("puntos-jugador").value);
-        const partidos = parseInt(document.getElementById("partidos-jugador").value);
-        const victorias = parseInt(document.getElementById("victorias-jugador").value);
-        const foto = document.getElementById("foto-jugador").value;
+        const botonGuardar =
+            formJugador.querySelector('button[type="submit"]');
 
-        if(jugadorEditando){
+        const nombre =
+            document
+                .getElementById("nombre-jugador")
+                .value
+                .trim();
 
-            await updateDoc(
-                doc(db, "jugadores", jugadorEditando.id),
-                {
-                    nombre: nombre,
-                    categoria: categoria,
-                    puntos: puntos,
-                    partidosJugados: partidos,
-                    partidosGanados: victorias,
-                    foto: foto
-                }
-            );
+        const categoria =
+            document.getElementById("categoria-jugador").value;
 
-            jugadores = await cargarJugadores();
+        const puntos =
+            Number(
+                document.getElementById("puntos-jugador").value
+            ) || 0;
 
-        }else {
+        const partidosJugados =
+            Number(
+                document.getElementById("partidos-jugador").value
+            ) || 0;
 
-            await addDoc(collection(db, "jugadores"), {
+        const partidosGanados =
+            Number(
+                document.getElementById("victorias-jugador").value
+            ) || 0;
+
+        const inputFoto =
+            document.getElementById("foto-jugador");
+
+        const archivoFoto =
+            inputFoto.files[0];
+
+        if(!nombre){
+
+            alert("Ingresá el nombre del jugador");
+            return;
+        }
+
+        try{
+
+            botonGuardar.disabled = true;
+            botonGuardar.textContent = "Guardando...";
+
+            let urlFoto = jugadorEditando?.foto || "";
+
+            if(archivoFoto){
+
+                urlFoto =
+                    await subirFotoJugador(archivoFoto);
+            }
+
+            if(!jugadorEditando && !urlFoto){
+
+                alert("Seleccioná una foto");
+                return;
+            }
+
+            const datosJugador = {
                 nombre: nombre,
                 categoria: categoria,
                 puntos: puntos,
-                partidosJugados: partidos,
-                partidosGanados: victorias,
-                foto: foto
-            });
+                partidosJugados: partidosJugados,
+                partidosGanados: partidosGanados,
+                foto: urlFoto
+            };
+
+            if(jugadorEditando){
+
+                await updateDoc(
+                    doc(
+                        db,
+                        "jugadores",
+                        String(jugadorEditando.id)
+                    ),
+                    datosJugador
+                );
+
+                alert("Jugador actualizado correctamente");
+
+            }else{
+
+                await addDoc(
+                    collection(db, "jugadores"),
+                    datosJugador
+                );
+
+                alert("Jugador agregado correctamente");
+            }
 
             jugadores = await cargarJugadores();
+
+            renderAdminJugadores();
+
+            formJugador.reset();
+
+            jugadorEditando = null;
+
+            modalJugador.classList.remove("activo");
+
+        }catch(error){
+
+            console.error(
+                "Error guardando jugador:",
+                error
+            );
+
+            alert(
+                "No se pudo guardar el jugador: " +
+                error.message
+            );
+
+        }finally{
+
+            botonGuardar.disabled = false;
+            botonGuardar.textContent = "Guardar";
         }
 
-        renderAdminJugadores();
-
-        formJugador.reset();
-
-        modalJugador.classList.remove("activo");
-
-        jugadorEditando = null;
     });
 
 }
@@ -1278,18 +1434,33 @@ function editarJugador(id){
         j => String(j.id) === String(id)
     );
 
-    if(!jugador) return;
+    if(!jugador){
+
+        alert("No encontré el jugador");
+        return;
+    }
 
     jugadorEditando = jugador;
 
-    document.getElementById("nombre-jugador").value = jugador.nombre;
-    document.getElementById("categoria-jugador").value = jugador.categoria || "A";
-    document.getElementById("puntos-jugador").value = jugador.puntos;
-    document.getElementById("partidos-jugador").value = jugador.partidosJugados;
-    document.getElementById("victorias-jugador").value = jugador.partidosGanados;
-    document.getElementById("foto-jugador").value = jugador.foto;
+    document.getElementById("nombre-jugador").value =
+        jugador.nombre || "";
+
+    document.getElementById("categoria-jugador").value =
+        jugador.categoria || "A";
+
+    document.getElementById("puntos-jugador").value =
+        jugador.puntos ?? 0;
+
+    document.getElementById("partidos-jugador").value =
+        jugador.partidosJugados ?? 0;
+
+    document.getElementById("victorias-jugador").value =
+        jugador.partidosGanados ?? 0;
+
+    document.getElementById("foto-jugador").value = "";
 
     modalJugador.classList.add("activo");
+ modalJugador.classList.add("activo");
 }
 
 async function eliminarJugador(id){
