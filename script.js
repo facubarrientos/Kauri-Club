@@ -1218,19 +1218,22 @@ const paginaActual =
 
 if (paginasProtegidas.includes(paginaActual)) {
 
+    document.body.style.display = "none";
+
     onAuthStateChanged(auth, (user) => {
 
         if (
             !user ||
             user.email !== "kau.admin@gmail.com"
         ) {
-
             window.location.href = "login.html";
-
+            return;
         }
 
-    });
+        // Firebase confirmó que es el admin
+        document.body.style.display = "block";
 
+    });
 }
 
 async function cerrarSesion() {
