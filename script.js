@@ -753,9 +753,9 @@ function renderRankingInicio(){
     tablaRankingInicio.innerHTML = "";
 
     const rankingA = obtenerTopCategoria("A");
-    const rankingB = obtenerTopCategoria("B");
-    const rankingC = obtenerTopCategoria("C");
-    const rankingD = obtenerTopCategoria("B1");
+    const rankingB = obtenerTopCategoria("B1");
+    const rankingC = obtenerTopCategoria("B");
+    const rankingD = obtenerTopCategoria("C");
 
     for(let i = 0; i < 5; i++){
 
