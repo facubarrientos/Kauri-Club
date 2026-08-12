@@ -755,7 +755,7 @@ function renderRankingInicio(){
     const rankingA = obtenerTopCategoria("A");
     const rankingB = obtenerTopCategoria("B");
     const rankingC = obtenerTopCategoria("C");
-    const rankingD = obtenerTopCategoria("D");
+    const rankingD = obtenerTopCategoria("B1");
 
     for(let i = 0; i < 5; i++){
 
@@ -1206,17 +1206,12 @@ if (formLogin) {
 
 /* PROTECCION ADMIN */
 
-const paginasProtegidas = [
-    "admin.html",
-    "admin-jugadores.html",
-    "admin-partidos.html",
-    "admin-torneos.html"
-];
+const ruta = window.location.pathname;
 
-const paginaActual =
-    window.location.pathname.split("/").pop();
+const esPaginaAdmin =
+    ruta.includes("/admin");
 
-if (paginasProtegidas.includes(paginaActual)) {
+if (esPaginaAdmin) {
 
     document.body.style.display = "none";
 
@@ -1226,13 +1221,11 @@ if (paginasProtegidas.includes(paginaActual)) {
             !user ||
             user.email !== "kau.admin@gmail.com"
         ) {
-            window.location.href = "login.html";
+            window.location.replace("login.html");
             return;
         }
 
-        // Firebase confirmó que es el admin
         document.body.style.display = "block";
-
     });
 }
 
