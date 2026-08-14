@@ -145,7 +145,7 @@ body{
         rgba(0,0,0,0.3),
         rgba(0,0,0,0.3)
     ),
-    url("../img/gg.jpg");
+    url("../img/66.png");
 
     background-size: cover;
     background-position: center;
@@ -1819,15 +1819,107 @@ body.admin-body{
 }
 
 
+.buscador-jugador-partido{
+    width: 100%;
+    position: relative;
+}
+
+.buscador-jugador-partido input[type="text"]{
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.resultados-buscador-jugador{
+    display: none;
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+
+    width: 100%;
+    max-height: 220px;
+
+    overflow-y: auto;
+
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 0 0 8px 8px;
+
+    z-index: 1000;
+}
+
+.resultado-jugador{
+    padding: 10px 12px;
+    cursor: pointer;
+    background: #111;
+    color: white;
+    border-bottom: 1px solid #333;
+}
+
+.resultado-jugador:hover{
+    background: #b30000;
+}
 
 
+.resultado-jugador.activo{
+    background: #b30000;
+    color: white;
+}
 
+#buscador-admin-jugadores{
+    width: 100%;
+    padding: 12px 16px;
 
+    background: #111;
+    color: white;
 
+    border: 1px solid #333;
+    border-radius: 8px;
 
+    font-size: 15px;
+    outline: none;
 
+    box-sizing: border-box;
 
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
 
+#buscador-admin-jugadores::placeholder{
+    color: #777;
+}
 
+#buscador-admin-jugadores:focus{
+    border-color: #b30000;
+    box-shadow: 0 0 8px rgba(179, 0, 0, 0.35);
+}
 
+#filtro-admin-partidos{
+    width: 100%;
+    padding: 12px 14px;
+    margin: 14px 0 20px;
+
+    background: #111;
+    color: white;
+
+    border: 1px solid #333;
+    border-radius: 8px;
+
+    font-size: 15px;
+    outline: none;
+
+    cursor: pointer;
+    box-sizing: border-box;
+
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#filtro-admin-partidos:focus{
+    border-color: #b30000;
+    box-shadow: 0 0 8px rgba(179, 0, 0, 0.35);
+}
+
+#filtro-admin-partidos option{
+    background: #111;
+    color: white;
+}
 

@@ -95,11 +95,10 @@ async function iniciarApp(){
         mostrarJugadores();
         renderAdminJugadores();
         cargarSelectPartidos();
+        cargarFiltroAdminPartidos();
         renderAdminPartidos();
         renderAdminTorneos();
         renderPerfilJugador();
-
-        console.log("Datos listos para usar");
 
     }catch(error){
 
@@ -239,7 +238,7 @@ function renderPartidosPublicos(){
 
         card.innerHTML = `
             <div class="info-fecha">
-                <p>📅 ${partido.fecha}</p>
+                <p>📅 ${formatearFecha(partido.fecha)}</p>
                 <p>🕒 ${partido.hora}</p>
             </div>
 
@@ -568,6 +567,15 @@ function renderPartidosInicio(){
 
     });
 
+}
+
+function formatearFecha(fecha){
+
+    if(!fecha) return "";
+
+    const [anio, mes, dia] = fecha.split("-");
+
+    return `${dia}-${mes}-${anio}`;
 }
 
 function calcularStatsJugador(idJugador){
@@ -1230,11 +1238,10 @@ if (esPaginaAdmin) {
 }
 
 async function cerrarSesion() {
-    await signOut(auth);
+    await signOut(auth);s
     window.location.href = "login.html";
 }
                                             /* admin-jugadores */
-
 let jugadorEditando = null;
 
 const tablaAdminJugadores = document.getElementById("tabla-admin-jugadores");
@@ -1243,13 +1250,27 @@ const btnAgregarJugador = document.getElementById("btn-agregar-jugador");
 const modalJugador = document.getElementById("modal-jugador");
 const cerrarModal = document.getElementById("cerrar-modal");
 
+const buscadorAdminJugadores =
+    document.getElementById("buscador-admin-jugadores");
+
+console.log("buscador:", buscadorAdminJugadores);
+
 function renderAdminJugadores(){
 
     if(!tablaAdminJugadores) return;
 
     tablaAdminJugadores.innerHTML = "";
 
-    jugadores.forEach(jugador => {
+    const textoBuscado =
+        buscadorAdminJugadores?.value.toLowerCase().trim() || "";
+
+    const jugadoresFiltrados = jugadores.filter(jugador =>
+        jugador.nombre
+            .toLowerCase()
+            .includes(textoBuscado)
+    );
+
+    jugadoresFiltrados.forEach(jugador => {
 
         const fila = document.createElement("tr");
 
@@ -1287,6 +1308,15 @@ function renderAdminJugadores(){
 
         tablaAdminJugadores.appendChild(fila);
     });
+}
+
+
+if(buscadorAdminJugadores){
+
+    buscadorAdminJugadores.addEventListener(
+        "input",
+        renderAdminJugadores
+    );
 
 }
 
@@ -1503,6 +1533,285 @@ const tablaAdminPartidos = document.getElementById("tabla-admin-partidos");
 const selectTorneo = document.getElementById("torneo-partido");
 const selectJugador1 = document.getElementById("jugador1-partido");
 const selectJugador2 = document.getElementById("jugador2-partido");
+const buscadorJugador1 = document.getElementById("buscador-jugador1");
+const resultadosJugador1 = document.getElementById("resultados-jugador1");
+const buscadorJugador2 = document.getElementById("buscador-jugador2");
+const resultadosJugador2 = document.getElementById("resultados-jugador2");
+
+function configurarBuscadorJugador1(){
+
+    if(!buscadorJugador1 || !resultadosJugador1 || !selectJugador1) return;
+
+    let indiceActivo = -1;
+    let resultadosActuales = [];
+
+    function renderResultados(){
+
+        resultadosJugador1.innerHTML = "";
+
+        resultadosActuales.forEach((jugador, index) => {
+
+            const resultado = document.createElement("div");
+
+            resultado.classList.add("resultado-jugador");
+            resultado.textContent = jugador.nombre;
+
+            if(index === indiceActivo){
+                resultado.classList.add("activo");
+            }
+
+            resultado.addEventListener("click", function(){
+
+                buscadorJugador1.value = jugador.nombre;
+                selectJugador1.value = jugador.id;
+
+                resultadosJugador1.innerHTML = "";
+                resultadosJugador1.style.display = "none";
+
+                indiceActivo = -1;
+
+            });
+
+            resultadosJugador1.appendChild(resultado);
+
+        });
+
+    }
+
+
+    buscadorJugador1.addEventListener("input", function(){
+
+        const busqueda = buscadorJugador1.value
+            .toLowerCase()
+            .trim();
+
+        selectJugador1.value = "";
+
+        indiceActivo = -1;
+
+        if(busqueda === ""){
+
+            resultadosActuales = [];
+
+            resultadosJugador1.innerHTML = "";
+            resultadosJugador1.style.display = "none";
+
+            return;
+        }
+
+        resultadosActuales = jugadores.filter(jugador =>
+            jugador.nombre
+                .toLowerCase()
+                .includes(busqueda)
+        );
+
+        renderResultados();
+
+        resultadosJugador1.style.display =
+            resultadosActuales.length > 0
+                ? "block"
+                : "none";
+
+    });
+
+
+    buscadorJugador1.addEventListener("keydown", function(e){
+
+        if(resultadosActuales.length === 0) return;
+
+        if(e.key === "ArrowDown"){
+
+            e.preventDefault();
+
+            indiceActivo++;
+
+            if(indiceActivo >= resultadosActuales.length){
+                indiceActivo = 0;
+            }
+
+            renderResultados();
+
+        }
+
+        if(e.key === "ArrowUp"){
+
+            e.preventDefault();
+
+            indiceActivo--;
+
+            if(indiceActivo < 0){
+                indiceActivo = resultadosActuales.length - 1;
+            }
+
+            renderResultados();
+
+        }
+
+        if(e.key === "Enter"){
+
+            if(indiceActivo === -1) return;
+
+            e.preventDefault();
+
+            const jugadorSeleccionado =
+                resultadosActuales[indiceActivo];
+
+            buscadorJugador1.value =
+                jugadorSeleccionado.nombre;
+
+            selectJugador1.value =
+                jugadorSeleccionado.id;
+
+            resultadosJugador1.innerHTML = "";
+            resultadosJugador1.style.display = "none";
+
+            indiceActivo = -1;
+
+        }
+
+    });
+
+}
+
+configurarBuscadorJugador1();
+
+function configurarBuscadorJugador2(){
+
+    if(!buscadorJugador2 || !resultadosJugador2 || !selectJugador2) return;
+
+    let indiceActivo = -1;
+    let resultadosActuales = [];
+
+    function renderResultados(){
+
+        resultadosJugador2.innerHTML = "";
+
+        resultadosActuales.forEach((jugador, index) => {
+
+            const resultado = document.createElement("div");
+
+            resultado.classList.add("resultado-jugador");
+            resultado.textContent = jugador.nombre;
+
+            if(index === indiceActivo){
+                resultado.classList.add("activo");
+            }
+
+            resultado.addEventListener("click", function(){
+
+                buscadorJugador2.value = jugador.nombre;
+                selectJugador2.value = jugador.id;
+
+                resultadosJugador2.innerHTML = "";
+                resultadosJugador2 .style.display = "none";
+
+                indiceActivo = -1;
+
+            });
+
+            resultadosJugador2.appendChild(resultado);
+
+        });
+
+    }
+
+
+    buscadorJugador2.addEventListener("input", function(){
+
+        const busqueda = buscadorJugador2.value
+            .toLowerCase()
+            .trim();
+
+        selectJugador2.value = "";
+
+        indiceActivo = -1;
+
+        if(busqueda === ""){
+
+            resultadosActuales = [];
+
+            resultadosJugador2.innerHTML = "";
+            resultadosJugador2.style.display = "none";
+
+            return;
+        }
+
+        resultadosActuales = jugadores.filter(jugador =>
+            jugador.nombre
+                .toLowerCase()
+                .includes(busqueda)
+        );
+
+        renderResultados();
+
+        resultadosJugador2.style.display =
+            resultadosActuales.length > 0
+                ? "block"
+                : "none";
+
+    });
+
+
+    buscadorJugador2.addEventListener("keydown", function(e){
+
+        if(resultadosActuales.length === 0) return;
+
+        if(e.key === "ArrowDown"){
+
+            e.preventDefault();
+
+            indiceActivo++;
+
+            if(indiceActivo >= resultadosActuales.length){
+                indiceActivo = 0;
+            }
+
+            renderResultados();
+
+        }
+
+        if(e.key === "ArrowUp"){
+
+            e.preventDefault();
+
+            indiceActivo--;
+
+            if(indiceActivo < 0){
+                indiceActivo = resultadosActuales.length - 1;
+            }
+
+            renderResultados();
+
+        }
+
+        if(e.key === "Enter"){
+
+            if(indiceActivo === -1) return;
+
+            e.preventDefault();
+
+            const jugadorSeleccionado =
+                resultadosActuales[indiceActivo];
+
+            buscadorJugador2.value =
+                jugadorSeleccionado.nombre;
+
+            selectJugador2.value =
+                jugadorSeleccionado.id;
+
+            resultadosJugador2.innerHTML = "";
+            resultadosJugador2.style.display = "none";
+
+            indiceActivo = -1;
+
+        }
+
+    });
+
+}
+
+configurarBuscadorJugador2();
+
 
 function obtenerSets(){
 
@@ -1727,27 +2036,59 @@ if(formPartido){
     });
 }
 
+const filtroAdminPartidos =
+document.getElementById("filtro-admin-partidos");
+
 function renderAdminPartidos(){
 
     if(!tablaAdminPartidos) return;
 
     tablaAdminPartidos.innerHTML = "";
 
-    partidos.forEach(partido => {
+    const filtroSeleccionado =
+        filtroAdminPartidos
+            ? filtroAdminPartidos.value
+            : "todos";
+
+    const partidosFiltrados = partidos.filter(partido => {
+
+        if(filtroSeleccionado === "todos"){
+            return true;
+        }
+
+        if(filtroSeleccionado === "desafio"){
+            return partido.tipo === "desafio";
+        }
+
+        return (
+            partido.tipo !== "desafio" &&
+            String(partido.idTorneo) === String(filtroSeleccionado)
+        );
+
+    });
+
+    partidosFiltrados.forEach(partido => {
 
         const torneo = torneos.find(
             t => String(t.id).trim() === String(partido.idTorneo).trim()
         );
 
-        const j1 = jugadores.find(j => String(j.id) === String(partido.jugador1));
-        const j2 = jugadores.find(j => String(j.id) === String(partido.jugador2));
+        const j1 = jugadores.find(
+            j => String(j.id) === String(partido.jugador1)
+        );
+
+        const j2 = jugadores.find(
+            j => String(j.id) === String(partido.jugador2)
+        );
+
         const ganador = jugadores.find(
             j => String(j.id) === String(partido.ganador)
         );
+
         const fila = document.createElement("tr");
 
         fila.innerHTML = `
-           <td>
+            <td>
                 ${
                     partido.tipo === "desafio"
                     ? "Desafío"
@@ -1760,10 +2101,15 @@ function renderAdminPartidos(){
             <td>
                 ${partido.instancia || "-"}
             </td>
+
             <td>${j1 ? j1.nombre : "Jugador eliminado"}</td>
+
             <td>${j2 ? j2.nombre : "Jugador eliminado"}</td>
+
             <td>${partido.fecha}</td>
+
             <td>${partido.hora}</td>
+
             <td>${partido.cancha}</td>
 
             <td>
@@ -1776,27 +2122,67 @@ function renderAdminPartidos(){
                 ${formatearResultado(partido)}
                 <br>
                 <strong>
-                    ${ganador ? `Ganador: ${ganador.nombre}` : "Sin ganador"}
+                    ${
+                        ganador
+                        ? `Ganador: ${ganador.nombre}`
+                        : "Sin ganador"
+                    }
                 </strong>
             </td>
+
             <td class="acciones-admin">
+
                 <button
                     class="btn-editar"
                     type="button"
                     onclick="editarPartido('${partido.id}')">
                     Editar
                 </button>
+
                 <button
                     class="btn-eliminar"
                     type="button"
                     onclick="eliminarPartido('${partido.id}')">
                     Eliminar
                 </button>
+
             </td>
         `;
 
         tablaAdminPartidos.appendChild(fila);
+
     });
+
+}
+
+function cargarFiltroAdminPartidos(){
+
+    if(!filtroAdminPartidos) return;
+
+    filtroAdminPartidos.innerHTML = `
+        <option value="todos">Todos los partidos</option>
+        <option value="desafio">Desafíos</option>
+    `;
+
+    torneos.forEach(torneo => {
+
+        const option = document.createElement("option");
+
+        option.value = torneo.id;
+        option.textContent = torneo.nombre;
+
+        filtroAdminPartidos.appendChild(option);
+
+    });
+
+}
+
+if(filtroAdminPartidos){
+
+    filtroAdminPartidos.addEventListener("change", function(){
+        renderAdminPartidos();
+    });
+
 }
 
 function editarPartido(id){

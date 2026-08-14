@@ -73,17 +73,43 @@
                 >
                 </select>
 
-                <select 
-                    id="jugador1-partido" 
-                    required
-                >
-                </select>
+                <div class="buscador-jugador-partido">
+                    <input
+                        type="text"
+                        id="buscador-jugador1"
+                        placeholder="Buscar jugador 1..."
+                        autocomplete="off"
+                    >
 
-                <select 
-                    id="jugador2-partido" 
-                    required
-                >
-                </select>
+                    <input
+                        type="hidden"
+                        id="jugador1-partido"
+                    >
+
+                    <div
+                        id="resultados-jugador1"
+                        class="resultados-buscador-jugador"
+                    ></div>
+                </div>
+
+               <div class="buscador-jugador-partido">
+                    <input
+                        type="text"
+                        id="buscador-jugador2"
+                        placeholder="Buscar jugador 2..."
+                        autocomplete="off"
+                    >
+
+                    <input
+                        type="hidden"
+                        id="jugador2-partido"
+                    >
+
+                    <div
+                        id="resultados-jugador2"
+                        class="resultados-buscador-jugador"
+                    ></div>
+                </div>
 
                 <input 
                     type="date" 
@@ -160,10 +186,17 @@
 
         </section>
 
+        
+
         <section class="lista-partidos-box">
 
             <h2>Lista de Partidos</h2>
 
+            <select id="filtro-admin-partidos">
+                <option value="todos">Todos los partidos</option>
+                <option value="desafio">Desafíos</option>
+            </select>
+            
             <div class="tabla-admin-container">
 
                 <table class="tabla-admin">
